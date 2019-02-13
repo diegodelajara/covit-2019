@@ -396,7 +396,10 @@ const routes = [
         name: 'Espacios Comunes',
         components: {default: EspaciosComunes, header: DefaultHeader}
       }
-    ]
+    ],
+    meta: {
+      autentificado: true
+    }
   },
   {path: '*', component: NotFound}
 ]

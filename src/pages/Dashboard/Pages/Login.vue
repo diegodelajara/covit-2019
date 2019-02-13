@@ -62,20 +62,12 @@ import firebase from 'firebase'
       login () {
         firebase.auth().signInWithEmailAndPassword(this.user.usuario, this.user.clave)
         .then((user) => {
-          this.isLogged()
-          this.$store.dispatch('setUser', this.user)
-          if (this.$store.getters.getAuth) {
-            this.$router.replace('/dashboard')
-          }
+          // if (this.$store.dispatch('setUser', this.user)) {
+          //   this.$router.replace('/dashboard')
+          // }
+          this.$router.push('/dashboard')
         }).catch((err) => {
           alert(err.message)
-        })
-      },
-      isLogged() {
-        firebase.auth().onAuthStateChanged(user => { 
-          this.user.authUser = user
-          console.log(user)
-          
         })
       }
     }

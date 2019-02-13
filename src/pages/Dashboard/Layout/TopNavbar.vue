@@ -43,7 +43,7 @@
           <a class="dropdown-item" href="#">Action</a>
           <a class="dropdown-item" href="#">Another action</a>
           <a class="dropdown-item" href="#">Something else here</a>
-          <a class="dropdown-item" href="#">Salir</a>
+          <a class="dropdown-item" href="#" @click="logout">Salir</a>
         </drop-down>
 
         <li class="nav-item">
@@ -60,6 +60,7 @@
   </navbar>
 </template>
 <script>
+  import firebase from 'firebase'
   import {RouteBreadCrumb, Navbar, NavbarToggleButton} from 'src/components';
   import {CollapseTransition} from 'vue2-transitions'
 
@@ -100,6 +101,9 @@
       },
       hideSidebar() {
         this.$sidebar.displaySidebar(false)
+      },
+      logout() {
+        firebase.auth().signOut().then(() => this.$router.replace('/login'))
       }
     }
   }

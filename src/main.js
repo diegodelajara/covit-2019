@@ -26,7 +26,22 @@ const router = new VueRouter({
   routes, // short for routes: routes
   linkActiveClass: 'active'
 });
-/* eslint-disable no-new */
+
+router.beforeEach((to, from, next) => {
+  let usuario = Firebase.auth().currentUser
+  console.log(usuario);
+  
+  let autorizacion = to.matched.some(record => record.meta.autentificado)
+
+  if (autorizacion && !usuario) {
+    next('login')
+  } else if (!autorizacion && usuario) {
+    next('dashboard')
+  } else {
+    next()
+  }
+})
+
 new Vue({
   store,
   el: '#app',
@@ -34,5 +49,4 @@ new Vue({
   router
 });
 
-/* We import element-ui variables at the end so they can override the default element-ui colors */
 import './assets/sass/element_variables.scss'
