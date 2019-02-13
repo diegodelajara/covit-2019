@@ -172,7 +172,10 @@ let contabilidadMenu = {
     {
       path: 'ingresos',
       name: 'Ingresos',
-      components: {default: ContabilidadIngresos, header: DefaultHeader}
+      components: {default: ContabilidadIngresos, header: DefaultHeader},
+      meta: {
+        autentificado: true
+      }
     },
     {
       path: 'egresos',
