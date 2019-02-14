@@ -46,9 +46,14 @@
   </div>
 </template>
 <script>
+import { mapState, mapMutations } from 'vuex'
 import firebase from 'firebase'
+import { usuariosRef } from 'src/firebase'
 
   export default {
+    firebase: {
+      usuariosRef
+    },
     data() {
       return {
         user: {
@@ -59,15 +64,27 @@ import firebase from 'firebase'
       }
     },
     methods: {
-      login () {
+      ...mapMutations([
+        'setUser'
+      ]),
+      login() {
         firebase.auth().signInWithEmailAndPassword(this.user.usuario, this.user.clave)
         .then((user) => {
           // if (this.$store.dispatch('setUser', this.user)) {
           //   this.$router.replace('/dashboard')
           // }
+          this.getUserfromFirebase(this.user.usuario)
           this.$router.push('/dashboard')
         }).catch((err) => {
           alert(err.message)
+        })
+      },
+      getUserfromFirebase(loggedUser) {
+        let usuarios = this.usuariosRef
+        usuarios.forEach(element => {
+          if(element.usuario === loggedUser) {
+            this.setUser(element)
+          }
         })
       }
     }

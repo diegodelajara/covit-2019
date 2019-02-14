@@ -6,7 +6,7 @@
     <div class="info">
       <a data-toggle="collapse" :aria-expanded="!isClosed" @click.stop="toggleMenu" href="#">
            <span>
-             {{title}}
+             {{loggedUser.email}}
              <b class="caret"></b>
           </span>
       </a>
@@ -41,7 +41,8 @@
   </div>
 </template>
 <script>
-  import { CollapseTransition } from 'vue2-transitions';
+  import { CollapseTransition } from 'vue2-transitions'
+  import { mapState } from 'vuex'
 
   export default {
     components: {
@@ -62,6 +63,11 @@
       toggleMenu() {
         this.isClosed = !this.isClosed
       }
+    },
+    computed: {
+      ...mapState({
+        loggedUser: state => state.user
+      })
     }
   }
 </script>

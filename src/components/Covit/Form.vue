@@ -1,6 +1,5 @@
 <template>
   <form>
-    {{ formData }}
     <card no-footer-line>
       <div>
         <fg-input type="text"

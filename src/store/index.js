@@ -28,8 +28,9 @@ export default new Vuex.Store({
   },
   mutations: {
     setUser(state, user) {
-      state.user.email = user.authUser.email
-      state.user.isLogged = user.authUser
+      state.user.email = user.usuario
+      state.user.role = user.perfil
+      state.user.isLogged = true
     },
     setFormData(state) {
       state.formData
