@@ -35,6 +35,40 @@
                 Create Account
               </router-link>
             </h6>
+
+            <pre>
+              <h6>
+                {{ loggedUser }}
+              </h6>
+            </pre>
+            
+            <div>
+              <h1>Hello!</h1>
+              <router-link to="/bye">Bye</router-link>
+              <span>|</span>
+              <router-link to="/secret">Secret</router-link>
+              <p>
+                <input
+                  type="radio"
+                  name="role"
+                  value="admin"
+                  v-model="role"
+                  @change="onRoleChange" />
+                <label>Admin</label>
+              </p>
+              <p>
+                <input
+                  type="radio"
+                  name="role"
+                  value="user"
+                  v-model="role"
+                  @change="onRoleChange" />
+                <label>Regular User</label>
+              </p>
+            </div>
+
+
+
           </div>
 
           <div class="pull-right">
@@ -56,6 +90,7 @@ import { usuariosRef } from 'src/firebase'
     },
     data() {
       return {
+        role: 'admin',
         user: {
           usuario: '',
           clave: '',
@@ -63,10 +98,24 @@ import { usuariosRef } from 'src/firebase'
         }
       }
     },
+    mounted() {
+      this.role = this.loggedUser.role;
+    },
+    computed: {
+      ...mapState({
+        loggedUser: state => state.user.info
+      }),
+    },
     methods: {
+      // ...mapMutations([
+      //   'user'
+      // ]),
       ...mapMutations([
-        'setUser'
+        'changeRole',
       ]),
+      onRoleChange() {
+        this.changeRole(this.role);
+      },
       login() {
         firebase.auth().signInWithEmailAndPassword(this.user.usuario, this.user.clave)
         .then((user) => {

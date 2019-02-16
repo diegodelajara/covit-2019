@@ -14,7 +14,10 @@ export default new Vuex.Store({
       isLogged: false,
       name: '',
       email: '',
-      role: null
+      role: 'user',
+      info: {
+        role: 'user'
+      }
     },
     formData: {
       nombre: null,
@@ -34,6 +37,9 @@ export default new Vuex.Store({
     },
     setFormData(state) {
       state.formData
+    },
+    changeRole(state, newRole) {
+      state.user.info.role = newRole; // eslint-disable-line no-param-reassign
     }
   },
   actions: {
@@ -41,8 +47,27 @@ export default new Vuex.Store({
       context.commit('setUser', user)
     }
   }
-  //getters,
-  //mutations,
-  //actions
 })
+
+// import Vue from 'vue'
+// import Vuex from 'vuex'
+
+// import actions from './actions'
+// import getters from './getters'
+// import mutations from './mutations'
+// import state from './state'
+// import modules from './modules'
+
+// Vue.use(Vuex)
+
+// const store = () =>
+//   new Vuex.Store({
+//     modules,
+//     actions,
+//     getters,
+//     mutations,
+//     state
+//   })
+
+//   export default state
 

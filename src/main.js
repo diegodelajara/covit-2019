@@ -3,6 +3,12 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import DashboardPlugin from './dashboard-plugin'
+import VueKindergarten from 'vue-kindergarten'
+import { createSandbox } from 'vue-kindergarten'
+
+import RouteGoverness from './governesses/RouteGoverness'
+import * as perimeters from './perimeters'
+import child from './child'
 
 // Firebase
 import VueFire from 'vuefire'
@@ -13,6 +19,8 @@ import App from './App.vue'
 import routes from './routes/routes'
 import store  from './store'
 
+Vue.config.productionTip = false
+
 Vue.use(VueFire)
 Vue.use(Firebase)
 
@@ -21,24 +29,48 @@ Vue.use(VueRouter)
 Vue.use(DashboardPlugin)
 Vue.use(Vuex)
 
+Vue.use(VueKindergarten, {
+  child,
+})
+
 // configure router
 const router = new VueRouter({
   routes, // short for routes: routes
   linkActiveClass: 'active'
-});
-
-router.beforeEach((to, from, next) => {
-  let usuario = Firebase.auth().currentUser  
-  let autorizacion = to.matched.some(record => record.meta.autentificado)
-
-  if (autorizacion && !usuario) {
-    next('login')
-  } else if (!autorizacion && usuario) {
-    next('dashboard')
-  } else {
-    next()
-  }
 })
+
+
+
+const showTheBugInAction = false; // ********  Set this to true to see the error
+//                                   ********  "Cannot read property 'from' of undefined"
+router.beforeEach((to, from, next) => {
+  const perimeter = perimeters[`${to.name}Perimeter`]
+  if (perimeter) {
+    let sandbox = null
+
+    if (showTheBugInAction) {
+      sandbox = createSandbox(child(store), {
+        perimeters: [
+          perimeter,
+        ],
+        governess: new RouteGoverness({ from, to, next }),
+      })
+      return sandbox.guard('route')
+    }
+
+    sandbox = createSandbox(child(store), {
+      perimeters: [
+        perimeter,
+      ],
+    })
+    if (!sandbox.isAllowed('route')) {
+      return next('/')
+    }
+  }
+  return next()
+})
+
+
 
 new Vue({
   store,

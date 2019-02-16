@@ -88,7 +88,11 @@ import Charts from 'src/pages/Dashboard/Charts.vue'
   // Espacios Comunes
   import EspaciosComunes from 'src/pages/Dashboard/Pages/Covit/Espacios-Comunes/'
 
+
 import Widgets from 'src/pages/Dashboard/Widgets.vue'
+
+import Bye from 'src/components/Akinder/Bye.vue'
+import Secret from 'src/components/Akinder/Secret.vue'
 
 let componentsMenu = {
   path: '/components',
@@ -172,10 +176,7 @@ let contabilidadMenu = {
     {
       path: 'ingresos',
       name: 'Ingresos',
-      components: {default: ContabilidadIngresos, header: DefaultHeader},
-      meta: {
-        autentificado: true
-      }
+      components: {default: ContabilidadIngresos, header: DefaultHeader}
     },
     {
       path: 'egresos',
@@ -336,7 +337,7 @@ let authPages = {
   children: [
     {
       path: '/login',
-      name: 'Login',
+      name: 'login',
       component: Login
     },
     {
@@ -375,8 +376,18 @@ const routes = [
     name: 'Dashboard',
     children: [
       {
+        path: 'bye',
+        name: 'bye',
+        components: {default: Bye, header: DashboardHeader}
+      },
+      {
+        path: 'secret',
+        name: 'secret',
+        components: {default: Secret, header: DashboardHeader}
+      },
+      {
         path: 'dashboard',
-        name: 'Dashboard',
+        name: 'dashboard',
         components: {default: Dashboard, header: DashboardHeader}
       },
       {
@@ -399,10 +410,7 @@ const routes = [
         name: 'Espacios Comunes',
         components: {default: EspaciosComunes, header: DefaultHeader}
       }
-    ],
-    meta: {
-      autentificado: true
-    }
+    ]
   },
   {path: '*', component: NotFound}
 ]
