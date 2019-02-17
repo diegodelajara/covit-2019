@@ -91,9 +91,6 @@ import Charts from 'src/pages/Dashboard/Charts.vue'
 
 import Widgets from 'src/pages/Dashboard/Widgets.vue'
 
-import Bye from 'src/components/Akinder/Bye.vue'
-import Secret from 'src/components/Akinder/Secret.vue'
-
 let componentsMenu = {
   path: '/components',
   component: DashboardLayout,
@@ -375,16 +372,6 @@ const routes = [
     redirect: '/dashboard',
     name: 'Dashboard',
     children: [
-      {
-        path: 'bye',
-        name: 'bye',
-        components: {default: Bye, header: DashboardHeader}
-      },
-      {
-        path: 'secret',
-        name: 'secret',
-        components: {default: Secret, header: DashboardHeader}
-      },
       {
         path: 'dashboard',
         name: 'dashboard',
