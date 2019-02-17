@@ -8,6 +8,9 @@
               <div class="col-md-3">
                 <div class="statistics">
                   <div class="info">
+                    <p v-show="$isAllowed('viewParagraph')">
+                      Hide
+                    </p>
                     <div class="icon icon-primary">
                       <i class="now-ui-icons ui-2_chat-round"></i>
                     </div>
@@ -261,7 +264,10 @@
     AsyncWorldMap
   } from 'src/components'
 
+  import dashboardPerimeter from 'src/perimeters/dashboardPerimeter'
+
   export default {
+    perimeters: [dashboardPerimeter],
     components: {
       Checkbox,
       Card,

@@ -14,10 +14,7 @@ export default new Vuex.Store({
       isLogged: false,
       name: '',
       email: '',
-      role: 'user',
-      info: {
-        role: 'user'
-      }
+      role: 'user'
     },
     formData: {
       nombre: null,
@@ -34,6 +31,7 @@ export default new Vuex.Store({
       state.user.email = user.usuario
       state.user.role = user.perfil
       state.user.isLogged = true
+      state.user.name = user.nombre
     },
     setFormData(state) {
       state.formData

@@ -36,7 +36,7 @@
               </router-link>
             </h6>
 
-            <pre>
+            <!-- <pre>
               <h6>
                 {{ loggedUser }}
               </h6>
@@ -65,7 +65,7 @@
                   @change="onRoleChange" />
                 <label>Regular User</label>
               </p>
-            </div>
+            </div> -->
 
 
 
@@ -90,38 +90,32 @@ import { usuariosRef } from 'src/firebase'
     },
     data() {
       return {
-        role: 'admin',
         user: {
           usuario: '',
           clave: '',
-          authUser: null
+          authUser: null,
+          role: null
         }
       }
     },
     mounted() {
-      this.role = this.loggedUser.role;
+      this.user.role = this.loggedUser.role;
     },
     computed: {
       ...mapState({
-        loggedUser: state => state.user.info
+        loggedUser: state => state.user
       }),
     },
     methods: {
-      // ...mapMutations([
-      //   'user'
-      // ]),
       ...mapMutations([
-        'changeRole',
+        'setUser'
       ]),
-      onRoleChange() {
-        this.changeRole(this.role);
-      },
       login() {
         firebase.auth().signInWithEmailAndPassword(this.user.usuario, this.user.clave)
         .then((user) => {
-          // if (this.$store.dispatch('setUser', this.user)) {
-          //   this.$router.replace('/dashboard')
-          // }
+          if (this.$store.dispatch('setUser', this.user)) {
+            this.$router.replace('/dashboard')
+          }
           this.getUserfromFirebase(this.user.usuario)
           this.$router.push('/dashboard')
         }).catch((err) => {
