@@ -5,7 +5,7 @@
 
         <div slot="header">
           <div class="logo-container">
-            <img src="@/assets/img/now-logo.png" alt="">
+            <img src="@/assets/img/logo.png" alt="">
           </div>
         </div>
 
@@ -35,37 +35,6 @@
                 Create Account
               </router-link>
             </h6>
-
-            <!-- <pre>
-              <h6>
-                {{ loggedUser }}
-              </h6>
-            </pre>
-            
-            <div>
-              <h1>Hello!</h1>
-              <router-link to="/bye">Bye</router-link>
-              <span>|</span>
-              <router-link to="/secret">Secret</router-link>
-              <p>
-                <input
-                  type="radio"
-                  name="role"
-                  value="admin"
-                  v-model="role"
-                  @change="onRoleChange" />
-                <label>Admin</label>
-              </p>
-              <p>
-                <input
-                  type="radio"
-                  name="role"
-                  value="user"
-                  v-model="role"
-                  @change="onRoleChange" />
-                <label>Regular User</label>
-              </p>
-            </div> -->
 
 
 
@@ -125,7 +94,7 @@ import { usuariosRef } from 'src/firebase'
       getUserfromFirebase(loggedUser) {
         let usuarios = this.usuariosRef
         usuarios.forEach(element => {
-          if(element.usuario === loggedUser) {
+          if(element.email === loggedUser) {
             this.setUser(element)
           }
         })
@@ -140,5 +109,10 @@ import { usuariosRef } from 'src/firebase'
   }
   input.form-control {
     height: auto;
+  }
+  .login-page .card-login .logo-container, .register-page .card-login .logo-container, .pricing-page .card-login .logo-container, .lock-page .card-login .logo-container {
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 5px;
   }
 </style>

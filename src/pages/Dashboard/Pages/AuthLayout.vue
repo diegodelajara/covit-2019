@@ -1,51 +1,5 @@
 <template>
   <div>
-    <navbar :show-navbar="showMenu">
-      <div class="navbar-wrapper">
-        <div class="navbar-toggle" :class="{toggled: showMenu}">
-          <navbar-toggle-button @click.native="toggleNavbar">
-          </navbar-toggle-button>
-        </div>
-        <a class="navbar-brand" href="#pablo">Now UI Dashboard Pro</a>
-      </div>
-
-      <template slot="navbar-menu">
-        <router-link class="nav-item" tag="li" to="/dashboard">
-          <a class="nav-link">
-            <i class="now-ui-icons design_app"></i>
-            Dashboard
-          </a>
-        </router-link>
-        <router-link class="nav-item" tag="li" to="/register">
-          <a class="nav-link">
-            <i class="now-ui-icons tech_mobile"></i>
-            Register
-          </a>
-        </router-link>
-
-        <router-link class="nav-item" tag="li" to="/login">
-          <a class="nav-link">
-            <i class="now-ui-icons users_circle-08"></i>
-            Login
-          </a>
-        </router-link>
-
-        <router-link class="nav-item" tag="li" to="/pricing">
-          <a class="nav-link">
-            <i class="now-ui-icons business_money-coins"></i>
-            Pricing
-          </a>
-        </router-link>
-
-        <router-link class="nav-item" tag="li" to="/lock">
-          <a class="nav-link">
-            <i class="now-ui-icons ui-1_lock-circle-open"></i>
-            Lock
-          </a>
-        </router-link>
-      </template>
-
-    </navbar>
     <div class="wrapper wrapper-full-page">
       <div class="full-page section-image" :class="pageClass" filter-color="black" data-image="/img/bg13.jpg">
         <div class="content">
@@ -55,36 +9,6 @@
             </zoom-center-transition>
           </div>
         </div>
-        <footer class="footer">
-          <div class="container-fluid">
-            <nav>
-              <ul>
-                <li>
-                  <a href="https://www.creative-tim.com">
-                    Creative Tim
-                  </a>
-                </li>
-                <li>
-                  <a href="http://presentation.creative-tim.com">
-                    About Us
-                  </a>
-                </li>
-                <li>
-                  <a href="http://blog.creative-tim.com">
-                    Blog
-                  </a>
-                </li>
-              </ul>
-            </nav>
-            <div class="copyright">
-              &copy; {{year}}, Designed by
-              <a href="https://www.invisionapp.com/">Invision</a>.
-              Coded by
-              <a href="https://github.com/cristijora" target="_blank">Cristi Jora</a>
-              and <a href="https://www.creative-tim.com/?ref=pdf-vuejs" target="_blank" rel="noopener">Creative Tim</a>.
-            </div>
-          </div>
-        </footer>
 
         <div class="full-page-background" :style="imageStyles"></div>
       </div>

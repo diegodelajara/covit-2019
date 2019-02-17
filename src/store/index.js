@@ -1,12 +1,12 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
-
-// import getters from './getters'
-// import mutations from './mutations'
-// import actions from './actions'
+import 'src/firebase'
+import Firebase from 'firebase'
+import { usuariosRef } from 'src/firebase'
 
 Vue.use(Vuex)
+Vue.use(Firebase)
 
 export default new Vuex.Store({
   state: {
@@ -36,8 +36,10 @@ export default new Vuex.Store({
     setFormData(state) {
       state.formData
     },
-    changeRole(state, newRole) {
-      state.user.info.role = newRole; // eslint-disable-line no-param-reassign
+    setRegisterUser(state, newUser) {
+      console.log(newUser)
+      
+      usuariosRef.push(this.newUser)
     }
   },
   actions: {
