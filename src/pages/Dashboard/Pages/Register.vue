@@ -21,6 +21,16 @@
 
           <form @submit.prevent="signUp()">
 
+            <fg-input placeholder="Nombre"
+                      addon-left-icon="now-ui-icons users_circle-08"
+                      v-model="createUser.nombre">
+            </fg-input>
+
+            <fg-input placeholder="Apellido"
+                      addon-left-icon="now-ui-icons users_circle-08"
+                      v-model="createUser.apellido">
+            </fg-input>
+
             <fg-input placeholder="Correo"
                       addon-left-icon="now-ui-icons users_circle-08"
                       v-model="createUser.email">
@@ -69,6 +79,8 @@ export default {
   data() {
     return {
       createUser: {
+        nombre: null,
+        apellido: null,
         email: null,
         password: null,
         perfil: 'seleccione'
