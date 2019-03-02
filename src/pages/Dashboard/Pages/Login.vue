@@ -11,10 +11,10 @@
 
         <div>
           <fg-input class="no-border form-control-lg"
-                    placeholder="Usuario"
+                    placeholder="Email"
                     addon-left-icon="now-ui-icons users_circle-08"
                     type="text"
-                    v-model="user.usuario">
+                    v-model="user.email">
           </fg-input>
 
           <fg-input class="no-border form-control-lg"
@@ -60,11 +60,10 @@ import { usuariosRef } from 'src/firebase'
     data() {
       return {
         user: {
-          usuario: '',
-          clave: '',
-          authUser: null,
-          role: null
-        }
+          email: '',
+          clave: ''
+        },
+        fireBaseUser: null
       }
     },
     mounted() {
@@ -80,23 +79,33 @@ import { usuariosRef } from 'src/firebase'
         'setUser'
       ]),
       login() {
-        firebase.auth().signInWithEmailAndPassword(this.user.usuario, this.user.clave)
+        firebase.auth().signInWithEmailAndPassword(this.user.email, this.user.clave)
         .then((user) => {
-          if (this.$store.dispatch('setUser', this.user)) {
-            this.$router.replace('/dashboard')
-          }
-          this.getUserfromFirebase(this.user.usuario)
-          this.$router.push('/dashboard')
+          
+          this.getUserFromFirebase(this.user.email)
+          
+          this.setUser(this.fireBaseUser)
+          this.$router.replace('/dashboard')
         }).catch((err) => {
           alert(err.message)
         })
       },
-      getUserfromFirebase(loggedUser) {
+      getUserFromFirebase(loggedUser) {
+        let tempData = []
         let usuarios = this.usuariosRef
+
         usuarios.forEach(element => {
           if(element.email === loggedUser) {
-            this.setUser(element)
-          }
+            tempData.push({
+              email: element.email,
+              lastName: element.apellido,
+              role: element.perfil,
+              name: element.nombre,
+              session: true
+            })            
+          }          
+          if(this.fireBaseUser = tempData[0])
+            return true
         })
       }
     }

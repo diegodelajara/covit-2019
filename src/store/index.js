@@ -11,8 +11,9 @@ Vue.use(Firebase)
 export default new Vuex.Store({
   state: {
     user: {
-      isLogged: false,
+      session: null,
       name: '',
+      lastName: '',
       email: '',
       role: null
     },
@@ -28,10 +29,11 @@ export default new Vuex.Store({
   },
   mutations: {
     setUser(state, user) {
-      state.user.email = user.usuario
-      state.user.role = user.perfil
-      state.user.isLogged = true
-      state.user.name = user.nombre
+      state.user.email = user.email
+      state.user.role = user.role
+      state.user.session = user.session
+      state.user.name = user.name
+      state.user.lastName = user.lastName
     },
     setFormData(state) {
       state.formData

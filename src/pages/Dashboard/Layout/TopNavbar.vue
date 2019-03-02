@@ -60,6 +60,7 @@
   </navbar>
 </template>
 <script>
+import { mapMutations } from 'vuex'
   import firebase from 'firebase'
   import {RouteBreadCrumb, Navbar, NavbarToggleButton} from 'src/components';
   import {CollapseTransition} from 'vue2-transitions'
@@ -80,10 +81,19 @@
     data() {
       return {
         activeNotifications: false,
-        showNavbar: false
+        showNavbar: false,
+        user: {
+          email: '',
+          session: false,
+          name: '',
+          role: null
+        }
       }
     },
     methods: {
+      ...mapMutations([
+        'setUser'
+      ]),
       capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1)
       },
@@ -102,8 +112,9 @@
       hideSidebar() {
         this.$sidebar.displaySidebar(false)
       },
-      logout() {
-        firebase.auth().signOut().then(() => this.$router.replace('/login'))
+      async logout() {
+        await this.setUser(this.user)
+        await firebase.auth().signOut().then(() => this.$router.push('/login'))
       }
     }
   }
