@@ -172,22 +172,22 @@ let contabilidadMenu = {
   children: [
     {
       path: 'ingresos',
-      name: 'Ingresos',
+      name: 'contabilidad',
       components: {default: ContabilidadIngresos, header: DefaultHeader}
     },
     {
       path: 'egresos',
-      name: 'Egresos',
+      name: 'egresos',
       components: {default: ContabilidadEgresos, header: DefaultHeader}
     },
     {
       path: 'multas',
-      name: 'Multas',
+      name: 'multas',
       components: {default: ContabilidadMultas, header: DefaultHeader}
     },
     {
       path: 'condonaciones',
-      name: 'Condonaciones',
+      name: 'condonaciones',
       components: {default: ContabilidadCondonaciones, header: DefaultHeader}
     }
   ]

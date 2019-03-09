@@ -49,6 +49,7 @@
   </div>
 </template>
 <script>
+import { setUserToLocalStorage } from 'src/utils/auth'
 import { mapState, mapMutations } from 'vuex'
 import firebase from 'firebase'
 import { usuariosRef } from 'src/firebase'
@@ -85,6 +86,7 @@ import { usuariosRef } from 'src/firebase'
           this.getUserFromFirebase(this.user.email)
           
           this.setUser(this.fireBaseUser)
+          setUserToLocalStorage(this.fireBaseUser)
           this.$router.replace('/dashboard')
         }).catch((err) => {
           alert(err.message)

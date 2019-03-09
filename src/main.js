@@ -45,6 +45,7 @@ const showTheBugInAction = false; // ********  Set this to true to see the error
 //                                   ********  "Cannot read property 'from' of undefined"
 router.beforeEach((to, from, next) => {
   const perimeter = perimeters[`${to.name}Perimeter`]
+  
   if (perimeter) {
     let sandbox = null
 

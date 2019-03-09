@@ -15,7 +15,7 @@ export default new Vuex.Store({
       name: '',
       lastName: '',
       email: '',
-      role: null
+      role: 'user'
     },
     formData: {
       nombre: null,
