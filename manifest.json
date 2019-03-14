@@ -1,15 +1,15 @@
 {
-    "name": "Covit PWA Firebase",
+    "name": "Covit PWA",
     "short_name": "Covit",
     "start_url": "index.html",
     "display": "standalone",
-    "theme_color": "#d9eefe", // celeste
-    "background_color": "#c7f0cd", // verde
+    "theme_color": "#d9eefe",
+    "background_color": "#c7f0cd",
     "icons": [
       {
-        "src": "", // usually kept in the static/icons folder
-        "sizes": "", // enter the size of the image 
-        "type": "" // enter the type of the image eg: image/png,
+        "src": "",
+        "sizes": "",
+        "type": ""
       }
     ]
   }
