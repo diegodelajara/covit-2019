@@ -264,10 +264,7 @@
     AsyncWorldMap
   } from 'src/components'
 
-  import dashboardPerimeter from 'src/perimeters/dashboardPerimeter'
-
   export default {
-    perimeters: [dashboardPerimeter],
     components: {
       Checkbox,
       Card,

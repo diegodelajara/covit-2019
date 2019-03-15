@@ -172,22 +172,22 @@ let contabilidadMenu = {
   children: [
     {
       path: 'ingresos',
-      name: 'contabilidad',
+      name: 'contabilidadingresos',
       components: {default: ContabilidadIngresos, header: DefaultHeader}
     },
     {
       path: 'egresos',
-      name: 'egresos',
+      name: 'contabilidadegresos',
       components: {default: ContabilidadEgresos, header: DefaultHeader}
     },
     {
       path: 'multas',
-      name: 'multas',
+      name: 'contabilidadmultas',
       components: {default: ContabilidadMultas, header: DefaultHeader}
     },
     {
       path: 'condonaciones',
-      name: 'condonaciones',
+      name: 'contabilidadcondonaciones',
       components: {default: ContabilidadCondonaciones, header: DefaultHeader}
     }
   ]
@@ -378,8 +378,8 @@ const routes = [
         components: {default: Dashboard, header: DashboardHeader}
       },
       {
-        path: 'gastos-comunes',
-        name: 'Gastos Comunes',
+        path: 'gastoscomunes',
+        name: 'gastoscomunes',
         components: {default: GastosComunes, header: DefaultHeader}
       },
       {

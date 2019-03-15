@@ -1,7 +1,7 @@
 import BasePerimeter from './BasePerimeter'
 
 export default new BasePerimeter({
-  purpose: 'dashboardPerimeter',
+  purpose: 'gastoscomunesPerimeter',
   govern: {
     'can route': function canRoute() {
       return this.isAdmin() || this.isUser()
