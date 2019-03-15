@@ -195,34 +195,34 @@ let contabilidadMenu = {
 
 // Nomina y Remuneraciones
 let nyrMenu = {
-  path: '/nomina-y-remuneraciones',
+  path: '/nominayremuneraciones',
   component: DashboardLayout,
-  redirect: '/nomina-y-remuneraciones/nomina',
-  name: 'Nómina y Remuneraciones',
+  redirect: '/nominayremuneraciones/nomina',
+  name: 'nominayremuneraciones',
   children: [
     {
       path: 'nomina',
-      name: 'Nómina',
+      name: 'nomina',
       components: {default: NyrNomina, header: DefaultHeader}
     },
     {
       path: 'remuneraciones',
-      name: 'Remuneraciones',
+      name: 'remuneraciones',
       components: {default: NyrRemuneraciones, header: DefaultHeader}
     },
     {
-      path: 'horas-trabajadas',
-      name: 'Horas trabajadas',
+      path: 'horastrabajadas',
+      name: 'Horastrabajadas',
       components: {default: NyrHorasTrabajadas, header: DefaultHeader}
     }
   ]
 }
 // Nomina y Remuneraciones
 let pymMenu = {
-  path: '/proveedores-y-mantenciones',
+  path: '/proveedoresymantenciones',
   component: DashboardLayout,
   redirect: '/proveedores-y-mantenciones/proveedores',
-  name: 'Proveedores y Mantenciones',
+  name: 'proveedoresymantenciones',
   children: [
     {
       path: 'proveedores',
