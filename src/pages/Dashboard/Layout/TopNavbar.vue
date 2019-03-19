@@ -61,9 +61,10 @@
 </template>
 <script>
 import { mapMutations } from 'vuex'
-  import firebase from 'firebase'
-  import {RouteBreadCrumb, Navbar, NavbarToggleButton} from 'src/components';
-  import {CollapseTransition} from 'vue2-transitions'
+import firebase from 'firebase'
+import {RouteBreadCrumb, Navbar, NavbarToggleButton} from 'src/components';
+import {CollapseTransition} from 'vue2-transitions'
+import { unsetUser } from 'src/utils/auth'
 
   export default {
     components: {
@@ -113,7 +114,7 @@ import { mapMutations } from 'vuex'
         this.$sidebar.displaySidebar(false)
       },
       async logout() {
-        await this.setUser(this.user)
+        await unsetUser()
         await firebase.auth().signOut().then(() => this.$router.push('/login'))
       }
     }
