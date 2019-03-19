@@ -1,5 +1,7 @@
-// Perimeters
+// Base Perimeter
 export { default as BasePerimeter } from './BasePerimeter'
+
+// Dashboard
 export { default as dashboardPerimeter } from './dashboardPerimeter'
 
 // Contabilidad
@@ -17,5 +19,18 @@ export { default as remuneracionesPerimeter } from './nyr/remuneracionesPerimete
 export { default as horastrabajadasPerimeter } from './nyr/horastrabajadasPerimeter'
 
 // Proveedores y mantenciones
-// export { default as proveedoresPerimeter } from './nyr/proveedoresPerimeter'
-// export { default as mantencionesPerimeter } from './nyr/mantencionesPerimeter'
+export { default as proveedoresPerimeter } from './pym/proveedoresPerimeter'
+export { default as mantencionesPerimeter } from './pym/mantencionesPerimeter'
+
+// Residentes y visitas
+export { default as residentesPerimeter } from './ryv/residentesPerimeter'
+export { default as visitasPerimeter } from './ryv/visitasPerimeter'
+
+// Mensajes
+export { default as mensajesPerimeter } from './mensajesPerimeter'
+
+// Seguridad y Alertas
+export { default as seguridadyalertasPerimeter } from './seguridadyalertasPerimeter'
+
+// Espacios comunes
+export { default as espacioscomunesPerimeter } from './espacioscomunesPerimeter'

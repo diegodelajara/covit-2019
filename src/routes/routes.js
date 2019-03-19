@@ -36,15 +36,6 @@ import ExtendedForms from 'src/pages/Dashboard/Forms/ExtendedForms.vue'
 import ValidationForms from 'src/pages/Dashboard/Forms/ValidationForms.vue'
 import Wizard from 'src/pages/Dashboard/Forms/Wizard.vue'
 
-// TableList pages
-import RegularTables from 'src/pages/Dashboard/Tables/RegularTables.vue'
-import ExtendedTables from 'src/pages/Dashboard/Tables/ExtendedTables.vue'
-import PaginatedTables from 'src/pages/Dashboard/Tables/PaginatedTables.vue'
-// Maps pages
-import GoogleMaps from 'src/pages/Dashboard/Maps/GoogleMaps.vue'
-import FullScreenMap from 'src/pages/Dashboard/Maps/FullScreenMap.vue'
-import VectorMaps from 'src/pages/Dashboard/Maps/VectorMaps.vue'
-
 // Calendar
 import Calendar from 'src/pages/Dashboard/Calendar/CalendarRoute.vue'
 // Charts
@@ -195,9 +186,9 @@ let contabilidadMenu = {
 
 // Nomina y Remuneraciones
 let nyrMenu = {
-  path: '/nominayremuneraciones',
+  path: '/nomina-y-remuneraciones',
   component: DashboardLayout,
-  redirect: '/nominayremuneraciones/nomina',
+  redirect: '/nomina-y-remuneraciones/nomina',
   name: 'nominayremuneraciones',
   children: [
     {
@@ -212,26 +203,26 @@ let nyrMenu = {
     },
     {
       path: 'horastrabajadas',
-      name: 'Horastrabajadas',
+      name: 'horastrabajadas',
       components: {default: NyrHorasTrabajadas, header: DefaultHeader}
     }
   ]
 }
-// Nomina y Remuneraciones
+// proveedores-y-mantenciones
 let pymMenu = {
-  path: '/proveedoresymantenciones',
+  path: '/proveedores-y-mantenciones',
   component: DashboardLayout,
   redirect: '/proveedores-y-mantenciones/proveedores',
   name: 'proveedoresymantenciones',
   children: [
     {
       path: 'proveedores',
-      name: 'Proveedores',
+      name: 'proveedores',
       components: {default: PymProveedores, header: DefaultHeader}
     },
     {
       path: 'mantenciones',
-      name: 'Mantenciones',
+      name: 'mantenciones',
       components: {default: PymMantenciones, header: DefaultHeader}
     }
   ]
@@ -242,71 +233,21 @@ let ryvMenu = {
   path: '/residentes-y-visitas',
   component: DashboardLayout,
   redirect: '/residentes-y-visitas/residentes',
-  name: 'Residentes y Visitas',
+  name: 'residentesyvisitas',
   children: [
     {
       path: 'residentes',
-      name: 'Residentes',
+      name: 'residentes',
       components: {default: RyvResidentes, header: DefaultHeader}
     },
     {
       path: 'visitas',
-      name: 'Visitas',
+      name: 'visitas',
       components: {default: RyvVisitas, header: DefaultHeader}
     }
   ]
 }
 
-let tablesMenu = {
-  path: '/table-list',
-  component: DashboardLayout,
-  redirect: '/table-list/regular',
-  name: 'Tables',
-  children: [
-    {
-      path: 'regular',
-      name: 'Regular Tables',
-      components: {default: RegularTables, header: DefaultHeader}
-    },
-    {
-      path: 'extended',
-      name: 'Extended Tables',
-      components: {default: ExtendedTables, header: DefaultHeader}
-    },
-    {
-      path: 'paginated',
-      name: 'Paginated Tables',
-      components: {default: PaginatedTables, header: DefaultHeader}
-    }]
-}
-
-let mapsMenu = {
-  path: '/maps',
-  component: DashboardLayout,
-  name: 'Maps',
-  redirect: '/maps/google',
-  children: [
-    {
-      path: 'google',
-      name: 'Google Maps',
-      components: {default: GoogleMaps, header: DefaultHeader}
-    },
-    {
-      path: 'full-screen',
-      name: 'Full Screen Map',
-      meta: {
-        hideContent: true,
-        hideFooter: true
-      },
-      components: {default: FullScreenMap}
-    },
-    {
-      path: 'vector-map',
-      name: 'Vector Map',
-      components: {default: VectorMaps, header: VectorMapsHeader}
-    }
-  ]
-}
 
 let pagesMenu = {
   path: '/pages',
@@ -378,23 +319,23 @@ const routes = [
         components: {default: Dashboard, header: DashboardHeader}
       },
       {
-        path: 'gastoscomunes',
+        path: 'gastos-comunes',
         name: 'gastoscomunes',
         components: {default: GastosComunes, header: DefaultHeader}
       },
       {
         path: 'mensajes',
-        name: 'Mensajes',
+        name: 'mensajes',
         components: {default: Mensajes, header: DefaultHeader}
       },
       {
         path: 'seguridad-y-alertas',
-        name: 'Seguridad y Alertas',
+        name: 'seguridadyalertas',
         components: {default: SeguridadyAlertas, header: DefaultHeader}
       },
       {
         path: 'espacios-comunes',
-        name: 'Espacios Comunes',
+        name: 'espacioscomunes',
         components: {default: EspaciosComunes, header: DefaultHeader}
       }
     ]

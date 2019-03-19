@@ -11,7 +11,7 @@ Vue.use(Firebase)
 export default new Vuex.Store({
   state: {
     user: {
-      session: null,
+      session: '',
       name: '',
       lastName: '',
       email: '',
