@@ -1,4 +1,11 @@
 // vue.config.js
 module.exports = {
-  lintOnSave: false
-};
+  lintOnSave: false,
+  devServer: {
+    'proxy': {
+      '/api/*': {
+        target: 'https://swapi.co'
+      }
+    }
+  }
+}

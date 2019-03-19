@@ -35,6 +35,9 @@
                 Create Account
               </router-link>
             </h6>
+          <n-button type="primary" round block @click.native="test">
+            proxy
+          </n-button>
 
 
 
@@ -49,6 +52,7 @@
   </div>
 </template>
 <script>
+import axios from 'axios'
 import { setUserToLocalStorage } from 'src/utils/auth'
 import { mapState, mapMutations } from 'vuex'
 import firebase from 'firebase'
@@ -67,8 +71,11 @@ import { usuariosRef } from 'src/firebase'
         fireBaseUser: null
       }
     },
-    mounted() {
-      this.user.role = this.loggedUser.role;
+
+    created () {
+
+      // this.user.role = this.loggedUser.role
+      
     },
     computed: {
       ...mapState({
@@ -108,6 +115,12 @@ import { usuariosRef } from 'src/firebase'
           }          
           if(this.fireBaseUser = tempData[0])
             return true
+        })
+      },
+      test() {        
+        axios.get('/api/people')
+        .then(response => {
+          console.log(response.data)
         })
       }
     }
