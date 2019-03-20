@@ -19,6 +19,8 @@ import App from './App.vue'
 import routes from './routes/routes'
 import store  from './store'
 
+import { getUserFromLocalStorage } from 'src/utils/auth'
+
 Vue.config.productionTip = false
 
 Vue.use(VueFire)
@@ -39,7 +41,9 @@ const router = new VueRouter({
   linkActiveClass: 'active'
 })
 
-
+if (!child()) {
+  store.commit('setUser', getUserFromLocalStorage())
+}
 
 const showTheBugInAction = false; // ********  Set this to true to see the error
 //                                   ********  "Cannot read property 'from' of undefined"

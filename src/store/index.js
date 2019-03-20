@@ -29,6 +29,7 @@ export default new Vuex.Store({
   },
   mutations: {
     setUser(state, user) {
+      // console.log(user)
       state.user.email = user.email
       state.user.role = user.role
       state.user.session = user.session
