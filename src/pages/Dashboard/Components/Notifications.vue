@@ -134,7 +134,7 @@
               </n-button>
 
               <!-- Classic Modal -->
-              <modal :show.sync="modals.classic" headerClasses="justify-content-center">
+              <modal :show.sync="modals.classic">
                 <h4 slot="header" class="title title-up">Modal title</h4>
                 <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live
                   the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large
@@ -195,7 +195,6 @@
               <modal :show.sync="modals.mini"
                      class="modal-primary"
                      :show-close="false"
-                     headerClasses="justify-content-center"
                      type="mini">
                 <div slot="header" class="modal-profile">
                   <i class="now-ui-icons users_circle-08"></i>

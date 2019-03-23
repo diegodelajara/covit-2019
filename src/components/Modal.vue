@@ -12,7 +12,7 @@
            :class="[{'modal-notice': type === 'notice'}, modalClasses]">
         <div class="modal-content">
 
-          <div class="modal-header" :class="headerClasses">
+          <div class="modal-header">
             <slot name="close-button">
               <button type="button"
                       v-if="showClose"
@@ -62,7 +62,6 @@
         }
       },
       modalClasses: [Object, String],
-      headerClasses: [Object, String],
       bodyClasses: [Object, String],
       footerClasses: [Object, String],
       animationDuration: {

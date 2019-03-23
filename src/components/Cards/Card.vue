@@ -4,7 +4,7 @@
     <div class="card-image" v-if="$slots.image">
       <slot name="image"></slot>
     </div>
-    <div class="card-header" :class="headerClasses" v-if="$slots.header || title">
+    <div class="card-header" v-if="$slots.header || title">
       <slot name="header">
         <h1 v-if="title" class="card-title">{{title}}</h1>
         <h3 v-if="subTitle" class="card-category">{{subTitle}}</h3>
@@ -31,8 +31,7 @@
       description: String,
       noFooterLine: Boolean,
       plain: Boolean,
-      cardBodyClasses: [String, Object, Array],
-      headerClasses: [String, Object, Array]
+      cardBodyClasses: [String, Object, Array]
     }
   }
 </script>

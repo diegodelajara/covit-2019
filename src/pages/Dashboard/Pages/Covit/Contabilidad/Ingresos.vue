@@ -90,7 +90,7 @@
             </card>
         </div>
         <!-- Modal -->
-        <modal :show.sync="modals.classic" headerclasses="justify-content-center">
+        <modal :show.sync="modals.classic">
           <h4 slot="header" class="title title-up">Nuevo Ingreso</h4>
           <Form :form-data="formData"/>
         </modal>
