@@ -26,8 +26,15 @@
                 name="monto"
                 v-model="formData.monto">
       </fg-input>
+    
+      <fg-input>
+        <label for="">Fecha</label>
+        <el-date-picker v-model="dateTimePicker" type="datetime" placeholder="Seleccione una fecha">
+        </el-date-picker>
+      </fg-input>
 
-      <el-select class="select-danger" placeholder="Single Select" v-model="selected" v-if="payMethods">
+      <p>Métodos de pago</p>
+      <el-select class="select-danger" placeholder="Selecciones un método de pago" v-model="selected" v-if="payMethods">
         <el-option v-for="option in payMethods.methods" class="select-danger" :value="option.value" :label="option.label" :key="option.label">
         </el-option>
       </el-select>
@@ -43,14 +50,15 @@ import { ingresosRef } from 'src/firebase'
 import { mapState } from 'vuex'
 import { Checkbox } from 'src/components/index'
 import { payMethodsConst } from 'src/utils/helpers'
-import { Select, Option} from 'element-ui'
+import { Select, Option, DatePicker} from 'element-ui'
 
 
   export default {
     components: {
       Checkbox,
       [Select.name]: Select,
-      [Option.name]: Option
+      [Option.name]: Option,
+      [DatePicker.name]: DatePicker,
     },
     mounted() {
       this.payMethods = payMethodsConst
@@ -67,6 +75,7 @@ import { Select, Option} from 'element-ui'
             confirmPassword: '',
             subscribe: false
         },
+        dateTimePicker: '',
         modelValidations: {
           email: {
             required: true,

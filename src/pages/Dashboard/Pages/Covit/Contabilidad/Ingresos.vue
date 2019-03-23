@@ -7,40 +7,45 @@
             <card card-body-classes="table-full-width" no-footer-line>
                 <h4 slot="header" class="card-title">Ingresos</h4>
                 <div>
-                <div class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
-                    <n-button class="btn-round btn-primary" type="info" @click.native="modals.classic = true">
-                    <!--i slot="label" class="now-ui-icons travel_info"></i-->
-                    Nuevo Ingreso
-                    </n-button>
-                </div>
-                <div class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
-                    <!--b-button type="button" @click="largeModal = true">Nuevo</b-button-->
-                    <el-select
-                    class="select-primary mb-3"
-                    style="width: 70px"
-                    v-model="pagination.perPage"
-                    placeholder="Per page">
-                    <el-option
-                        class="select-default"
-                        v-for="item in pagination.perPageOptions"
-                        :key="item"
-                        :label="item"
-                        :value="item">
-                    </el-option>
-                    </el-select>
-                    <fg-input>
-                    <el-input type="search"
-                                class="mb-3"
-                                clearable
-                                prefix-icon="el-icon-search"
-                                style="width: 200px"
-                                placeholder="Search records"
-                                v-model="searchQuery"
-                                aria-controls="datatables">
-                    </el-input>
-                    </fg-input>
+                  <div class="content">
+                    <div class="col-4 d-flex justify-content-center justify-content-sm-between flex-wrap">
+                        <n-button class="btn-round btn-primary" type="info" @click.native="modals.classic = true">
+                        <!--i slot="label" class="now-ui-icons travel_info"></i-->
+                        Nuevo Ingreso
+                        </n-button>
+                    </div>
+                    <div class="col-4 d-flex justify-content-center justify-content-sm-between flex-wrap">
+                        <!--b-button type="button" @click="largeModal = true">Nuevo</b-button-->
+                        <!-- <el-select
+                        class="select-primary mb-3"
+                        style="width: 70px"
+                        v-model="pagination.perPage"
+                        placeholder="Per page">
+                          <el-option
+                              class="select-default"
+                              v-for="item in pagination.perPageOptions"
+                              :key="item"
+                              :label="item"
+                              :value="item">
+                          </el-option>
+                        </el-select> -->
 
-                </div>
+                    </div>
+                    <div class="col-4 d-flex justify-content-center justify-content-sm-between flex-wrap">
+
+                        <fg-input>
+                          <el-input type="search"
+                                      class="mb-3"
+                                      clearable
+                                      prefix-icon="el-icon-search"
+                                      style="width: 200px"
+                                      placeholder="Search records"
+                                      v-model="searchQuery"
+                                      aria-controls="datatables">
+                          </el-input>
+                        </fg-input>
+                    </div>
+                  </div>
                 <el-table stripe
                             style="width: 100%;"
                             :data="queriedData">
