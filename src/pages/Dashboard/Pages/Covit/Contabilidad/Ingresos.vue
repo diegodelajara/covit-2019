@@ -60,17 +60,11 @@
                     fixed="right"
                     label="Actions">
                     <div slot-scope="props" class="table-actions">
-                        <n-button @click.native="handleLike(props.$index, props.row)"
+                        <n-button @click.native="handleEdit(props.$index, props.row)"
                                 class="like"
                                 type="info"
                                 size="sm" round icon>
-                        <i class="fa fa-heart"></i>
-                        </n-button>
-                        <n-button @click.native="handleEdit(props.$index, props.row)"
-                                class="edit"
-                                type="warning"
-                                size="sm" round icon>
-                        <i class="fa fa-calendar"></i>
+                        <i class="fa fa-edit"></i>
                         </n-button>
                         <n-button @click.native="handleDelete(props.$index, props.row)"
                                 class="remove"
@@ -188,25 +182,18 @@
       agregarIngreso() {
         console.log(this.formData)
       },
-      handleLike (index, row) {
-        swal({
-          title: `You liked ${row.name}`,
-          buttonsStyling: false,
-          type: 'success',
-          confirmButtonClass: 'btn btn-success btn-fill'
-        })
-      },
       handleEdit (index, row) {
+        
         swal({
-          title: `You want to edit ${row.name}`,
+          title: `You want to edit ${row.nombre}`,
           buttonsStyling: false,
           confirmButtonClass: 'btn btn-info btn-fill'
         });
       },
       handleDelete (index, row) {
         swal({
-          title: 'Are you sure?',
-          text: `You won't be able to revert this!`,
+          title: '¿Estás seguro?',
+          text: `No podrás reverir esto luego!`,
           type: 'warning',
           showCancelButton: true,
           confirmButtonClass: 'btn btn-success btn-fill',
@@ -218,7 +205,7 @@
             this.deleteRow(row);
             swal({
               title: 'Deleted!',
-              text: `You deleted ${row.name}`,
+              text: `You deleted ${row.nombre}`,
               type: 'success',
               confirmButtonClass: 'btn btn-success btn-fill',
               buttonsStyling: false
