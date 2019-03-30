@@ -46,69 +46,64 @@
 </template>
 
 <script>
-import { ingresosRef } from 'src/firebase'
-import { mapState } from 'vuex'
-import { Checkbox } from 'src/components/index'
-import { payMethodsConst } from 'src/utils/helpers'
-import { Select, Option, DatePicker} from 'element-ui'
+import { mapState } from "vuex";
+import { Checkbox } from "src/components/index";
+import { payMethodsConst } from "src/utils/helpers";
+import { Select, Option, DatePicker } from "element-ui";
 
-
-  export default {
-    components: {
-      Checkbox,
-      [Select.name]: Select,
-      [Option.name]: Option,
-      [DatePicker.name]: DatePicker,
-    },
-    mounted() {
-      this.payMethods = payMethodsConst
-    },
-    data() {
-      return {
-        payMethods: null,
-        selected: null,
-        model: {
-            nombre: '',
-            monto: null,
-            email: '',
-            password: '',
-            confirmPassword: '',
-            subscribe: false
+export default {
+  components: {
+    Checkbox,
+    [Select.name]: Select,
+    [Option.name]: Option,
+    [DatePicker.name]: DatePicker
+  },
+  mounted() {
+    this.payMethods = payMethodsConst;
+  },
+  data() {
+    return {
+      payMethods: null,
+      selected: null,
+      model: {
+        nombre: "",
+        monto: null,
+        email: "",
+        password: "",
+        confirmPassword: "",
+        subscribe: false
+      },
+      dateTimePicker: "",
+      modelValidations: {
+        email: {
+          required: true,
+          email: true
         },
-        dateTimePicker: '',
-        modelValidations: {
-          email: {
-            required: true,
-            email: true
-          },
-          password: {
-            required: true,
-            min: 5
-          },
-          confirmPassword: {
-            required: true,
-            confirmed: 'password'
-          },
-          subscribe: {
-            required: true
-          }
+        password: {
+          required: true,
+          min: 5
+        },
+        confirmPassword: {
+          required: true,
+          confirmed: "password"
+        },
+        subscribe: {
+          required: true
         }
       }
-    },
-    methods: {
-      validate() {
-        this.$store.commit('setFormData')
-        //console.log(this.firebase.ingresosRef)
-        ingresosRef.push(this.formData)
-          
-      }
-    },
-    computed: {
-      ...mapState({
-        formData: state => state.formData
-      })
+    };
+  },
+  methods: {
+    validate() {
+      this.$store.commit("setFormData");
     }
+  },
+  computed: {
+    ...mapState({
+      formData: state => state.formData
+    })
   }
+};
 </script>
 <style>
 </style>

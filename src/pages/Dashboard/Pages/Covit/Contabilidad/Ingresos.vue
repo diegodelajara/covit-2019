@@ -7,17 +7,19 @@
             <card card-body-classes="table-full-width" no-footer-line>
                 <h4 slot="header" class="card-title">Ingresos</h4>
                 <div>
-                  <div class="content">
-                    <div class="col-4 d-flex justify-content-center justify-content-sm-between flex-wrap">
+                  <div class="row">
+                    <div class="col-lg-4">
                         <n-button class="btn-round btn-primary" type="info" @click.native="modals.classic = true">
-                        <!--i slot="label" class="now-ui-icons travel_info"></i-->
+                        <i slot="label" class="now-ui-icons ui-1_simple-add"></i>
                         Nuevo Ingreso
                         </n-button>
-                        <n-button type="primary" round block @click.native="proxyData">
+                    </div>
+                    <div class="col-lg-4">
+                        <n-button type="primary" round  @click.native="proxyData">
                           Proxy data
                         </n-button>
                     </div>
-                    <div class="col-4 d-flex justify-content-center justify-content-sm-between flex-wrap">
+                    <!-- <div class="col-lg-4"> -->
                         <!--b-button type="button" @click="largeModal = true">Nuevo</b-button-->
                         <!-- <el-select
                         class="select-primary mb-3"
@@ -33,13 +35,8 @@
                           </el-option>
                         </el-select> -->
 
-                    </div>
-                    <pre v-if="dataFromProxy">
-                      <span v-for="(item, i) in dataFromProxy" :key="i">
-                        {{ item.name }}
-                      </span>
-                    </pre>
-                    <div class="col-4 d-flex justify-content-center justify-content-sm-between flex-wrap">
+                    <!-- </div> -->
+                    <div class="col-lg-4">
 
                         <fg-input>
                           <el-input type="search"
@@ -47,21 +44,28 @@
                                       clearable
                                       prefix-icon="el-icon-search"
                                       style="width: 200px"
-                                      placeholder="Search records"
+                                      placeholder="Buscar"
                                       v-model="searchQuery"
                                       aria-controls="datatables">
                           </el-input>
                         </fg-input>
                     </div>
                   </div>
+                  <div class="row">
+                    <!-- <pre v-if="dataFromProxy">
+                      <span v-for="(item, i) in dataFromProxy" :key="i">
+                        {{ item }}
+                      </span>
+                    </pre> -->
+
+                  </div>
                 <el-table stripe
                             style="width: 100%;"
-                            :data="queriedData">
-                    <el-table-column v-for="column in tableColumns"
-                                    :key="column.label"
-                                    :min-width="column.minWidth"
-                                    :prop="column.prop"
-                                    :label="column.label">
+                            :data="dataFromProxy">
+                    <el-table-column v-for="(column, i) in tableColumns"
+                                    :key="i"
+                                    :prop="column.name"
+                                    :label="column.name">
                     </el-table-column>
                     <el-table-column
                     :min-width="135"
@@ -98,7 +102,7 @@
         </div>
         <!-- Modal -->
         <modal :show.sync="modals.classic">
-          <h4 slot="header" class="title title-up">Nuevo Ingreso</h4>
+          <h5 slot="header" class="modal-title">Nuevo Ingreso</h5>
           <Form :form-data="formData"/>
         </modal>
         <!-- Fin Modal -->
@@ -114,12 +118,8 @@ import Fuse from "fuse.js";
 import swal from "sweetalert2";
 import Modal from "src/components/Modal";
 import Form from "src/components/Covit/Form";
-import { ingresosRef } from "src/firebase";
 
 export default {
-  firebase: {
-    ingresosRef
-  },
   data() {
     return {
       formData: {
@@ -139,14 +139,9 @@ export default {
       propsToSearch: ["nombre"],
       tableColumns: [
         {
-          prop: "nombre",
+          prop: "name",
           label: "Nombre",
           minWidth: 200
-        },
-        {
-          prop: "monto",
-          label: "Monto",
-          minWidth: 250
         }
       ],
       tableData: users,
@@ -167,11 +162,11 @@ export default {
   },
   computed: {
     queriedData() {
-      //let result = this.tableData;
-      let result = this.ingresosRef;
-      if (this.searchedData.length > 0) {
-        result = this.searchedData;
-      }
+      let result = this.tableData;
+      // let result = this.ingresosRef;
+      // if (this.searchedData.length > 0) {
+      //   result = this.searchedData;
+      // }
       return result.slice(this.from, this.to);
     },
     to() {
