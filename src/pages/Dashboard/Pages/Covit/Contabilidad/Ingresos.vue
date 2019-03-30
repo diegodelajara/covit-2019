@@ -13,6 +13,9 @@
                         <!--i slot="label" class="now-ui-icons travel_info"></i-->
                         Nuevo Ingreso
                         </n-button>
+                        <n-button type="primary" round block @click.native="proxyData">
+                          Proxy data
+                        </n-button>
                     </div>
                     <div class="col-4 d-flex justify-content-center justify-content-sm-between flex-wrap">
                         <!--b-button type="button" @click="largeModal = true">Nuevo</b-button-->
@@ -31,6 +34,11 @@
                         </el-select> -->
 
                     </div>
+                    <pre v-if="dataFromProxy">
+                      <span v-for="(item, i) in dataFromProxy" :key="i">
+                        {{ item.name }}
+                      </span>
+                    </pre>
                     <div class="col-4 d-flex justify-content-center justify-content-sm-between flex-wrap">
 
                         <fg-input>
@@ -98,147 +106,160 @@
 </template>
 
 <script>
-  import {Table, TableColumn, Select, Option} from 'element-ui'
-  import {Pagination as NPagination} from 'src/components'
-  import users from './contabilidad'
-  import Fuse from 'fuse.js'
-  import swal from 'sweetalert2'
-  import Modal from 'src/components/Modal'
-  import Form from 'src/components/Covit/Form'
-  import { ingresosRef } from 'src/firebase'
+import axios from "axios";
+import { Table, TableColumn, Select, Option } from "element-ui";
+import { Pagination as NPagination } from "src/components";
+import users from "./contabilidad";
+import Fuse from "fuse.js";
+import swal from "sweetalert2";
+import Modal from "src/components/Modal";
+import Form from "src/components/Covit/Form";
+import { ingresosRef } from "src/firebase";
 
-  export default {
-    firebase: {
-      ingresosRef
-    },
-    data () {
-      return {
-        formData: {
-          nombre: null,
-          monto: null
+export default {
+  firebase: {
+    ingresosRef
+  },
+  data() {
+    return {
+      formData: {
+        nombre: null,
+        monto: null
+      },
+      modals: {
+        classic: false
+      },
+      pagination: {
+        perPage: 5,
+        currentPage: 1,
+        perPageOptions: [5, 10, 25, 50],
+        total: 0
+      },
+      searchQuery: "",
+      propsToSearch: ["nombre"],
+      tableColumns: [
+        {
+          prop: "nombre",
+          label: "Nombre",
+          minWidth: 200
         },
-        modals: {
-          classic: false
-        },
-        pagination: {
-          perPage: 5,
-          currentPage: 1,
-          perPageOptions: [5, 10, 25, 50],
-          total: 0
-        },
-        searchQuery: '',
-        propsToSearch: ['nombre'],
-        tableColumns: [
-          {
-            prop: 'nombre',
-            label: 'Nombre',
-            minWidth: 200
-          },
-          {
-            prop: 'monto',
-            label: 'Monto',
-            minWidth: 250
-          }
-        ],
-        tableData: users,
-        //tableData: ingresosRef,
-        searchedData: [],
-        fuseSearch: null
+        {
+          prop: "monto",
+          label: "Monto",
+          minWidth: 250
+        }
+      ],
+      tableData: users,
+      //tableData: ingresosRef,
+      searchedData: [],
+      fuseSearch: null,
+      dataFromProxy: null
+    };
+  },
+  components: {
+    NPagination,
+    [Select.name]: Select,
+    [Option.name]: Option,
+    [Table.name]: Table,
+    [TableColumn.name]: TableColumn,
+    Modal,
+    Form
+  },
+  computed: {
+    queriedData() {
+      //let result = this.tableData;
+      let result = this.ingresosRef;
+      if (this.searchedData.length > 0) {
+        result = this.searchedData;
+      }
+      return result.slice(this.from, this.to);
+    },
+    to() {
+      let highBound = this.from + this.pagination.perPage;
+      if (this.total < highBound) {
+        highBound = this.total;
+      }
+      return highBound;
+    },
+    from() {
+      return this.pagination.perPage * (this.pagination.currentPage - 1);
+    },
+    total() {
+      return this.searchedData.length > 0
+        ? this.searchedData.length
+        : this.tableData.length;
+    }
+  },
+  methods: {
+    agregarIngreso() {
+      console.log(this.formData);
+    },
+    handleEdit(index, row) {
+      swal({
+        title: `You want to edit ${row.nombre}`,
+        buttonsStyling: false,
+        confirmButtonClass: "btn btn-info btn-fill"
+      });
+    },
+    handleDelete(index, row) {
+      swal({
+        title: "¿Estás seguro?",
+        text: `No podrás reverir esto luego!`,
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn btn-success btn-fill",
+        cancelButtonClass: "btn btn-danger btn-fill",
+        confirmButtonText: "Yes, delete it!",
+        buttonsStyling: false
+      }).then(result => {
+        if (result.value) {
+          this.deleteRow(row);
+          swal({
+            title: "Deleted!",
+            text: `You deleted ${row.nombre}`,
+            type: "success",
+            confirmButtonClass: "btn btn-success btn-fill",
+            buttonsStyling: false
+          });
+        }
+      });
+    },
+    deleteRow(row) {
+      let indexToDelete = this.tableData.findIndex(
+        tableRow => tableRow.id === row.id
+      );
+      if (indexToDelete >= 0) {
+        this.tableData.splice(indexToDelete, 1);
       }
     },
-    components: {
-      NPagination,
-      [Select.name]: Select,
-      [Option.name]: Option,
-      [Table.name]: Table,
-      [TableColumn.name]: TableColumn,
-      Modal,
-      Form
-    },
-    computed: {
-      queriedData () {
-        //let result = this.tableData;
-        let result = this.ingresosRef;
-        if(this.searchedData.length > 0){
-          result = this.searchedData;
-        }
-        return result.slice(this.from, this.to)
-      },
-      to () {
-        let highBound = this.from + this.pagination.perPage
-        if (this.total < highBound) {
-          highBound = this.total
-        }
-        return highBound
-      },
-      from () {
-        return this.pagination.perPage * (this.pagination.currentPage - 1)
-      },
-      total () {
-        return this.searchedData.length > 0 ? this.searchedData.length : this.tableData.length;
+    proxyData() {
+      axios.get("/api/people").then(response => {
+        this.dataFromProxy = response.data.results;
+      });
+    }
+  },
+  mounted() {
+    // Fuse search initialization.
+    this.fuseSearch = new Fuse(this.tableData, {
+      keys: ["name", "email"],
+      threshold: 0.3
+    });
+  },
+  watch: {
+    /**
+     * Searches through the table data by a given query.
+     * NOTE: If you have a lot of data, it's recommended to do the search on the Server Side and only display the results here.
+     * @param value of the query
+     */
+    searchQuery(value) {
+      let result = this.tableData;
+      if (value !== "") {
+        result = this.fuseSearch.search(this.searchQuery);
       }
-    },
-    methods: {
-      agregarIngreso() {
-        console.log(this.formData)
-      },
-      handleEdit (index, row) {
-        
-        swal({
-          title: `You want to edit ${row.nombre}`,
-          buttonsStyling: false,
-          confirmButtonClass: 'btn btn-info btn-fill'
-        });
-      },
-      handleDelete (index, row) {
-        swal({
-          title: '¿Estás seguro?',
-          text: `No podrás reverir esto luego!`,
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonClass: 'btn btn-success btn-fill',
-          cancelButtonClass: 'btn btn-danger btn-fill',
-          confirmButtonText: 'Yes, delete it!',
-          buttonsStyling: false
-        }).then((result) => {
-          if(result.value){
-            this.deleteRow(row);
-            swal({
-              title: 'Deleted!',
-              text: `You deleted ${row.nombre}`,
-              type: 'success',
-              confirmButtonClass: 'btn btn-success btn-fill',
-              buttonsStyling: false
-            })
-          }
-        });
-      },
-      deleteRow(row){
-        let indexToDelete = this.tableData.findIndex((tableRow) => tableRow.id === row.id);
-        if (indexToDelete >= 0) {
-          this.tableData.splice(indexToDelete, 1)
-        }
-      }
-    },
-    mounted () {
-      // Fuse search initialization.
-      this.fuseSearch = new Fuse(this.tableData, {keys: ['name', 'email'], threshold: 0.3})
-    },
-    watch: {
-      /**
-       * Searches through the table data by a given query.
-       * NOTE: If you have a lot of data, it's recommended to do the search on the Server Side and only display the results here.
-       * @param value of the query
-       */
-      searchQuery(value){
-        let result = this.tableData;
-        if (value !== '') {
-          result = this.fuseSearch.search(this.searchQuery)
-        }
-        this.searchedData = result;
-      }
+      this.searchedData = result;
     }
   }
+};
 </script>
 <style>
 </style>

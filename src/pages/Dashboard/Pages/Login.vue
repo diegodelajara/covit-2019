@@ -35,9 +35,6 @@
                 Create Account
               </router-link>
             </h6>
-          <n-button type="primary" round block @click.native="test">
-            proxy
-          </n-button>
 
 
 
@@ -52,91 +49,84 @@
   </div>
 </template>
 <script>
-import axios from 'axios'
-import { setUserToLocalStorage } from 'src/utils/auth'
-import { mapState, mapMutations } from 'vuex'
-import firebase from 'firebase'
-import { usuariosRef } from 'src/firebase'
+import { setUserToLocalStorage } from "src/utils/auth";
+import { mapState, mapMutations } from "vuex";
+import firebase from "firebase";
+import { usuariosRef } from "src/firebase";
 
-  export default {
-    firebase: {
-      usuariosRef
-    },
-    data() {
-      return {
-        user: {
-          email: '',
-          clave: ''
-        },
-        fireBaseUser: null
-      }
-    },
-
-    created () {
-
-      // this.user.role = this.loggedUser.role
-      
-    },
-    computed: {
-      ...mapState({
-        loggedUser: state => state.user
-      }),
-    },
-    methods: {
-      ...mapMutations([
-        'setUser'
-      ]),
-      login() {
-        firebase.auth().signInWithEmailAndPassword(this.user.email, this.user.clave)
-        .then((user) => {
-          
-          this.getUserFromFirebase(this.user.email)
-          
-          this.setUser(this.fireBaseUser)
-          setUserToLocalStorage(this.fireBaseUser)
-          this.$router.replace('/dashboard')
-        }).catch((err) => {
-          alert(err.message)
-        })
+export default {
+  firebase: {
+    usuariosRef
+  },
+  data() {
+    return {
+      user: {
+        email: "",
+        clave: ""
       },
-      getUserFromFirebase(loggedUser) {
-        let tempData = []
-        let usuarios = this.usuariosRef
+      fireBaseUser: null
+    };
+  },
 
-        usuarios.forEach(element => {
-          if(element.email === loggedUser) {
-            tempData.push({
-              email: element.email,
-              lastName: element.apellido,
-              role: element.perfil,
-              name: element.nombre,
-              session: true
-            })            
-          }          
-          if(this.fireBaseUser = tempData[0])
-            return true
+  created() {
+    // this.user.role = this.loggedUser.role
+  },
+  computed: {
+    ...mapState({
+      loggedUser: state => state.user
+    })
+  },
+  methods: {
+    ...mapMutations(["setUser"]),
+    login() {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.user.email, this.user.clave)
+        .then(user => {
+          this.getUserFromFirebase(this.user.email);
+
+          this.setUser(this.fireBaseUser);
+          setUserToLocalStorage(this.fireBaseUser);
+          this.$router.replace("/dashboard");
         })
-      },
-      test() {        
-        axios.get('/api/people')
-        .then(response => {
-          console.log(response.data)
-        })
-      }
+        .catch(err => {
+          alert(err.message);
+        });
+    },
+    getUserFromFirebase(loggedUser) {
+      let tempData = [];
+      let usuarios = this.usuariosRef;
+
+      usuarios.forEach(element => {
+        if (element.email === loggedUser) {
+          tempData.push({
+            email: element.email,
+            lastName: element.apellido,
+            role: element.perfil,
+            name: element.nombre,
+            session: true
+          });
+        }
+        if ((this.fireBaseUser = tempData[0])) return true;
+      });
     }
   }
+};
 </script>
 <style>
-  .navbar-nav .nav-item p {
-    line-height: inherit;
-    margin-left: 5px;
-  }
-  input.form-control {
-    height: auto;
-  }
-  .login-page .card-login .logo-container, .register-page .card-login .logo-container, .pricing-page .card-login .logo-container, .lock-page .card-login .logo-container {
-    width: 100%;
-    margin: 0 auto;
-    margin-bottom: 5px;
-  }
+.navbar-nav .nav-item p {
+  line-height: inherit;
+  margin-left: 5px;
+}
+input.form-control {
+  height: auto;
+}
+.login-page .card-login .logo-container,
+.register-page .card-login .logo-container,
+.pricing-page .card-login .logo-container,
+.lock-page .card-login .logo-container {
+  width: 100%;
+  margin: 0 auto;
+  margin-bottom: 5px;
+}
 </style>
