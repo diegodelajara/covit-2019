@@ -42,42 +42,42 @@ import Calendar from 'src/pages/Dashboard/Calendar/CalendarRoute.vue'
 import Charts from 'src/pages/Dashboard/Charts.vue'
 
 // Covit
-  // Contabilidad
-  import ContabilidadIngresos  from 'src/pages/Dashboard/Pages/Covit/Contabilidad/Ingresos'
-  import ContabilidadEgresos   from 'src/pages/Dashboard/Pages/Covit/Contabilidad/Egresos'
-  import ContabilidadMultas   from 'src/pages/Dashboard/Pages/Covit/Contabilidad/Multas'
-  import ContabilidadCondonaciones   from 'src/pages/Dashboard/Pages/Covit/Contabilidad/Condonaciones'
+// Contabilidad
+import ContabilidadIngresos from 'src/pages/Dashboard/Pages/Covit/Contabilidad/Ingresos'
+import ContabilidadEgresos from 'src/pages/Dashboard/Pages/Covit/Contabilidad/Egresos'
+import ContabilidadMultas from 'src/pages/Dashboard/Pages/Covit/Contabilidad/Multas'
+import ContabilidadCondonaciones from 'src/pages/Dashboard/Pages/Covit/Contabilidad/Condonaciones'
 
-  // GGCC
-  import GastosComunes from 'src/pages/Dashboard/Pages/Covit/Gastos-Comunes'
+// GGCC
+import GastosComunes from 'src/pages/Dashboard/Pages/Covit/Gastos-Comunes'
 
-  // Nomina y Remuneraciones
-  import NyrNomina  from 'src/pages/Dashboard/Pages/Covit/Nomina-y-Remuneraciones/Nomina'
-  import NyrRemuneraciones   from 'src/pages/Dashboard/Pages/Covit/Nomina-y-Remuneraciones/Remuneraciones'
-  import NyrHorasTrabajadas   from 'src/pages/Dashboard/Pages/Covit/Nomina-y-Remuneraciones/Horas-trabajadas'
-  
-  
-
-  // Proveedores y Mantenciones
-  import PymProveedores  from 'src/pages/Dashboard/Pages/Covit/Proveedores-y-Mantenciones/Proveedores'
-  import PymMantenciones   from 'src/pages/Dashboard/Pages/Covit/Proveedores-y-Mantenciones/Mantenciones'
-
-  
-
-  // Residentes y Visitas
-  import RyvResidentes  from 'src/pages/Dashboard/Pages/Covit/Residentes-y-Visitas/Residentes'
-  import RyvVisitas   from 'src/pages/Dashboard/Pages/Covit/Residentes-y-Visitas/Visitas'
-
-  // Mensajes
-  import Mensajes from 'src/pages/Dashboard/Pages/Covit/Mensajes'
+// Nomina y Remuneraciones
+import NyrNomina from 'src/pages/Dashboard/Pages/Covit/Nomina-y-Remuneraciones/Nomina'
+import NyrRemuneraciones from 'src/pages/Dashboard/Pages/Covit/Nomina-y-Remuneraciones/Remuneraciones'
+import NyrHorasTrabajadas from 'src/pages/Dashboard/Pages/Covit/Nomina-y-Remuneraciones/Horas-trabajadas'
 
 
-  // Alertas
-  import SeguridadyAlertas from 'src/pages/Dashboard/Pages/Covit/Seguridad-y-Alertas'
+
+// Proveedores y Mantenciones
+import PymProveedores from 'src/pages/Dashboard/Pages/Covit/Proveedores-y-Mantenciones/Proveedores'
+import PymMantenciones from 'src/pages/Dashboard/Pages/Covit/Proveedores-y-Mantenciones/Mantenciones'
 
 
-  // Espacios Comunes
-  import EspaciosComunes from 'src/pages/Dashboard/Pages/Covit/Espacios-Comunes/'
+
+// Residentes y Visitas
+import RyvResidentes from 'src/pages/Dashboard/Pages/Covit/Residentes-y-Visitas/Residentes'
+import RyvVisitas from 'src/pages/Dashboard/Pages/Covit/Residentes-y-Visitas/Visitas'
+
+// Mensajes
+import Mensajes from 'src/pages/Dashboard/Pages/Covit/Mensajes'
+
+
+// Alertas
+import SeguridadyAlertas from 'src/pages/Dashboard/Pages/Covit/Seguridad-y-Alertas'
+
+
+// Espacios Comunes
+import EspaciosComunes from 'src/pages/Dashboard/Pages/Covit/Espacios-Comunes/'
 
 
 import Widgets from 'src/pages/Dashboard/Widgets.vue'
@@ -91,37 +91,37 @@ let componentsMenu = {
     {
       path: 'buttons',
       name: 'Buttons',
-      components: {default: Buttons, header: DefaultHeader}
+      components: { default: Buttons, header: DefaultHeader }
     },
     {
       path: 'grid-system',
       name: 'Grid System',
-      components: {default: GridSystem, header: DefaultHeader}
+      components: { default: GridSystem, header: DefaultHeader }
     },
     {
       path: 'panels',
       name: 'Panels',
-      components: {default: Panels, header: DefaultHeader}
+      components: { default: Panels, header: DefaultHeader }
     },
     {
       path: 'sweet-alert',
       name: 'Sweet Alert',
-      components: {default: SweetAlert, header: SweetAlertHeader}
+      components: { default: SweetAlert, header: SweetAlertHeader }
     },
     {
       path: 'notifications',
       name: 'Notifications',
-      components: {default: Notifications, header: DefaultHeader}
+      components: { default: Notifications, header: DefaultHeader }
     },
     {
       path: 'icons',
       name: 'Icons',
-      components: {default: Icons, header: DefaultHeader}
+      components: { default: Icons, header: DefaultHeader }
     },
     {
       path: 'typography',
       name: 'Typography',
-      components: {default: Typography, header: DefaultHeader}
+      components: { default: Typography, header: DefaultHeader }
     }
 
   ]
@@ -135,22 +135,22 @@ let formsMenu = {
     {
       path: 'regular',
       name: 'Regular Forms',
-      components: {default: RegularForms, header: DefaultHeader}
+      components: { default: RegularForms, header: DefaultHeader }
     },
     {
       path: 'extended',
       name: 'Extended Forms',
-      components: {default: ExtendedForms, header: DefaultHeader}
+      components: { default: ExtendedForms, header: DefaultHeader }
     },
     {
       path: 'validation',
       name: 'Validation Forms',
-      components: {default: ValidationForms, header: DefaultHeader}
+      components: { default: ValidationForms, header: DefaultHeader }
     },
     {
       path: 'wizard',
       name: 'Wizard',
-      components: {default: Wizard, header: DefaultHeader}
+      components: { default: Wizard, header: DefaultHeader }
     }
   ]
 }
@@ -164,22 +164,22 @@ let contabilidadMenu = {
     {
       path: 'ingresos',
       name: 'contabilidadingresos',
-      components: {default: ContabilidadIngresos, header: DefaultHeader}
+      components: { default: ContabilidadIngresos, header: DefaultHeader }
     },
     {
       path: 'egresos',
       name: 'contabilidadegresos',
-      components: {default: ContabilidadEgresos, header: DefaultHeader}
+      components: { default: ContabilidadEgresos, header: DefaultHeader }
     },
     {
       path: 'multas',
       name: 'contabilidadmultas',
-      components: {default: ContabilidadMultas, header: DefaultHeader}
+      components: { default: ContabilidadMultas, header: DefaultHeader }
     },
     {
       path: 'condonaciones',
       name: 'contabilidadcondonaciones',
-      components: {default: ContabilidadCondonaciones, header: DefaultHeader}
+      components: { default: ContabilidadCondonaciones, header: DefaultHeader }
     }
   ]
 }
@@ -194,17 +194,17 @@ let nyrMenu = {
     {
       path: 'nomina',
       name: 'nomina',
-      components: {default: NyrNomina, header: DefaultHeader}
+      components: { default: NyrNomina, header: DefaultHeader }
     },
     {
       path: 'remuneraciones',
       name: 'remuneraciones',
-      components: {default: NyrRemuneraciones, header: DefaultHeader}
+      components: { default: NyrRemuneraciones, header: DefaultHeader }
     },
     {
       path: 'horastrabajadas',
       name: 'horastrabajadas',
-      components: {default: NyrHorasTrabajadas, header: DefaultHeader}
+      components: { default: NyrHorasTrabajadas, header: DefaultHeader }
     }
   ]
 }
@@ -218,12 +218,12 @@ let pymMenu = {
     {
       path: 'proveedores',
       name: 'proveedores',
-      components: {default: PymProveedores, header: DefaultHeader}
+      components: { default: PymProveedores, header: DefaultHeader }
     },
     {
       path: 'mantenciones',
       name: 'mantenciones',
-      components: {default: PymMantenciones, header: DefaultHeader}
+      components: { default: PymMantenciones, header: DefaultHeader }
     }
   ]
 }
@@ -238,12 +238,12 @@ let ryvMenu = {
     {
       path: 'residentes',
       name: 'residentes',
-      components: {default: RyvResidentes, header: DefaultHeader}
+      components: { default: RyvResidentes, header: DefaultHeader }
     },
     {
       path: 'visitas',
       name: 'visitas',
-      components: {default: RyvVisitas, header: DefaultHeader}
+      components: { default: RyvVisitas, header: DefaultHeader }
     }
   ]
 }
@@ -258,12 +258,12 @@ let pagesMenu = {
     {
       path: 'user',
       name: 'User Page',
-      components: {default: User, header: DefaultHeader}
+      components: { default: User, header: DefaultHeader }
     },
     {
       path: 'timeline',
       name: 'Timeline Page',
-      components: {default: TimeLine, header: DefaultHeader}
+      components: { default: TimeLine, header: DefaultHeader }
     }
   ]
 }
@@ -314,33 +314,38 @@ const routes = [
     name: 'Dashboard',
     children: [
       {
+        path: 'mi-perfil',
+        components: { default: User, header: DefaultHeader },
+        name: 'miperfil'
+      },
+      {
         path: 'dashboard',
         name: 'dashboard',
-        components: {default: Dashboard, header: DashboardHeader}
+        components: { default: Dashboard, header: DashboardHeader }
       },
       {
         path: 'gastos-comunes',
         name: 'gastoscomunes',
-        components: {default: GastosComunes, header: DefaultHeader}
+        components: { default: GastosComunes, header: DefaultHeader }
       },
       {
         path: 'mensajes',
         name: 'mensajes',
-        components: {default: Mensajes, header: DefaultHeader}
+        components: { default: Mensajes, header: DefaultHeader }
       },
       {
         path: 'seguridad-y-alertas',
         name: 'seguridadyalertas',
-        components: {default: SeguridadyAlertas, header: DefaultHeader}
+        components: { default: SeguridadyAlertas, header: DefaultHeader }
       },
       {
         path: 'espacios-comunes',
         name: 'espacioscomunes',
-        components: {default: EspaciosComunes, header: DefaultHeader}
+        components: { default: EspaciosComunes, header: DefaultHeader }
       }
     ]
   },
-  {path: '*', component: NotFound}
+  { path: '*', component: NotFound }
 ]
 
 export default routes

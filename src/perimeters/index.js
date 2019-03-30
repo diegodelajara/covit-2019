@@ -4,6 +4,9 @@ export { default as BasePerimeter } from './BasePerimeter'
 // Dashboard
 export { default as dashboardPerimeter } from './dashboardPerimeter'
 
+// Mi Perfil
+export { default as miperfilPerimeter } from './miperfilPerimeter'
+
 // Contabilidad
 export { default as contabilidadingresosPerimeter } from './contabilidad/contabilidadingresosPerimeter'
 export { default as contabilidadegresosPerimeter } from './contabilidad/contabilidadegresosPerimeter'
