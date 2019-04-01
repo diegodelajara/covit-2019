@@ -47,7 +47,7 @@
 </template>
 <script>
 import { getUserFromLocalStorage } from "src/utils/auth";
-import { firestorage } from "firebase";
+import { firebaseStorage } from "src/firebase/firebaseStorage";
 
 export default {
   data() {
@@ -55,6 +55,7 @@ export default {
       name: null,
       lastName: null,
       email: null,
+      progressUpload: 0,
       file: {
         downloadURL: "",
         fileName: "",
@@ -83,10 +84,33 @@ export default {
       });
     },
     upload(file) {
-      console.log(file);
       this.file.fileName = file.name;
       this.file.uploading = true;
-      this.file.uploadTask = firestorage.ref("images/" + file.name).put(file);
+      this.file.uploadTask = firebaseStorage
+        .ref("profileImages/" + file.name)
+        .put(file);
+    }
+  },
+  watch: {
+    uploadTask: function() {
+      this.uploadTask.on(
+        "state_changed",
+        sp => {
+          this.progressUpload = Math.floor(
+            (sp.bytesTransferred / sp.totalBytes) * 100
+          );
+        },
+        null,
+        () => {
+          console.log("downloadURL");
+          this.uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+            this.uploadEnd = true;
+            this.downloadURL = downloadURL;
+
+            this.$emit("downloadURL", downloadURL);
+          });
+        }
+      );
     }
   }
 };
