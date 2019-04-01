@@ -51,7 +51,7 @@
 <script>
 import { setUserToLocalStorage } from "src/utils/auth";
 import { mapState, mapMutations } from "vuex";
-import firebase from "firebase";
+import { firebaseAuth } from "src/firebase/firebaseAuth";
 import { usuariosRef } from "src/firebase/firebase";
 
 export default {
@@ -79,8 +79,7 @@ export default {
   methods: {
     ...mapMutations(["setUser"]),
     login() {
-      firebase
-        .auth()
+      firebaseAuth
         .signInWithEmailAndPassword(this.user.email, this.user.clave)
         .then(user => {
           this.getUserFromFirebase(this.user.email);
