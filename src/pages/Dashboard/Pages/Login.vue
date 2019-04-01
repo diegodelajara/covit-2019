@@ -52,7 +52,7 @@
 import { setUserToLocalStorage } from "src/utils/auth";
 import { mapState, mapMutations } from "vuex";
 import firebase from "firebase";
-import { usuariosRef } from "src/firebase";
+import { usuariosRef } from "src/firebase/firebase";
 
 export default {
   firebase: {

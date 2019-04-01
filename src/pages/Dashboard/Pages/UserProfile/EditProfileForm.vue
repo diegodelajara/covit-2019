@@ -1,7 +1,24 @@
 <template>
   <card>
-    <h5 slot="header" class="title">Edit Profile</h5>
+    <h5 slot="header" class="title">Mi Perfil</h5>
     <form>
+
+      <div class="row">
+        <div class="col-md-6">
+          <fg-input type="text"
+                    label="First Name"
+                    placeholder="First Name"
+                    v-model="user.firstName">
+          </fg-input>
+        </div>
+        <div class="col-md-6">
+          <fg-input type="text"
+                    label="Last Name"
+                    placeholder="Last Name"
+                    v-model="user.lastName">
+          </fg-input>
+        </div>
+      </div>
       <div class="row">
         <div class="col-md-5">
           <fg-input type="text"
@@ -24,23 +41,6 @@
                     label="Username"
                     placeholder="Email"
                     v-model="user.email">
-          </fg-input>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-6">
-          <fg-input type="text"
-                    label="First Name"
-                    placeholder="First Name"
-                    v-model="user.firstName">
-          </fg-input>
-        </div>
-        <div class="col-md-6">
-          <fg-input type="text"
-                    label="Last Name"
-                    placeholder="Last Name"
-                    v-model="user.lastName">
           </fg-input>
         </div>
       </div>
@@ -92,30 +92,28 @@
   </card>
 </template>
 <script>
-  export default {
-    data() {
-      return {
-        user: {
-          company: 'Creative Code Inc.',
-          username: 'michael23',
-          email: '',
-          firstName: 'Mike',
-          lastName: 'Andrew',
-          address: 'Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09',
-          city: '',
-          postalCode: '',
-          aboutMe: `Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.`
-        }
+export default {
+  data() {
+    return {
+      user: {
+        company: "Creative Code Inc.",
+        username: "michael23",
+        email: "",
+        firstName: "Mike",
+        lastName: "Andrew",
+        address: "Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09",
+        city: "",
+        postalCode: "",
+        aboutMe: `Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.`
       }
-    },
-    methods: {
-      updateProfile() {
-        alert('Your data: ' + JSON.stringify(this.user))
-      }
+    };
+  },
+  methods: {
+    updateProfile() {
+      alert("Your data: " + JSON.stringify(this.user));
     }
   }
-
+};
 </script>
 <style>
-
 </style>

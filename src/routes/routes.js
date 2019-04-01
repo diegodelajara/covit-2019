@@ -14,7 +14,6 @@ import VectorMapsHeader from 'src/pages/Dashboard/Maps/VectorMapsHeader'
 import Dashboard from 'src/pages/Dashboard/Dashboard/Dashboard'
 
 // Pages
-import User from 'src/pages/Dashboard/Pages/UserProfile'
 import Pricing from 'src/pages/Dashboard/Pages/Pricing.vue'
 import TimeLine from 'src/pages/Dashboard/Pages/TimeLinePage.vue'
 import Login from 'src/pages/Dashboard/Pages/Login.vue'
@@ -42,6 +41,9 @@ import Calendar from 'src/pages/Dashboard/Calendar/CalendarRoute.vue'
 import Charts from 'src/pages/Dashboard/Charts.vue'
 
 // Covit
+
+// Perfil
+import User from 'src/pages/Dashboard/Pages/UserProfile'
 // Contabilidad
 import ContabilidadIngresos from 'src/pages/Dashboard/Pages/Covit/Contabilidad/Ingresos'
 import ContabilidadEgresos from 'src/pages/Dashboard/Pages/Covit/Contabilidad/Egresos'

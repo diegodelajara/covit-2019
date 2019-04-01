@@ -6,18 +6,31 @@
     <div>
       <div class="author">
         <a href="#">
-          <img class="avatar border-gray" src="@/assets/img/mike.jpg" alt="...">
-          <h5 class="title">Mike Andrew</h5>
+          <img class="avatar border-gray" src="@/assets/img/mike.jpg" alt="..." @click="selectUploadFile">
+          <h5 class="title">{{ name }} {{ lastName }}</h5>
         </a>
+        <input
+          id="files"
+          type="file"
+          name="file"
+          ref="uploadInput"
+          accept="image/*"
+          :multiple="false"
+          @change="detectFiles($event)" />
+
+          <img
+            :src="file.downloadURL"
+            width="100%" />
+
         <p class="description">
-          michael24
+          {{ email }}
         </p>
       </div>
-      <p class="description text-center">
+      <!-- <p class="description text-center">
         "Lamborghini Mercy <br>
         Your chick she so thirsty <br>
         I'm in that two seat Lambo"
-      </p>
+      </p> -->
     </div>
     <div slot="footer" class="button-container">
       <n-button href="#" type="neutral" icon round size="lg">
@@ -33,8 +46,50 @@
   </card>
 </template>
 <script>
-  export default {}
+import { getUserFromLocalStorage } from "src/utils/auth";
+import { firestorage } from "firebase";
+
+export default {
+  data() {
+    return {
+      name: null,
+      lastName: null,
+      email: null,
+      file: {
+        downloadURL: "",
+        fileName: "",
+        size: null,
+        type: null,
+        uploadTask: "",
+        uploading: false,
+        uploadEnd: false
+      }
+    };
+  },
+  mounted() {
+    this.name = getUserFromLocalStorage().name;
+    this.lastName = getUserFromLocalStorage().lastName;
+    this.email = getUserFromLocalStorage().email;
+  },
+  methods: {
+    selectUploadFile() {
+      // console.log(this.$refs.uploadInput);
+      this.$refs.uploadInput.click();
+    },
+    detectFiles(e) {
+      let fileList = e.target.files || e.dataTransfer.files;
+      Array.from(Array(fileList.length).keys()).map(x => {
+        this.upload(fileList[x]);
+      });
+    },
+    upload(file) {
+      console.log(file);
+      this.file.fileName = file.name;
+      this.file.uploading = true;
+      this.file.uploadTask = firestorage.ref("images/" + file.name).put(file);
+    }
+  }
+};
 </script>
 <style>
-
 </style>

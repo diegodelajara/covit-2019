@@ -1,4 +1,4 @@
-import './firebase'
+import './firebase/firebase'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
@@ -13,11 +13,10 @@ import child from './child'
 // Firebase
 import VueFire from 'vuefire'
 import Firebase from 'firebase'
-import 'firebase/firestore'
 
 import App from './App.vue'
 import routes from './routes/routes'
-import store  from './store'
+import store from './store'
 
 import { getUserFromLocalStorage } from 'src/utils/auth'
 
@@ -50,7 +49,7 @@ const showTheBugInAction = false; // ********  Set this to true to see the error
 //                                   ********  "Cannot read property 'from' of undefined"
 router.beforeEach((to, from, next) => {
   const perimeter = perimeters[`${to.name}Perimeter`]
-  
+
   if (perimeter) {
     let sandbox = null
 

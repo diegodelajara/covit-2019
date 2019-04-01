@@ -64,10 +64,10 @@
     </div>
 </template>
 <script>
-import { Checkbox } from "src/components"
-import { mapMutations } from 'vuex'
-import firebase from 'firebase'
-import { usuariosRef } from 'src/firebase'
+import { Checkbox } from "src/components";
+import { mapMutations } from "vuex";
+import firebase from "firebase";
+import { usuariosRef } from "src/firebase/firebase";
 
 export default {
   firebase: {
@@ -83,28 +83,31 @@ export default {
         apellido: null,
         email: null,
         password: null,
-        perfil: 'seleccione'
+        perfil: "seleccione"
       }
-    }
+    };
   },
   methods: {
-    ...mapMutations([
-      'setRegisterUser'
-    ]),
-    signUp () {
-      firebase.auth().createUserWithEmailAndPassword(this.createUser.email, this.createUser.password)
-      .then((user) => {
-        // TODO - pasar funcionalidad a Vuex
-        let response = usuariosRef.push(this.createUser)
-        if (response) {
-          alert('usuario creado exitosamente')
-          this.$router.replace('/login')
-        } else 
-          alert('Hubo un problema al crear el usuario')
-        // this.setRegisterUser(this.createUser)
-      }).catch((err) => {
-        alert(err.message)
-      })
+    ...mapMutations(["setRegisterUser"]),
+    signUp() {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(
+          this.createUser.email,
+          this.createUser.password
+        )
+        .then(user => {
+          // TODO - pasar funcionalidad a Vuex
+          let response = usuariosRef.push(this.createUser);
+          if (response) {
+            alert("usuario creado exitosamente");
+            this.$router.replace("/login");
+          } else alert("Hubo un problema al crear el usuario");
+          // this.setRegisterUser(this.createUser)
+        })
+        .catch(err => {
+          alert(err.message);
+        });
     }
   }
 };

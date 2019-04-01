@@ -1,12 +1,12 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
-import 'src/firebase'
-import Firebase from 'firebase'
-import { usuariosRef } from 'src/firebase'
+import 'src/firebase/firebase'
+// import Firebase from 'firebase'
+import { usuariosRef } from 'src/firebase/firebase'
 
 Vue.use(Vuex)
-Vue.use(Firebase)
+// Vue.use(Firebase)
 
 export default new Vuex.Store({
   state: {
@@ -41,7 +41,7 @@ export default new Vuex.Store({
     },
     setRegisterUser(state, newUser) {
       console.log(newUser)
-      
+
       usuariosRef.push(this.newUser)
     }
   },
