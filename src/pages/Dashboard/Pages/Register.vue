@@ -66,7 +66,8 @@
 <script>
 import { Checkbox } from "src/components";
 import { mapMutations } from "vuex";
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/auth";
 import { usuariosRef } from "src/firebase/firebase";
 
 export default {

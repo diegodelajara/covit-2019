@@ -61,7 +61,7 @@
   </card>
 </template>
 <script>
-import firebase from "firebase";
+import firebase from "firebase/app";
 import { getUserFromLocalStorage } from "src/utils/auth";
 import { firebaseStorage } from "src/firebase/firebaseStorage";
 import { userImagesRef, db } from "src/firebase/firebase";

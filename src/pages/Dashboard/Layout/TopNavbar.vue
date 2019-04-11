@@ -19,22 +19,15 @@
 
     <template slot="navbar-menu">
 
-      <form>
+      <!-- <form>
         <div class="input-group no-border">
           <fg-input placeholder="Search..." addon-right-icon="now-ui-icons ui-1_zoom-bold">
           </fg-input>
         </div>
-      </form>
+      </form> -->
 
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="#pablo">
-            <i class="now-ui-icons media-2_sound-wave"></i>
-            <p>
-              <span class="d-lg-none d-md-block">Stats</span>
-            </p>
-          </a>
-        </li>
+        
         <drop-down tag="li"
                    position="right"
                    class="nav-item"
@@ -45,15 +38,6 @@
           <a class="dropdown-item" href="#">Something else here</a>
           <a class="dropdown-item" href="#" @click="logout">Salir</a>
         </drop-down>
-
-        <li class="nav-item">
-          <a class="nav-link" href="#pablo">
-            <i class="now-ui-icons users_single-02"></i>
-            <p>
-              <span class="d-lg-none d-md-block">Account</span>
-            </p>
-          </a>
-        </li>
       </ul>
 
     </template>
@@ -61,7 +45,8 @@
 </template>
 <script>
 import { mapMutations } from 'vuex'
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 import {RouteBreadCrumb, Navbar, NavbarToggleButton} from 'src/components';
 import {CollapseTransition} from 'vue2-transitions'
 import { unsetUser } from 'src/utils/auth'

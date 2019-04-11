@@ -12,7 +12,6 @@ import child from './child'
 
 // Firebase
 import VueFire from 'vuefire'
-import Firebase from 'firebase'
 
 import App from './App.vue'
 import routes from './routes/routes'
@@ -23,7 +22,6 @@ import { getUserFromLocalStorage } from 'src/utils/auth'
 Vue.config.productionTip = false
 
 Vue.use(VueFire)
-Vue.use(Firebase)
 
 // plugin setup
 Vue.use(VueRouter)
