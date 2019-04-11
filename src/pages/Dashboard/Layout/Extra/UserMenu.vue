@@ -1,7 +1,11 @@
 <template>
   <div class="user">
-    <div class="photo">
-      <img src="@/assets/img/james.jpg" alt="avatar"/>
+    <div v-for="(userImage, i) in userImagesRef" :key="i">
+      <img
+        class="photo"
+        v-if="userImage.email === email"
+        :src="userImage.image"
+        alt="avatar"/>
     </div>
     <div class="info">
       <a data-toggle="collapse" :aria-expanded="!isClosed" @click.stop="toggleMenu" href="#">
@@ -32,7 +36,15 @@ import { CollapseTransition } from "vue2-transitions";
 import { mapState } from "vuex";
 import { MyProfile } from "src/utils/urls";
 
+import firebase from "firebase/app";
+import { getUserFromLocalStorage } from "src/utils/auth";
+import { firebaseStorage } from "src/firebase/firebaseStorage";
+import { userImagesRef, db } from "src/firebase/firebase";
+
 export default {
+  firebase: {
+    userImagesRef
+  },
   components: {
     CollapseTransition
   },
@@ -45,10 +57,12 @@ export default {
   data() {
     return {
       myProfileUrl: null,
-      isClosed: true
+      isClosed: true,
+      email : null
     };
   },
   mounted() {
+    this.email = getUserFromLocalStorage().email;
     this.myProfileUrl = MyProfile;
   },
   methods: {
