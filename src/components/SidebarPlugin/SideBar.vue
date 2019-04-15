@@ -44,7 +44,7 @@
     props: {
       title: {
         type: String,
-        default: 'Vue NUD PRO'
+        default: 'Covit'
       },
       backgroundColor: {
         type: String,
@@ -56,7 +56,7 @@
       },
       logo: {
         type: String,
-        default: require('@/assets/img/icon-vue.png')
+        default: require('@/assets/img/icon-covit.png')
       },
       sidebarLinks: {
         type: Array,
