@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity Department.
+    -->
+    <changeSet id="20190330191116-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="parking_id"
+                                 baseTableName="department"
+                                 constraintName="fk_department_parking_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="parking"/>
+
+        <addForeignKeyConstraint baseColumnNames="owner_id"
+                                 baseTableName="department"
+                                 constraintName="fk_department_owner_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="owner"/>
+
+        <addForeignKeyConstraint baseColumnNames="cellar_id"
+                                 baseTableName="department"
+                                 constraintName="fk_department_cellar_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="cellar"/>
+
+        <addForeignKeyConstraint baseColumnNames="tower_id"
+                                 baseTableName="department"
+                                 constraintName="fk_department_tower_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tower"/>
+
+    </changeSet>
+</databaseChangeLog>

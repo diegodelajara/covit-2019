@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190330191112_added_entity_Provider.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190330191113_added_entity_Cellar.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190330191114_added_entity_Parking.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190330191115_added_entity_Owner.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190330191116_added_entity_Department.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190330191117_added_entity_Entry.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190330191118_added_entity_Egress.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190330191119_added_entity_Tower.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190330191120_added_entity_Condominium.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190330191121_added_entity_PenaltyFee.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190330191122_added_entity_PenaltyFeeType.xml" relativeToChangelogFile="false"/>
+    <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20190330191116_added_entity_constraints_Department.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190330191117_added_entity_constraints_Entry.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190330191118_added_entity_constraints_Egress.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190330191119_added_entity_constraints_Tower.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190330191121_added_entity_constraints_PenaltyFee.xml" relativeToChangelogFile="false"/>
+    <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
+</databaseChangeLog>
