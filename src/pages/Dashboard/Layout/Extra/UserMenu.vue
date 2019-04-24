@@ -11,20 +11,20 @@
       <a data-toggle="collapse" :aria-expanded="!isClosed" @click.stop="toggleMenu" href="#">
            <span>
              {{loggedUser.name}}
-             <b class="caret"></b>
+             <!-- <b class="caret"></b> -->
           </span>
       </a>
       <div class="clearfix"></div>
       <div>
         <collapse-transition>
 
-          <sidebar-item
+          <!-- <sidebar-item
             v-show="!isClosed"
             :link="{
               name: 'Mi perfil',
               path: '/mi-perfil'
             }">
-          </sidebar-item>
+          </sidebar-item> -->
 
         </collapse-transition>
       </div>

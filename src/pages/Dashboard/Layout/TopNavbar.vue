@@ -33,9 +33,7 @@
                    class="nav-item"
                    icon="now-ui-icons users_single-02">
 
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
+          <a class="dropdown-item" href="#" @click="profile">Mi perfil</a>
           <a class="dropdown-item" href="#" @click="logout">Salir</a>
         </drop-down>
       </ul>
@@ -101,7 +99,10 @@ import { unsetUser } from 'src/utils/auth'
       async logout() {
         await unsetUser()
         await firebase.auth().signOut().then(() => this.$router.push('/login'))
-      }
+      },
+      profile() {
+        this.$router.push('/mi-perfil')
+      } 
     }
   }
 
