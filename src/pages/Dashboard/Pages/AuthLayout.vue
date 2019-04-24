@@ -42,7 +42,7 @@
     },
     computed: {
       imageStyles(){
-        let img = require('@/assets/img/bg13.jpg');
+        let img = require('@/assets/img/architecture-bahnhofstrasse-buildings-773471.jpg');
         return {
           backgroundImage: `url(${img})`
         }
