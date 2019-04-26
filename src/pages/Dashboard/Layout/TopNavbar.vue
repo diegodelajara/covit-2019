@@ -5,9 +5,6 @@
         <navbar-toggle-button @click.native="toggleSidebar">
         </navbar-toggle-button>
       </div>
-      <a class="navbar-brand" href="#pablo">
-        {{$route.name}}
-      </a>
     </div>
     <button @click="toggleNavbar" class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navigation"
@@ -33,8 +30,8 @@
                    class="nav-item"
                    icon="now-ui-icons users_single-02">
 
-          <a class="dropdown-item" href="#" @click="profile">Mi perfil</a>
-          <a class="dropdown-item" href="#" @click="logout">Salir</a>
+          <span class="dropdown-item" @click="profile">Mi perfil</span>
+          <span class="dropdown-item" @click="logout">Salir</span>
         </drop-down>
       </ul>
 
@@ -107,6 +104,8 @@ import { unsetUser } from 'src/utils/auth'
   }
 
 </script>
-<style>
-
+<style scope>
+  .navbar-nav span {
+    cursor: pointer;
+  }
 </style>

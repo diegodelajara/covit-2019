@@ -3,15 +3,15 @@
        :data-color="backgroundColor">
 
     <div class="logo">
-      <a href="http://www.creative-tim.com" class="simple-text logo-mini">
+      <a class="simple-text logo-mini" @click="goToHome">
         <div class="logo-image">
           <img :src="logo">
         </div>
       </a>
 
-      <a href="http://www.creative-tim.com" class="simple-text logo-normal">
+      <span class="simple-text logo-normal" @click="goToHome">
         {{title}}
-      </a>
+      </span>
       <div class="navbar-minimize">
         <button id="minimizeSidebar" class="btn btn-simple btn-icon btn-neutral btn-round" @click="minimizeSidebar">
           <i class="now-ui-icons text_align-center visible-on-sidebar-regular"></i>
@@ -77,6 +77,9 @@
         if (this.$sidebar) {
           this.$sidebar.toggleMinimize()
         }
+      },
+      goToHome() {
+        this.$router.push('/dashboard')
       }
     },
     beforeDestroy () {
