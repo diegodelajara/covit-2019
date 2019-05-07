@@ -115,6 +115,7 @@ import Modal from "src/components/Modal";
 import Form from "src/components/Covit/Form";
 
 export default {
+  name: "Ingresos",
   data() {
     return {
       formData: {

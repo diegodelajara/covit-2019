@@ -1,7 +1,7 @@
 export default {
-    getters: {
-        getAuth(state) {
-          return state.user.isLogged
-        }
+  getters: {
+    getAuth(state) {
+      return state.user.isLogged
     }
+  }
 }

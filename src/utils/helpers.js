@@ -1,30 +1,31 @@
 export const payMethodsConst = {
   methods: [
-    { value: "Bahasa Indonesia", label: "Bahasa Indonesia" },
-    { value: "Bahasa Melayu", label: "Bahasa Melayu" },
-    { value: "Català", label: "Català" },
-    { value: "Dansk", label: "Dansk" },
-    { value: "Deutsch", label: "Deutsch" },
-    { value: "English", label: "English" },
-    { value: "Español", label: "Español" },
-    { value: "Eλληνικά", label: "Eλληνικά" },
-    { value: "Français", label: "Français" },
-    { value: "Italiano", label: "Italiano" },
-    { value: "Magyar", label: "Magyar" },
-    { value: "Nederlands", label: "Nederlands" },
-    { value: "Norsk", label: "Norsk" },
-    { value: "Polski", label: "Polski" },
-    { value: "Português", label: "Português" },
-    { value: "Suomi", label: "Suomi" },
-    { value: "Svenska", label: "Svenska" },
-    { value: "Türkçe", label: "Türkçe" },
-    { value: "Íslenska", label: "Íslenska" },
-    { value: "Čeština", label: "Čeština" },
-    { value: "Русский", label: "Русский" },
-    { value: "ภาษาไทย", label: "ภาษาไทย" },
-    { value: "中文 (简体)", label: "中文 (简体)" },
-    { value: 'W">中文 (繁體)', label: 'W">中文 (繁體)' },
-    { value: "日本語", label: "日本語" },
-    { value: "한국어", label: "한국어" }
+    {
+      id: 0,
+      name: 'Efectivo'
+    },
+    {
+      id: 1,
+      name: 'Web Pay'
+    },
+    {
+      id: 2,
+      name: 'Otro'
+    }
   ]
 }
+
+export const entryOfTypesConst = [
+  {
+    value: 'GASTOS_COMUNES',
+    name: 'Gastos comunes'
+  },
+  {
+    value: 'MULTAS',
+    name: 'Multas'
+  },
+  {
+    value: 'ESPACIOS_COMUNES',
+    name: 'Espacios comunes'
+  }
+]
