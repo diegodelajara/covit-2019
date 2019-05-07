@@ -36,7 +36,7 @@ spring:
             indent-output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://covit.ckfkmxoaiz43.sa-east-1.rds.amazonaws.com:5432/covit
+        url: jdbc:postgresql://covit.ctwcvkzhjqwl.sa-east-1.rds.amazonaws.com:5432/covit
         username: postgres
         password:  Gb3542807
         hikari:

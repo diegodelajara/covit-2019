@@ -4,7 +4,7 @@ module.exports = {
   devServer: {
     proxy: {
       "/api/*": {
-        target: "https://swapi.co"
+        target: "http://localhost:8081/covit"
       }
     }
   },

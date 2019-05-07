@@ -14,11 +14,6 @@
                         Nuevo Ingreso
                         </n-button>
                     </div>
-                    <div class="col-lg-4">
-                        <n-button type="primary" round  @click.native="proxyData">
-                          Proxy data
-                        </n-button>
-                    </div>
                     <!-- <div class="col-lg-4"> -->
                         <!--b-button type="button" @click="largeModal = true">Nuevo</b-button-->
                         <!-- <el-select
@@ -61,11 +56,11 @@
                   </div>
                 <el-table stripe
                             style="width: 100%;"
-                            :data="dataFromProxy">
+                            :data="entriesFromApi">
                     <el-table-column v-for="(column, i) in tableColumns"
                                     :key="i"
-                                    :prop="column.name"
-                                    :label="column.name">
+                                    :prop="column.prop"
+                                    :label="column.label">
                     </el-table-column>
                     <el-table-column
                     :min-width="135"
@@ -139,16 +134,19 @@ export default {
       propsToSearch: ["nombre"],
       tableColumns: [
         {
-          prop: "name",
+          prop: "title",
           label: "Nombre",
+          minWidth: 200
+        },
+        {
+          prop: "description",
+          label: "Descripción",
           minWidth: 200
         }
       ],
-      tableData: users,
-      //tableData: ingresosRef,
       searchedData: [],
       fuseSearch: null,
-      dataFromProxy: null
+      entriesFromApi: []
     };
   },
   components: {
@@ -161,14 +159,7 @@ export default {
     Form
   },
   computed: {
-    queriedData() {
-      let result = this.tableData;
-      // let result = this.ingresosRef;
-      // if (this.searchedData.length > 0) {
-      //   result = this.searchedData;
-      // }
-      return result.slice(this.from, this.to);
-    },
+    queriedData() {},
     to() {
       let highBound = this.from + this.pagination.perPage;
       if (this.total < highBound) {
@@ -179,11 +170,7 @@ export default {
     from() {
       return this.pagination.perPage * (this.pagination.currentPage - 1);
     },
-    total() {
-      return this.searchedData.length > 0
-        ? this.searchedData.length
-        : this.tableData.length;
-    }
+    total() {}
   },
   methods: {
     agregarIngreso() {
@@ -228,12 +215,13 @@ export default {
       }
     },
     proxyData() {
-      axios.get("/api/people").then(response => {
-        this.dataFromProxy = response.data.results;
-      });
+      axios
+        .get("/api/entries")
+        .then(response => (this.entriesFromApi = response.data));
     }
   },
-  mounted() {
+  async mounted() {
+    await this.proxyData();
     // Fuse search initialization.
     this.fuseSearch = new Fuse(this.tableData, {
       keys: ["name", "email"],
@@ -247,11 +235,7 @@ export default {
      * @param value of the query
      */
     searchQuery(value) {
-      let result = this.tableData;
-      if (value !== "") {
-        result = this.fuseSearch.search(this.searchQuery);
-      }
-      this.searchedData = result;
+      console.log(value);
     }
   }
 };
