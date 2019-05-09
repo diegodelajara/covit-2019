@@ -21,7 +21,7 @@
                     placeholder="Contraseña"
                     addon-left-icon="now-ui-icons text_caps-small"
                     type="password"
-                    v-model="user.clave">
+                    v-model="user.pass">
           </fg-input>
         </div>
 
@@ -49,10 +49,10 @@
   </div>
 </template>
 <script>
-import { setUserToLocalStorage } from "src/utils/auth";
-import { mapState, mapMutations } from "vuex";
-import { firebaseAuth } from "src/firebase/firebaseAuth";
-import { usuariosRef } from "src/firebase/firebase";
+import { setUserToLocalStorage } from "src/utils/auth"
+import { mapGetters, mapMutations } from "vuex"
+import { firebaseAuth } from "src/firebase/firebaseAuth"
+import { usuariosRef } from "src/firebase/firebase"
 
 export default {
   firebase: {
@@ -62,55 +62,42 @@ export default {
     return {
       user: {
         email: "",
-        clave: ""
-      },
-      fireBaseUser: null
-    };
-  },
-
-  created() {
-    // this.user.role = this.loggedUser.role
+        pass: ""
+      }
+    }
   },
   computed: {
-    ...mapState({
-      loggedUser: state => state.user
-    })
+    ...mapGetters([
+      'getUser'
+    ])
   },
   methods: {
-    ...mapMutations(["setUser"]),
+    ...mapMutations([
+      "setUser"
+    ]),
     login() {
-      firebaseAuth
-        .signInWithEmailAndPassword(this.user.email, this.user.clave)
+      
+      firebaseAuth.signInWithEmailAndPassword(this.user.email, this.user.pass)
         .then(user => {
-          this.getUserFromFirebase(this.user.email);
-
-          this.setUser(this.fireBaseUser);
-          setUserToLocalStorage(this.fireBaseUser);
-          this.$router.replace("/dashboard");
+          const firebaseUser = this.getUserFromFirebase(this.user.email)
+          // console.log(userFb)
+          this.setUser(firebaseUser)
+          setUserToLocalStorage(firebaseUser)
+          this.$router.push("/dashboard")
         })
         .catch(err => {
-          alert(err.message);
-        });
+          alert(err.message)
+        })
     },
     getUserFromFirebase(loggedUser) {
-      let tempData = [];
-      let usuarios = this.usuariosRef;
-
-      usuarios.forEach(element => {
-        if (element.email === loggedUser) {
-          tempData.push({
-            email: element.email,
-            lastName: element.apellido,
-            role: element.perfil,
-            name: element.nombre,
-            session: true
-          });
-        }
-        if ((this.fireBaseUser = tempData[0])) return true;
-      });
+      let tempData = []
+      const firebaseUsers = this.usuariosRef
+    
+      const users = firebaseUsers.filter(item => item.email === loggedUser)
+      return users[0]
     }
   }
-};
+}
 </script>
 <style>
 .navbar-nav .nav-item p {

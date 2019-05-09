@@ -89,11 +89,11 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["setRegisterUser"]),
+    ...mapMutations([
+      "setRegisterUser"
+    ]),
     signUp() {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(
+      firebase.auth().createUserWithEmailAndPassword(
           this.createUser.email,
           this.createUser.password
         )

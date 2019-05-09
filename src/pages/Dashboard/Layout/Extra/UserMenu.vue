@@ -72,7 +72,7 @@ export default {
   },
   computed: {
     ...mapState({
-      loggedUser: state => state.user
+      loggedUser: state => state.login.user
     })
   }
 };

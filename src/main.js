@@ -39,6 +39,7 @@ const router = new VueRouter({
   linkActiveClass: 'active'
 })
 
+
 if (!child() && getUserFromLocalStorage()) {
   store.commit('setUser', getUserFromLocalStorage())
 }

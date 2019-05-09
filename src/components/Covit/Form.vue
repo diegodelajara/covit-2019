@@ -8,8 +8,8 @@
                 v-model="formData.concept">
       </fg-input>
       <div class="row">
-        <span>Métodos de pago</span>
-        <el-select label="Tipo de entrada" class="select-default" placeholder="Selecciones un tipo de entrada" v-model="formData.entryType">
+        <span>Tipo de Ingreso</span>
+        <el-select label="Tipo de ingreso" class="select-default" placeholder="Selecciones un tipo de ingreso" v-model="formData.entryType">
           <el-option v-for="(option, key) in entryOfTypes" class="select-default" :value="option.value" :label="option.name" :key="key">
           </el-option>
         </el-select>
@@ -39,7 +39,7 @@
         <div class="col-md-6">
           <span>Métodos de pago</span>
           <el-select label="Métodos de pago" class="select-default" placeholder="Selecciones un método de pago" v-model="formData.wayToPay" v-if="payMethods">
-            <el-option v-for="option in payMethods.methods" class="select-default" :value="option.id" :label="option.name" :key="option.id">
+            <el-option v-for="(option, key) in payMethods.methods" class="select-default" :value="option.value" :label="option.name" :key="key">
             </el-option>
           </el-select>
         </div>
@@ -99,32 +99,29 @@ export default {
   methods: {
     ...mapMutations(["setEntry"]),
     async validate() {
-      this.formData.wayToPay = await this.payMethods.methods[
-        this.formData.wayToPay
-      ];
       await this.setEntry(this.formData);
       const newEntry = {
         title: this.formData.name,
-        entryType: "GASTOS_COMUNES",
-        description: "monto 111",
+        entryType: this.formData.entryType,
+        description: "Description",
         paymentNumber: "paymentNumber",
         receiptNumber: "receiptNumber",
         payerName: "payerName",
-        concept: "concept",
-        wayToPay: "EFECTIVO",
-        paymentDate: "2019-05-01",
-        amount: "111111111",
+        concept: this.formData.concept,
+        wayToPay: this.formData.wayToPay,
+        paymentDate: this.formData.name.date,
+        amount: this.formData.amount,
         gloss: "gloss",
-        comments: "comments",
+        comments: this.formData.comments,
         respRegister: "respRegister",
-        registrationDate: "2019-05-01",
+        registrationDate: new Date(),
         status: "ACTIVO",
         refDocument: "refDocument"
-      };
-      await axios
-        .post("/api/entries", newEntry)
-        .then(response => console.log(response))
-        .catch(error => console.log(error));
+      }
+
+      const response = await axios.post("/api/entries", newEntry)
+      .then(response => console.log(response))
+      .catch(error => console.log(error))
     }
   }
   // computed: {

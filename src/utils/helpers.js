@@ -1,15 +1,15 @@
 export const payMethodsConst = {
   methods: [
     {
-      id: 0,
+      value: 'EFECTIVO',
       name: 'Efectivo'
     },
     {
-      id: 1,
+      value: 'WEB_PAY',
       name: 'Web Pay'
     },
     {
-      id: 2,
+      value: 'OTRO',
       name: 'Otro'
     }
   ]
