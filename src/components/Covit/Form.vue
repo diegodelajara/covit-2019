@@ -3,6 +3,18 @@
     <div>
       <fg-input type="text"
                 required
+                name="nombreIngreso"
+                label="Nombre"
+                v-model="formData.name">
+      </fg-input>
+      <fg-input type="text"
+                required
+                name="residenciangreso"
+                label="Residencia"
+                v-model="formData.department">
+      </fg-input>
+      <fg-input type="text"
+                required
                 name="conceptoIngreso"
                 label="Concepto"
                 v-model="formData.concept">
@@ -15,18 +27,6 @@
         </el-select>
       </div>
       
-      <fg-input type="text"
-                required
-                name="residenciangreso"
-                label="Residencia"
-                v-model="formData.department">
-      </fg-input>
-      <fg-input type="text"
-                required
-                name="nombreIngreso"
-                label="Nombre"
-                v-model="formData.name">
-      </fg-input>
       <div class="row">
         <div class="col-md-6">
           <fg-input label="Monto"
@@ -90,7 +90,8 @@ export default {
         amount: null,
         wayToPay: null,
         date: null,
-        comments: null
+        comments: null,
+        department: null
       },
       payMethods: null,
       entryOfTypes: null
@@ -99,8 +100,7 @@ export default {
   methods: {
     ...mapMutations(["setEntry"]),
     async validate() {
-      await this.setEntry(this.formData);
-      const newEntry = {
+      const newEntry = await {
         title: this.formData.name,
         entryType: this.formData.entryType,
         description: "Description",
@@ -116,20 +116,13 @@ export default {
         respRegister: "respRegister",
         registrationDate: new Date(),
         status: "ACTIVO",
-        refDocument: "refDocument"
+        refDocument: "refDocument",
+        // department: this.formData.department
       }
-
-      const response = await axios.post("/api/entries", newEntry)
-      .then(response => console.log(response))
-      .catch(error => console.log(error))
+      await this.$emit('on-finish-add-entry', newEntry)
     }
   }
-  // computed: {
-  //   ...mapState({
-  //     formData: state => state.formData
-  //   })
-  // }
-};
+}
 </script>
 <style scoped>
 textarea {
