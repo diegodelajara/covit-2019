@@ -99,13 +99,14 @@
 </template>
 
 <script>
-import axios from "axios";
-import { Table, TableColumn, Select, Option } from "element-ui";
-import { Pagination as NPagination } from "src/components";
-import Fuse from "fuse.js";
-import swal from "sweetalert2";
-import Modal from "src/components/Modal";
-import Form from "src/components/Covit/Form";
+import axios from "axios"
+import { Table, TableColumn, Select, Option } from "element-ui"
+import { Pagination as NPagination } from "src/components"
+import Fuse from "fuse.js"
+import swal from "sweetalert2"
+import Modal from "src/components/Modal"
+import Form from "src/components/Covit/Form"
+import { ENTRIES } from 'src/constants/apis'
 
 export default {
   name: "Ingresos",
@@ -216,7 +217,7 @@ export default {
       searchedData: [],
       fuseSearch: null,
       entriesFromApi: []
-    };
+    }
   },
   components: {
     NPagination,
@@ -231,7 +232,7 @@ export default {
     queriedData () {
       let result = this.entriesFromApi
       if(this.searchedData.length > 0){
-        result = this.searchedData;
+        result = this.searchedData
       }
       return result.slice(this.from, this.to)
     },
@@ -252,7 +253,7 @@ export default {
   methods: {
     async addEntry(newEntry) {
       // Agrego un nuevo ingreso
-      const response = await axios.post("/api/entries", newEntry)
+      const response = await axios.post(ENTRIES, newEntry)
       .then(response => console.log(response))
       .catch(error => console.log(error))
 
@@ -267,7 +268,7 @@ export default {
         title: `You want to edit ${row.nombre}`,
         buttonsStyling: false,
         confirmButtonClass: "btn btn-info btn-fill"
-      });
+      })
     },
     async handleDelete(index, row) {      
       swal({
@@ -277,25 +278,25 @@ export default {
         showCancelButton: true,
         confirmButtonClass: "btn btn-success btn-fill",
         cancelButtonClass: "btn btn-danger btn-fill",
-        confirmButtonText: "Yes, delete it!",
+        confirmButtonText: "Si, borrar!",
         buttonsStyling: false
       }).then(result => {
         if (result.value) {
-          this.deleteRow(row.id)
+          this.deleteRow(row)
           swal({
-            title: "Deleted!",
-            text: `You deleted ${row.nombre}`,
+            title: "Borrado!",
+            text: `Borraste ${row.nombre}`,
             type: "success",
             confirmButtonClass: "btn btn-success btn-fill",
             buttonsStyling: false
-          });
+          })
         }
-      });
+      })
     },
-    async deleteRow(id) {
-      const url = '/api/entries/' + id
+    async deleteRow(row) {
+      row.status = 'ELIMINADO'      
       try {
-        let response = await axios.put(url)
+        let response = await axios.put(ENTRIES, row)
         await this.getEntries()
       } catch (error) {
         console.log(error)
@@ -333,7 +334,7 @@ export default {
         "refDocument",
       ],
       threshold: 0.3
-    });
+    })
   },
   watch: {
     /**

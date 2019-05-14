@@ -85,7 +85,6 @@ export default {
       formData: {
         entryType: null,
         concept: null,
-        department: null,
         name: null,
         amount: null,
         wayToPay: null,
@@ -109,7 +108,7 @@ export default {
         payerName: "payerName",
         concept: this.formData.concept,
         wayToPay: this.formData.wayToPay,
-        paymentDate: this.formData.name.date,
+        paymentDate: this.formData.date,
         amount: this.formData.amount,
         gloss: "gloss",
         comments: this.formData.comments,
