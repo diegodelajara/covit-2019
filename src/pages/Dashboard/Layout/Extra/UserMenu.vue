@@ -34,7 +34,7 @@
 <script>
 import { CollapseTransition } from "vue2-transitions";
 import { mapState } from "vuex";
-import { MyProfile } from "src/utils/urls";
+import { MY_PROFILE } from "src/utils/urls";
 
 import firebase from "firebase/app";
 import { getUserFromLocalStorage } from "src/utils/auth";
@@ -62,12 +62,12 @@ export default {
     };
   },
   mounted() {
-    this.email = getUserFromLocalStorage().email;
-    this.myProfileUrl = MyProfile;
+    this.email = getUserFromLocalStorage().email
+    this.myProfileUrl = MY_PROFILE
   },
   methods: {
     toggleMenu() {
-      this.isClosed = !this.isClosed;
+      this.isClosed = !this.isClosed
     }
   },
   computed: {

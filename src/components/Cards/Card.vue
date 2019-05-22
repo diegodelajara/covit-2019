@@ -15,10 +15,6 @@
     <div v-if="$slots.default" class="card-body" :class="cardBodyClasses">
       <slot></slot>
     </div>
-    <hr v-if="$slots.footer && !noFooterLine">
-    <div class="card-footer" v-if="$slots.footer">
-      <slot name="footer"></slot>
-    </div>
   </div>
 </template>
 <script>

@@ -37,3 +37,6 @@ export { default as seguridadyalertasPerimeter } from './seguridadyalertasPerime
 
 // Espacios comunes
 export { default as espacioscomunesPerimeter } from './espacioscomunesPerimeter'
+
+// User
+export { default as agregarusuarioPerimeter } from './agregarusuarioPerimeter'

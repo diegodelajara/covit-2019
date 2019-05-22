@@ -31,7 +31,10 @@
                    icon="now-ui-icons users_single-02">
 
           <span class="dropdown-item" @click="profile">Mi perfil</span>
+          <span class="dropdown-item" @click="addUser" v-show="$user.isAllowed('viewParagraph')">Agregar usuario</span>
           <span class="dropdown-item" @click="logout">Salir</span>
+          <span>
+          </span>
         </drop-down>
       </ul>
 
@@ -45,8 +48,13 @@ import 'firebase/auth'
 import {RouteBreadCrumb, Navbar, NavbarToggleButton} from 'src/components';
 import {CollapseTransition} from 'vue2-transitions'
 import { unsetUser } from 'src/utils/auth'
+import agregarusuarioPerimeter from "src/perimeters/agregarusuarioPerimeter"
+import { MY_PROFILE, ADD_USER } from 'src/utils/urls'
 
   export default {
+    perimeters: [
+      agregarusuarioPerimeter
+    ],
     components: {
       RouteBreadCrumb,
       Navbar,
@@ -75,6 +83,10 @@ import { unsetUser } from 'src/utils/auth'
       ...mapMutations([
         'setUser'
       ]),
+      addUser() {
+        console.log('addUser')
+        
+      },
       capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1)
       },
@@ -98,7 +110,10 @@ import { unsetUser } from 'src/utils/auth'
         await firebase.auth().signOut().then(() => this.$router.push('/login'))
       },
       profile() {
-        this.$router.push('/mi-perfil')
+        this.$router.push(MY_PROFILE)
+      },
+      addUser() {
+        this.$router.push(ADD_USER)
       } 
     }
   }

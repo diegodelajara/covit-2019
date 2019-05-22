@@ -37,12 +37,15 @@
             </fg-input>
 
             <fg-input placeholder="Contraseña"
+                      type="password"
                       addon-left-icon="now-ui-icons text_caps-small"
                       v-model="createUser.password">
             </fg-input>
 
             <fg-input placeholder="Reeingresa la contraseña"
-                      addon-left-icon="now-ui-icons text_caps-small">
+                      type="password"
+                      addon-left-icon="now-ui-icons text_caps-small"
+                      v-model="createUser.repitPassword">
             </fg-input>
 
             <select name="" id="" v-model="createUser.perfil">
@@ -64,11 +67,13 @@
     </div>
 </template>
 <script>
-import { Checkbox } from "src/components";
-import { mapMutations } from "vuex";
-import firebase from "firebase/app";
-import "firebase/auth";
-import { usuariosRef } from "src/firebase/firebase";
+import swal from 'sweetalert2'
+import { Checkbox } from "src/components"
+import { mapMutations } from "vuex"
+import firebase from "firebase/app"
+import "firebase/auth"
+import { usuariosRef } from "src/firebase/firebase"
+import { CREATE_USER_SUCCESS } from "src/constants/alerts"
 
 export default {
   firebase: {
@@ -84,6 +89,7 @@ export default {
         apellido: null,
         email: null,
         password: null,
+        repitPassword: null,
         perfil: "seleccione"
       }
     };
@@ -93,22 +99,36 @@ export default {
       "setRegisterUser"
     ]),
     signUp() {
-      firebase.auth().createUserWithEmailAndPassword(
+      if (this.createUser.password === this.createUser.repitPassword) {
+        firebase.auth().createUserWithEmailAndPassword(
           this.createUser.email,
           this.createUser.password
         )
         .then(user => {
           // TODO - pasar funcionalidad a Vuex
-          let response = usuariosRef.push(this.createUser);
+          let response = usuariosRef.push(this.createUser)
           if (response) {
-            alert("usuario creado exitosamente");
-            this.$router.replace("/login");
-          } else alert("Hubo un problema al crear el usuario");
+            swal({
+              title: CREATE_USER_SUCCESS,
+              buttonsStyling: false,
+              confirmButtonClass: 'btn btn-success btn-fill',
+              type: 'success'
+            })
+          } else alert("Hubo un problema al crear el usuario")
           // this.setRegisterUser(this.createUser)
         })
         .catch(err => {
-          alert(err.message);
-        });
+          alert(err.message)
+        })
+      } else {
+        swal({
+          title: `Las contraseñas no coinciden`,
+          text: 'Reeingrese la misma contraseña para los dos campos',
+          buttonsStyling: false,
+          confirmButtonClass: 'btn btn-success btn-fill',
+          type: 'error'
+        })
+      }
     }
   }
 };

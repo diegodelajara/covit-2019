@@ -44,6 +44,10 @@ import Register from 'src/pages/Dashboard/Pages/Register.vue'
 
 // Perfil
 import User from 'src/pages/Dashboard/Pages/UserProfile'
+
+// Agregar usuario
+import AddUser from 'src/pages/Dashboard/Pages/Register'
+
 // Contabilidad
 import ContabilidadIngresos from 'src/pages/Dashboard/Pages/Covit/Contabilidad/Ingresos'
 import ContabilidadEgresos from 'src/pages/Dashboard/Pages/Covit/Contabilidad/Egresos'
@@ -319,6 +323,11 @@ const routes = [
         path: 'mi-perfil',
         components: { default: User, header: DefaultHeader },
         name: 'miperfil'
+      },
+      {
+        path: 'agregar-usuario',
+        components: { default: AddUser, header: DefaultHeader },
+        name: 'agregarusuario'
       },
       {
         path: 'dashboard',

@@ -1,11 +1,14 @@
 <template>
   <form>
     <div>
+      <pre>
+        {{ getSelectedTitleRow }}
+      </pre>
       <fg-input type="text"
                 required
                 name="nombreIngreso"
                 label="Nombre"
-                v-model="formData.name">
+                v-model="getSelectedTitleRow">
       </fg-input>
       <fg-input type="text"
                 required
@@ -66,9 +69,10 @@
 
 <script>
 import axios from "axios";
-import { mapState, mapMutations } from "vuex";
-import { payMethodsConst, entryOfTypesConst } from "src/utils/helpers";
-import { Select, Option, DatePicker } from "element-ui";
+import { mapState, mapMutations, mapGetters } from "vuex"
+import { payMethodsConst, entryOfTypesConst } from "src/utils/helpers"
+import { Select, Option, DatePicker } from "element-ui"
+import { varToEmpty } from "src/utils/functions"
 
 export default {
   components: {
@@ -77,8 +81,8 @@ export default {
     [DatePicker.name]: DatePicker
   },
   mounted() {
-    this.payMethods = payMethodsConst;
-    this.entryOfTypes = entryOfTypesConst;
+    this.payMethods = payMethodsConst
+    this.entryOfTypes = entryOfTypesConst
   },
   data() {
     return {
@@ -97,7 +101,9 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["setEntry"]),
+    ...mapMutations([
+      "setEntry"
+    ]),
     async validate() {
       const newEntry = await {
         title: this.formData.name,
@@ -120,6 +126,11 @@ export default {
       }
       await this.$emit('on-finish-add-entry', newEntry)
     }
+  },
+  computed: {
+    ...mapGetters([
+      'getSelectedTitleRow'
+    ])
   }
 }
 </script>

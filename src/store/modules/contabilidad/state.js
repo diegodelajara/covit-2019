@@ -1,3 +1,6 @@
 export default {
-	entries: null
+	entries: null,
+	selectedRow: {
+		title: ''
+	}
 }

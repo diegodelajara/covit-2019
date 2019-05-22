@@ -50,3 +50,6 @@
   width: 100%;
   height: 100vh;
 }
+.sidebar-normal {
+  text-transform: initial;
+}

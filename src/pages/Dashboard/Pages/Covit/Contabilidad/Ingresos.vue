@@ -49,7 +49,7 @@
                 </div>
               <el-table stripe
                           style="width: 100%;"
-                          :data="entriesFromApi">
+                          :data="queriedData">
                   <el-table-column v-for="(column, i) in tableColumns"
                                   :key="i"
                                   :min-width="column.minWidth"
@@ -61,13 +61,13 @@
                   fixed="right"
                   label="Actions">
                   <div slot-scope="props" class="table-actions">
-                      <n-button @click.native="handleEdit(props.$index, props.row)"
+                      <n-button @click.native="handleEdit(props.row)"
                               class="like"
                               type="info"
                               size="sm" round icon>
                       <i class="fa fa-edit"></i>
                       </n-button>
-                      <n-button @click.native="handleDelete(props.$index, props.row)"
+                      <n-button @click.native="handleDelete(props.row)"
                               class="remove"
                               type="danger"
                               size="sm" round icon>
@@ -100,6 +100,7 @@
 
 <script>
 import axios from "axios"
+import { mapMutations } from 'vuex'
 import { Table, TableColumn, Select, Option } from "element-ui"
 import { Pagination as NPagination } from "src/components"
 import Fuse from "fuse.js"
@@ -251,26 +252,27 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+      'setTitleRowToEdit'
+    ]),
+    // Agregar un nuevo ingreso
     async addEntry(newEntry) {
-      // Agrego un nuevo ingreso
       const response = await axios.post(ENTRIES, newEntry)
-      .then(response => console.log(response))
+      .then(response => {
+        // Cierro el modal
+        this.modals.classic = false
+        // LLamo a todos los ingresos
+        this.getEntries()
+      })
       .catch(error => console.log(error))
 
-      // Cierro el modal
-      this.modals.classic = false
-      // LLamo a todos los ingresos
-      this.getEntries()
 
     },
-    handleEdit(index, row) {
-      swal({
-        title: `You want to edit ${row.nombre}`,
-        buttonsStyling: false,
-        confirmButtonClass: "btn btn-info btn-fill"
-      })
+    handleEdit(row) {
+      this.modals.classic = true
+      this.setTitleRowToEdit(row.title)
     },
-    async handleDelete(index, row) {      
+    async handleDelete(row) {      
       swal({
         title: "¿Estás seguro?",
         text: `No podrás reverir esto luego!`,
@@ -308,6 +310,7 @@ export default {
       await axios.get("/api/entries").then(response => (this.entriesFromApi = response.data))
       let entriesFromApi = await this.entriesFromApi.filter(row => row.status === 'ACTIVO')
       this.entriesFromApi = await entriesFromApi
+      this.queriedData
     }
   },
   async mounted() {
@@ -318,20 +321,20 @@ export default {
       keys: [
         "title",
         "entryType",
-        "description",
-        "paymentNumber",
-        "receiptNumber",
-        "payerName",
-        "concept",
-        "wayToPay",
         "paymentDate",
-        "amount",
-        "gloss",
-        "comments",
-        "respRegister",
         "registrationDate",
-        "status",
-        "refDocument",
+        "wayToPay",
+        "amount",
+        // "description",
+        // "receiptNumber",
+        // "payerName",
+        // "concept",
+        // "gloss",
+        // "comments",
+        // "respRegister",
+        // "paymentNumber",
+        // "status",
+        // "refDocument",
       ],
       threshold: 0.3
     })
@@ -353,6 +356,12 @@ export default {
   }
 }
 </script>
-<style>
+
+<style lang="scss">
+.el-table__row
+  .cell {
+  text-transform: lowercase;
+}
 </style>
+
 

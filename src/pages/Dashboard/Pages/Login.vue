@@ -25,7 +25,7 @@
           </fg-input>
         </div>
 
-        <div slot="footer">
+        <div>
           <n-button type="primary" round block @click.native="login">
             Entrar
           </n-button>
@@ -90,7 +90,6 @@ export default {
         })
     },
     getUserFromFirebase(loggedUser) {
-      let tempData = []
       const firebaseUsers = this.usuariosRef
     
       const users = firebaseUsers.filter(item => item.email === loggedUser)

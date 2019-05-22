@@ -94,8 +94,8 @@ export default {
     };
   },
   mounted() {
-    this.name = getUserFromLocalStorage().name;
-    this.lastName = getUserFromLocalStorage().lastName;
+    this.name = getUserFromLocalStorage().nombre;
+    this.lastName = getUserFromLocalStorage().apellido;
     this.email = getUserFromLocalStorage().email;
     this.images = this.userImagesRef
   },
