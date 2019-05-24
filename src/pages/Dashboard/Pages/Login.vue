@@ -93,7 +93,14 @@ export default {
       const firebaseUsers = this.usuariosRef
     
       const users = firebaseUsers.filter(item => item.email === loggedUser)
-      return users[0]
+            
+      const user = {
+        apellido: users[0].apellido,
+        email: users[0].email,
+        nombre: users[0].nombre,
+        perfil: users[0].perfil
+      }
+      return user
     }
   }
 }
