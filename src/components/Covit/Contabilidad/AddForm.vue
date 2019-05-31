@@ -1,14 +1,11 @@
 <template>
   <form>
     <div>
-      <pre>
-        {{ getSelectedTitleRow }}
-      </pre>
       <fg-input type="text"
                 required
                 name="nombreIngreso"
                 label="Nombre"
-                v-model="getSelectedTitleRow">
+                v-model="formData.name">
       </fg-input>
       <fg-input type="text"
                 required
@@ -73,6 +70,7 @@ import { mapState, mapMutations, mapGetters } from "vuex"
 import { payMethodsConst, entryOfTypesConst } from "src/utils/helpers"
 import { Select, Option, DatePicker } from "element-ui"
 import { varToEmpty } from "src/utils/functions"
+import { NEW_ENTRY } from 'src/constants/events'
 
 export default {
   components: {
@@ -87,6 +85,7 @@ export default {
   data() {
     return {
       formData: {
+        name: null,
         entryType: null,
         concept: null,
         name: null,
@@ -105,32 +104,10 @@ export default {
       "setEntry"
     ]),
     async validate() {
-      const newEntry = await {
-        title: this.formData.name,
-        entryType: this.formData.entryType,
-        description: "Description",
-        paymentNumber: "paymentNumber",
-        receiptNumber: "receiptNumber",
-        payerName: "payerName",
-        concept: this.formData.concept,
-        wayToPay: this.formData.wayToPay,
-        paymentDate: this.formData.date,
-        amount: this.formData.amount,
-        gloss: "gloss",
-        comments: this.formData.comments,
-        respRegister: "respRegister",
-        registrationDate: new Date(),
-        status: "ACTIVO",
-        refDocument: "refDocument",
-        // department: this.formData.department
-      }
+      const newEntry = NEW_ENTRY(this.formData)
+      
       await this.$emit('on-finish-add-entry', newEntry)
     }
-  },
-  computed: {
-    ...mapGetters([
-      'getSelectedTitleRow'
-    ])
   }
 }
 </script>

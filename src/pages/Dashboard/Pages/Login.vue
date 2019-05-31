@@ -94,13 +94,15 @@ export default {
     
       const users = firebaseUsers.filter(item => item.email === loggedUser)
             
-      const user = {
-        apellido: users[0].apellido,
-        email: users[0].email,
-        nombre: users[0].nombre,
-        perfil: users[0].perfil
-      }
-      return user
+      // const user = {
+      //   apellido: users[0].apellido ? users[0].apellido : '',
+      //   email: users[0].email ? users[0].email : '',
+      //   nombre: users[0].nombre ? users[0].nombre : '',
+      //   perfil: users[0].perfil ? users[0].perfil : ''
+      // }
+      // console.log(users[0]);
+      
+      return users[0]
     }
   }
 }

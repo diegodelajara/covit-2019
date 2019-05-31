@@ -9,7 +9,7 @@
               <div class="">
                 <div class="row">
                   <div class="col-lg-4">
-                      <n-button class="btn-round btn-primary" type="info" @click.native="modals.classic = true">
+                      <n-button class="btn-round btn-primary" type="info" @click.native="modals.addEntry = true">
                       <i slot="label" class="now-ui-icons ui-1_simple-add"></i>
                       Nuevo Ingreso
                       </n-button>
@@ -89,12 +89,20 @@
               </div>
           </card>
       </div>
-      <!-- Modal -->
-      <modal :show.sync="modals.classic">
+      <!-- Add Modal -->
+      <modal :show.sync="modals.addEntry">
         <h5 slot="header" class="modal-title">Nuevo Ingreso</h5>
-        <Form @on-finish-add-entry="addEntry"/>
+        <add-form @on-finish-add-entry="addEntry"/>
       </modal>
-      <!-- Fin Modal -->
+      <!-- Fin Add Modal -->
+
+      <!-- Edit Modal -->
+      <modal :show.sync="modals.editEntry">
+        <h5 slot="header" class="modal-title">Editar Ingreso</h5>
+        <edit-form
+          @on-finish-edit-entry="editEntry"/>
+      </modal>
+      <!-- Fin Edit Modal -->
   </div>
 </template>
 
@@ -106,7 +114,8 @@ import { Pagination as NPagination } from "src/components"
 import Fuse from "fuse.js"
 import swal from "sweetalert2"
 import Modal from "src/components/Modal"
-import Form from "src/components/Covit/Form"
+import AddForm from "src/components/Covit/Contabilidad/AddForm"
+import EditForm from "src/components/Covit/Contabilidad/EditForm"
 import { ENTRIES } from 'src/constants/apis'
 
 export default {
@@ -118,7 +127,8 @@ export default {
         monto: null
       },
       modals: {
-        classic: false
+        addEntry: false,
+        editEntry: false
       },
       pagination: {
         perPage: 5,
@@ -154,66 +164,66 @@ export default {
           label: "Monto",
           minWidth: 200
         },
-        // {
-        //   prop: "title",
-        //   label: "Nombre",
-        //   minWidth: 200
-        // },
-        // {
-        //   prop: "description",
-        //   label: "Descripcion",
-        //   minWidth: 200
-        // },
-        // {
-        //   prop: "paymentNumber",
-        //   label: "N de pago",
-        //   minWidth: 200
-        // },
-        // {
-        //   prop: "receiptNumber",
-        //   label: "receiptNumber",
-        //   minWidth: 200
-        // },
-        // {
-        //   prop: "payerName",
-        //   label: "payerName",
-        //   minWidth: 200
-        // },
-        // {
-        //   prop: "title",
-        //   label: "Nombre",
-        //   minWidth: 200
-        // },
-        // {
-        //   prop: "concept",
-        //   label: "concept",
-        //   minWidth: 200
-        // },
-        // {
-        //   prop: "gloss",
-        //   label: "gloss",
-        //   minWidth: 200
-        // },{
-        //   prop: "comments",
-        //   label: "comments",
-        //   minWidth: 200
-        // },{
-        //   prop: "respRegister",
-        //   label: "respRegister",
-        //   minWidth: 200
-        // },{
-        //   prop: "registrationDate",
-        //   label: "registrationDate",
-        //   minWidth: 200
-        // },{
-        //   prop: "status",
-        //   label: "status",
-        //   minWidth: 200
-        // },{
-        //   prop: "refDocument",
-        //   label: "refDocument",
-        //   minWidth: 200
-        // },
+        {
+          prop: "title",
+          label: "Nombre",
+          minWidth: 200
+        },
+        {
+          prop: "description",
+          label: "Descripcion",
+          minWidth: 200
+        },
+        {
+          prop: "paymentNumber",
+          label: "N de pago",
+          minWidth: 200
+        },
+        {
+          prop: "receiptNumber",
+          label: "receiptNumber",
+          minWidth: 200
+        },
+        {
+          prop: "payerName",
+          label: "payerName",
+          minWidth: 200
+        },
+        {
+          prop: "title",
+          label: "Nombre",
+          minWidth: 200
+        },
+        {
+          prop: "concept",
+          label: "concept",
+          minWidth: 200
+        },
+        {
+          prop: "gloss",
+          label: "gloss",
+          minWidth: 200
+        },{
+          prop: "comments",
+          label: "comments",
+          minWidth: 200
+        },{
+          prop: "respRegister",
+          label: "respRegister",
+          minWidth: 200
+        },{
+          prop: "registrationDate",
+          label: "registrationDate",
+          minWidth: 200
+        },{
+          prop: "status",
+          label: "status",
+          minWidth: 200
+        },{
+          prop: "refDocument",
+          label: "refDocument",
+          minWidth: 200
+        },
       ],
       searchedData: [],
       fuseSearch: null,
@@ -227,7 +237,8 @@ export default {
     [Table.name]: Table,
     [TableColumn.name]: TableColumn,
     Modal,
-    Form
+    AddForm,
+    EditForm
   },
   computed: {
     queriedData () {
@@ -253,14 +264,15 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setTitleRowToEdit'
+      'setEntry'
     ]),
     // Agregar un nuevo ingreso
     async addEntry(newEntry) {
+      
       const response = await axios.post(ENTRIES, newEntry)
       .then(response => {
         // Cierro el modal
-        this.modals.classic = false
+        this.modals.addEntry = false
         // LLamo a todos los ingresos
         this.getEntries()
       })
@@ -268,14 +280,26 @@ export default {
 
 
     },
+    // Editar un nuevo ingreso
+    async editEntry(newEntry) {      
+      const response = await axios.put(ENTRIES, newEntry)
+      .then(response => {
+        // Cierro el modal
+        this.modals.editEntry = false
+        // LLamo a todos los ingresos
+        this.getEntries()
+      })
+      .catch(error => alert(error))
+    },
     handleEdit(row) {
-      this.modals.classic = true
-      this.setTitleRowToEdit(row.title)
+      this.modals.editEntry = true
+
+      this.setEntry(row)
     },
     async handleDelete(row) {      
       swal({
         title: "¿Estás seguro?",
-        text: `No podrás reverir esto luego!`,
+        text: `No podrás revertir esto luego!`,
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn btn-success btn-fill",
