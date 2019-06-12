@@ -34,6 +34,7 @@
           ref="uploadInput"
           accept="image/*"
           :multiple="false"
+          v-validate="'image'"
           @change="detectFiles($event)" />
 
 
@@ -61,10 +62,17 @@
   </card>
 </template>
 <script>
-import firebase from "firebase/app";
-import { getUserFromLocalStorage } from "src/utils/auth";
-import { firebaseStorage } from "src/firebase/firebaseStorage";
-import { userImagesRef, db } from "src/firebase/firebase";
+import swal from "sweetalert2"
+import firebase from "firebase/app"
+import { getUserFromLocalStorage } from "src/utils/auth"
+import { validateUploadImage } from "src/utils/functions"
+import { firebaseStorage } from "src/firebase/firebaseStorage"
+import { userImagesRef, db } from "src/firebase/firebase"
+
+import {
+  IMAGE_SIZE_TITLE_FAILURE,
+  IMAGE_SIZE_TEXT_FAILURE
+} from 'src/constants/alerts'
 
 export default {
   firebase: {
@@ -118,11 +126,31 @@ export default {
       });
     },
     upload(file) {
-      this.file.fileName = file.name;
-      this.file.uploading = true;
-      this.uploadTask = firebaseStorage
-        .ref("profileImages/" + file.name)
-        .put(file);
+      if (file) {
+        this.file.fileName = file.name
+        this.file.size = file.size
+        this.file.type = file.name.split('.')[1]
+        // console.log(this.file.size)
+        // return
+
+        // Validar imagen
+        const valid = validateUploadImage(this.file)
+        if (!valid.value) {
+          swal({
+            title: IMAGE_SIZE_TITLE_FAILURE,
+            text: IMAGE_SIZE_TEXT_FAILURE,
+            type: "error",
+            confirmButtonClass: "btn btn-success btn-fill",
+            buttonsStyling: false
+          })
+          return
+        }
+        
+        this.file.uploading = true
+        this.uploadTask = firebaseStorage
+          .ref("profileImages/" + file.name)
+          .put(file)
+      }
     },
     isExist : function(){
       for(var i=0; i < this.userImagesRef.length; i++){
@@ -135,46 +163,30 @@ export default {
   },
   watch: {
     uploadTask: function() {
-      this.uploadTask.on(
-        "state_changed",
-        sp => {
+      this.uploadTask.on("state_changed", sp => {
           this.progressUpload = Math.floor(
             (sp.bytesTransferred / sp.totalBytes) * 100
-          );
+          )
         },
         null,
-        () => {
-          this.uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-            this.file.uploadEnd = true;
-            this.file.downloadURL = downloadURL;
-            this.userImage.image = downloadURL;
-            this.userImage.email = this.email;
+        () => {this.uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+            this.file.uploadEnd = true
+            this.file.downloadURL = downloadURL
+            this.userImage.image = downloadURL
+            this.userImage.email = this.email
 
             if (this.elementId) {
               db.ref('userImages/' + this.elementId).update({
                 image: this.userImage.image
               })
             } else 
-              userImagesRef.push(this.userImage);
-
-
-            // db.ref("userImages/").on("value", snap => {
-            //   this.tareas = [];
-            //   let obj = snap.val();
-            //   for (const i in obj) {
-            //     this.tareas.unshift({
-            //       ".key": i,
-            //       email: obj[i].email,
-            //       image: obj[i].image
-            //     });
-            //   }
-            // });
-          });
+              userImagesRef.push(this.userImage)
+          })
         }
-      );
+      )
     }
   }
-};
+}
 </script>
 <style>
 </style>
