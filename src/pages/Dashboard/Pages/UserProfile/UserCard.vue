@@ -11,14 +11,24 @@
           <div v-if="userImagesRef">
             <div v-for="(userImage, key) in userImagesRef" :key="key">
               <div v-if="userImage.email != null">
+                <div v-if="userImage.email == email && readerImage != null" class="image-profile-container">
+                  <img
+                    class="avatar border-gray difuss"
+                    alt="Avatar"
+                    :src="readerImage"/>
+                    
+                    <Loader />
+
+                </div>
+                
+
                 <img
-                  v-if="userImage.email == email"
+                  v-else-if="userImage.email == email"
                   class="avatar border-gray"
                   alt="Avatar"
                   :src="userImage.image"
                   @click="selectUploadFile(userImage['.key'])" />
 
-                
               </div>
             </div>
             <img class="avatar border-gray" v-if="!isExist()" src="@/assets/img/mike.jpg" alt="Avatar" @click="selectUploadFile(null)">
@@ -31,8 +41,8 @@
           id="files"
           type="file"
           name="file"
+          accept='image/*'
           ref="uploadInput"
-          accept="image/*"
           :multiple="false"
           v-validate="'image'"
           @change="detectFiles($event)" />
@@ -64,19 +74,20 @@
 <script>
 import swal from "sweetalert2"
 import firebase from "firebase/app"
+import Loader from 'src/components/Utils/Loader'
 import { getUserFromLocalStorage } from "src/utils/auth"
 import { validateUploadImage } from "src/utils/functions"
 import { firebaseStorage } from "src/firebase/firebaseStorage"
 import { userImagesRef, db } from "src/firebase/firebase"
 
-import {
-  IMAGE_SIZE_TITLE_FAILURE,
-  IMAGE_SIZE_TEXT_FAILURE
-} from 'src/constants/alerts'
 
 export default {
+  name: 'UserCard',
   firebase: {
     userImagesRef
+  },
+  components: {
+    Loader
   },
   data() {
     return {
@@ -98,13 +109,14 @@ export default {
         email: "",
         image: ""
       },
-      firebaseUserImages: []
-    };
+      firebaseUserImages: [],
+      readerImage: null
+    }
   },
   mounted() {
-    this.name = getUserFromLocalStorage().nombre;
-    this.lastName = getUserFromLocalStorage().apellido;
-    this.email = getUserFromLocalStorage().email;
+    this.name = getUserFromLocalStorage().nombre
+    this.lastName = getUserFromLocalStorage().apellido
+    this.email = getUserFromLocalStorage().email
     this.images = this.userImagesRef
   },
   updated() {
@@ -122,35 +134,42 @@ export default {
     detectFiles(e) {
       let fileList = e.target.files || e.dataTransfer.files;
       Array.from(Array(fileList.length).keys()).map(x => {
-        this.upload(fileList[x]);
+        this.upload(fileList[x], e.target.files)
       });
     },
-    upload(file) {
+    upload(file, target) {
       if (file) {
         this.file.fileName = file.name
         this.file.size = file.size
-        this.file.type = file.name.split('.')[1]
-        // console.log(this.file.size)
-        // return
+        const arrayImage = file.name.split('.')
+        this.file.type = arrayImage[arrayImage.length - 1]
 
-        // Validar imagen
+
+        // Validar imagen        
         const valid = validateUploadImage(this.file)
         if (!valid.value) {
           swal({
-            title: IMAGE_SIZE_TITLE_FAILURE,
-            text: IMAGE_SIZE_TEXT_FAILURE,
+            title: valid.title,
+            text: valid.text,
             type: "error",
             confirmButtonClass: "btn btn-success btn-fill",
             buttonsStyling: false
           })
           return
         }
-        
+        this.openImage(target)
         this.file.uploading = true
-        this.uploadTask = firebaseStorage
-          .ref("profileImages/" + file.name)
-          .put(file)
+        this.uploadTask = firebaseStorage.ref("profileImages/" + file.name).put(file)
       }
+    },
+    openImage (files) {      
+      const reader = new FileReader()
+      let _self = this
+      reader.onload = function(){
+        _self.readerImage = reader.result
+        // console.log('result', reader.result)
+      }
+      reader.readAsDataURL(files[0])
     },
     isExist : function(){
       for(var i=0; i < this.userImagesRef.length; i++){
@@ -174,6 +193,7 @@ export default {
             this.file.downloadURL = downloadURL
             this.userImage.image = downloadURL
             this.userImage.email = this.email
+            this.readerImage = null
 
             if (this.elementId) {
               db.ref('userImages/' + this.elementId).update({
@@ -188,5 +208,17 @@ export default {
   }
 }
 </script>
-<style>
+
+<style scoped>
+  .difuss {
+    -webkit-filter: blur(3px); /* Safari 6.0 - 9.0 */
+    filter: blur(3px);
+  }
+
+  .image-profile-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 </style>
+
