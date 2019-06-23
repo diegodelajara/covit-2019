@@ -14,31 +14,30 @@
                     placeholder="Email"
                     addon-left-icon="now-ui-icons users_circle-08"
                     type="text"
-                    v-model="user.email">
+                    v-model="user.email"
+                    @keyup.enter="login">
           </fg-input>
 
           <fg-input class="no-border form-control-lg"
                     placeholder="Contraseña"
                     addon-left-icon="now-ui-icons text_caps-small"
                     type="password"
-                    v-model="user.pass">
+                    v-model="user.pass"
+                    @keyup.enter="login">
           </fg-input>
         </div>
 
         <div>
-          <n-button type="primary" round block @click.native="login">
+          <!-- <n-button type="primary" round block @click.native="login">
             Entrar
-          </n-button>
-          <div class="pull-left">
-            <h6>
-              <router-link class="link footer-link" to="/register">
-                Create Account
-              </router-link>
-            </h6>
-
-
-
-          </div>
+          </n-button> -->
+          
+          <Loader
+            text="Entrar"
+            :isLoading="isLoading"
+            :status="status"
+            @on-submit="login"
+             />
 
           <div class="pull-right">
             <!--h6><a href="#pablo" class="link footer-link">Need Help?</a></h6-->
@@ -49,21 +48,39 @@
   </div>
 </template>
 <script>
+import swal from "sweetalert2"
 import { setUserToLocalStorage } from "src/utils/auth"
+import { getErrorMessage } from 'src/utils/functions'
 import { mapGetters, mapMutations } from "vuex"
 import { firebaseAuth } from "src/firebase/firebaseAuth"
-import { usuariosRef } from "src/firebase/firebase"
+import { usuariosRef, userInfoRef} from "src/firebase/firebase"
+
+import Loader from 'src/components/Utils/Loader'
 
 export default {
   firebase: {
-    usuariosRef
+    usuariosRef,
+    userInfoRef
+  },
+  components: {
+    Loader
   },
   data() {
     return {
       user: {
         email: "",
         pass: ""
-      }
+      },
+      myUser: {
+        nombre: null,
+        username: null,
+        apellido: null,
+        email: null,
+        perfil: null,
+        uid: null
+      },
+      isLoading: false,
+      status: ''
     }
   },
   computed: {
@@ -75,34 +92,55 @@ export default {
     ...mapMutations([
       "setUser"
     ]),
-    login() {
-      
-      firebaseAuth.signInWithEmailAndPassword(this.user.email, this.user.pass)
-        .then(user => {
-          const firebaseUser = this.getUserFromFirebase(this.user.email)
-          // console.log(userFb)
-          this.setUser(firebaseUser)
-          setUserToLocalStorage(firebaseUser)
+    async login() {
+      this.isLoading = true
+      try {
+        const auth = await firebaseAuth.signInWithEmailAndPassword(this.user.email, this.user.pass)
+        if (auth) {
+          this.isLoading = false
+          await this.getUserFromFirebase(this.user.email)
+          await setUserToLocalStorage(this.myUser)
+          await this.setUser(this.myUser)
           this.$router.push("/dashboard")
-        })
-        .catch(err => {
-          alert(err.message)
-        })
+        }
+      } catch (error) {
+        if (error.code) {
+          const errorMsg = await getErrorMessage(error.code)
+          swal({
+            title: errorMsg.title,
+            text: errorMsg.msg,
+            type: "error",
+            confirmButtonClass: "btn btn-success btn-fill",
+            buttonsStyling: false
+          })
+        } else {
+          console.log('%c User', 'color: cyan;', error)
+        }
+        
+      }
     },
-    getUserFromFirebase(loggedUser) {
-      const firebaseUsers = this.usuariosRef
+    async getUserFromFirebase(loggedUser) {
+      const firebaseUsers = await this.usuariosRef
+      const firebaseUsersInfo = await this.userInfoRef
     
-      const users = firebaseUsers.filter(item => item.email === loggedUser)
-            
-      // const user = {
-      //   apellido: users[0].apellido ? users[0].apellido : '',
-      //   email: users[0].email ? users[0].email : '',
-      //   nombre: users[0].nombre ? users[0].nombre : '',
-      //   perfil: users[0].perfil ? users[0].perfil : ''
-      // }
-      // console.log(users[0]);
-      
-      return users[0]
+      let users = await firebaseUsers.filter(item => item.email === loggedUser)
+      let usersInfo = await firebaseUsersInfo.filter(item => item.email === loggedUser)
+
+
+      let _self = this
+      userInfoRef.on("value", function(snapshot) {
+        const userFromFireBase = snapshot.val()[firebaseAuth.currentUser.uid]
+        // Seteo de los datos del usuario
+        _self.myUser.nombre = userFromFireBase.firstName,
+        _self.myUser.username = userFromFireBase.username,
+        _self.myUser.apellido = userFromFireBase.lastName,
+        _self.myUser.email = userFromFireBase.email,
+        _self.myUser.perfil = userFromFireBase.profile
+        _self.myUser.uid = firebaseAuth.currentUser.uid
+        console.log('%c userFromFireBase', 'color: tomato;', userFromFireBase)
+      }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code)
+      })
     }
   }
 }

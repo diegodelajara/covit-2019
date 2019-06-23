@@ -1,6 +1,6 @@
 <template>
   <card>
-    <h5 slot="header" class="title">Mi Perfil</h5>
+    <h5 slot="header" class="title">Mi Perfil <small>{{user.condominium}}</small></h5>
     <form>
 
       <div class="row">
@@ -46,14 +46,30 @@
           </fg-input>
         </div>
       </div>
+      <n-button
+        wide
+        type="info"
+        @click.native="updateProfile"
+        class="btn-round btn-primary">
+        Guardar
+      </n-button>
     </form>
   </card>
 </template>
 <script>
+import { getUserFromLocalStorage } from 'src/utils/auth'
+import { firebaseAuth } from "src/firebase/firebaseAuth"
+import { userInfoRef } from "src/firebase/firebase"
+
 export default {
+  firebase: {
+    userInfoRef
+  },
   data() {
     return {
+      userId: null,
       user: {
+        condominium: 'Jardines de Independencia',
         company: "Creative Code Inc.",
         username: "michael23",
         email: "",
@@ -63,9 +79,24 @@ export default {
       }
     };
   },
+  mounted () {
+    this.userId = getUserFromLocalStorage().uid
+    // console.log(this.userId);
+    // return
+
+    userInfoRef.on("value", snapshot => {
+      console.log(snapshot.val())
+    }, function (errorObject) {
+      console.log("The read failed: " + errorObject.code)
+    })
+  },
   methods: {
     updateProfile() {
-      alert("Your data: " + JSON.stringify(this.user));
+      const uid = firebaseAuth.currentUser.uid
+      const email = firebaseAuth.currentUser.email
+      this.user.email = email
+      userInfoRef.child(uid).set(this.user)
+      // alert("Your data: " + JSON.stringify(this.user));
     }
   }
 };

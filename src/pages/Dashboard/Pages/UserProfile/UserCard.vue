@@ -17,7 +17,7 @@
                     alt="Avatar"
                     :src="readerImage"/>
                     
-                    <Loader />
+                    <Spinner />
 
                 </div>
                 
@@ -33,8 +33,7 @@
             </div>
             <img class="avatar border-gray" v-if="!isExist()" src="@/assets/img/mike.jpg" alt="Avatar" @click="selectUploadFile(null)">
           </div>
-          <p class="loading">{{ progressUpload }}%</p>
-          <h5 class="title">{{ name }} {{ lastName }}</h5>
+          <h4 class="title">{{ name }} {{ lastName }}</h4>
         </a>
         <input
           v-show="false"
@@ -74,7 +73,7 @@
 <script>
 import swal from "sweetalert2"
 import firebase from "firebase/app"
-import Loader from 'src/components/Utils/Loader'
+import Spinner from 'src/components/Utils/Spinner'
 import { getUserFromLocalStorage } from "src/utils/auth"
 import { validateUploadImage } from "src/utils/functions"
 import { firebaseStorage } from "src/firebase/firebaseStorage"
@@ -87,7 +86,7 @@ export default {
     userImagesRef
   },
   components: {
-    Loader
+    Spinner
   },
   data() {
     return {

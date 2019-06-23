@@ -8,3 +8,4 @@ export const db = firebaseApp.database()
 // Refs
 export const usuariosRef = db.ref("usuarios")
 export const userImagesRef = db.ref("userImages")
+export const userInfoRef = db.ref("userInfo")

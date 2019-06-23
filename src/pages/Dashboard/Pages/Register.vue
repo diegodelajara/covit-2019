@@ -23,12 +23,12 @@
 
             <fg-input placeholder="Nombre"
                       addon-left-icon="now-ui-icons users_circle-08"
-                      v-model="createUser.nombre">
+                      v-model="userInfo.name">
             </fg-input>
 
             <fg-input placeholder="Apellido"
                       addon-left-icon="now-ui-icons users_circle-08"
-                      v-model="createUser.apellido">
+                      v-model="userInfo.lastName">
             </fg-input>
 
             <fg-input placeholder="Correo"
@@ -45,13 +45,16 @@
             <fg-input placeholder="Reeingresa la contraseña"
                       type="password"
                       addon-left-icon="now-ui-icons text_caps-small"
-                      v-model="createUser.repitPassword">
+                      v-model="repitPassword">
             </fg-input>
 
-            <select name="" id="" v-model="createUser.perfil">
+            <select name="" id="" v-model="userInfo.profile">
               <option value="seleccione">Seleccione un perfil</option>
-              <option value="user">Usuario normal</option>
               <option value="admin">Administrador</option>
+              <option value="concierge">Conserje</option>
+              <option value="coowner">Copropietario</option>
+              <option value="owner">Dueño</option>
+              <option value="user">Usuario normal</option>
             </select>
 
             <!-- <checkbox class="text-left">
@@ -72,12 +75,13 @@ import { Checkbox } from "src/components"
 import { mapMutations } from "vuex"
 import firebase from "firebase/app"
 import "firebase/auth"
-import { usuariosRef } from "src/firebase/firebase"
+import { usuariosRef, userInfoRef, db } from "src/firebase/firebase"
 import { CREATE_USER_SUCCESS } from "src/constants/alerts"
 
 export default {
   firebase: {
-    usuariosRef
+    usuariosRef,
+    userInfoRef
   },
   components: {
     Checkbox
@@ -85,36 +89,45 @@ export default {
   data() {
     return {
       createUser: {
-        nombre: null,
-        apellido: null,
         email: null,
-        password: null,
-        repitPassword: null,
-        perfil: "seleccione"
-      }
+        password: null
+      },
+      userInfo: {
+        name: null,
+        lastName: null,
+        profile: "seleccione"
+      },
+      repitPassword: null
     };
   },
   methods: {
     ...mapMutations([
       "setRegisterUser"
     ]),
-    signUp() {
-      if (this.createUser.password === this.createUser.repitPassword) {
-        firebase.auth().createUserWithEmailAndPassword(
-          this.createUser.email,
-          this.createUser.password
-        )
+    async signUp() {
+      if (this.createUser.password === this.repitPassword) {
+        await firebase.auth().createUserWithEmailAndPassword(this.createUser.email, this.createUser.password)
         .then(user => {
-          // TODO - pasar funcionalidad a Vuex
-          let response = usuariosRef.push(this.createUser)
-          if (response) {
-            swal({
-              title: CREATE_USER_SUCCESS,
-              buttonsStyling: false,
-              confirmButtonClass: 'btn btn-success btn-fill',
-              type: 'success'
-            })
-          } else alert("Hubo un problema al crear el usuario")
+          // Se agrega el usuario a usuariosRef
+          const userResponse = usuariosRef.push(this.createUser)
+          // Si la respuesta es correcta se agrega la informacion del usuario 
+          if (userResponse) {
+            const info = {
+              email: this.createUser.email,
+              name: this.userInfo.name,
+              lastName: this.userInfo.lastName,
+              profile: this.userInfo.profile
+            }
+            const userInfoResponse = userInfoRef.push(info)
+            if (userInfoResponse) {
+              swal({
+                title: CREATE_USER_SUCCESS,
+                buttonsStyling: false,
+                confirmButtonClass: 'btn btn-success btn-fill',
+                type: 'success'
+              })  
+            }
+          }
           // this.setRegisterUser(this.createUser)
         })
         .catch(err => {

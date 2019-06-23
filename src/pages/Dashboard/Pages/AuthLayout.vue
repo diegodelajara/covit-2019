@@ -42,7 +42,7 @@
     },
     computed: {
       imageStyles(){
-        let img = require('@/assets/img/architecture-bahnhofstrasse-buildings-773471.jpg');
+        let img = require('@/assets/img/backlit-beach-community-1000444.jpg');
         return {
           backgroundImage: `url(${img})`
         }
