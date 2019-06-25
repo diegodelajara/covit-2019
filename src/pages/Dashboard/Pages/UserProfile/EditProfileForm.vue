@@ -40,6 +40,16 @@
       <div class="row">
         <div class="col-md-12">
           <fg-input type="text"
+                    label="Condominio"
+                    placeholder="Condominio"
+                    v-model="user.condominium">
+          </fg-input>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <fg-input type="text"
                     label="Dirección"
                     placeholder="Dirección"
                     v-model="user.address">
@@ -57,6 +67,8 @@
   </card>
 </template>
 <script>
+import swal from "sweetalert2"
+
 import { getUserFromLocalStorage } from 'src/utils/auth'
 import { firebaseAuth } from "src/firebase/firebaseAuth"
 import { userInfoRef } from "src/firebase/firebase"
@@ -67,36 +79,65 @@ export default {
   },
   data() {
     return {
-      userId: null,
       user: {
-        condominium: 'Jardines de Independencia',
-        company: "Creative Code Inc.",
-        username: "michael23",
-        email: "",
-        firstName: "Mike",
-        lastName: "Andrew",
-        address: "Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
-      }
+        address: null,
+        condominium: null,
+        firstName: null,
+        lastName: null,
+        username: null
+      },
+      userId: null
     };
   },
-  mounted () {
-    this.userId = getUserFromLocalStorage().uid
-    // console.log(this.userId);
-    // return
+  async mounted () {
+    this.userId = await getUserFromLocalStorage().uid
 
     userInfoRef.on("value", snapshot => {
-      console.log(snapshot.val())
+      let snap = snapshot.val()[this.userId]
+      
+      // console.log('%c snap', 'color: cyan;', snap)
+      // return
+      this.user.firstName = snap.firstName
+      this.user.lastName = snap.lastName
+      this.user.condominium = snap.condominium
+      this.user.address = snap.address
+      this.user.username = snap.username
+
     }, function (errorObject) {
       console.log("The read failed: " + errorObject.code)
     })
   },
   methods: {
-    updateProfile() {
-      const uid = firebaseAuth.currentUser.uid
-      const email = firebaseAuth.currentUser.email
-      this.user.email = email
-      userInfoRef.child(uid).set(this.user)
-      // alert("Your data: " + JSON.stringify(this.user));
+    async updateProfile() {
+      // console.log('%c this.user', 'color: cyan;', this.userId)
+      // return
+      try {
+        var user = await userInfoRef.child(this.userId)
+        user.update(
+          {
+            'address': this.user.address ? this.user.address : 'Dirección',
+            'condominium': this.user.condominium ? this.user.condominium : 'Condominio',
+            'firstName': this.user.firstName ? this.user.firstName : 'Nombre',
+            'lastName': this.user.lastName ? this.user.lastName : 'Apellido',
+            'username': this.user.username ? this.user.username : 'Nombre de usuario'
+          }
+        )
+        swal({
+          title: 'ok',
+          text: 'wena marico',
+          type: "success",
+          confirmButtonClass: "btn btn-success btn-fill",
+          buttonsStyling: false
+        })
+      } catch (error) {
+        swal({
+          title: 'Error',
+          text: error,
+          type: "error",
+          confirmButtonClass: "btn btn-success btn-fill",
+          buttonsStyling: false
+        })
+      }
     }
   }
 };

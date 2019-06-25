@@ -99,6 +99,7 @@ export default {
         if (auth) {
           this.isLoading = false
           await this.getUserFromFirebase(this.user.email)
+          
           await setUserToLocalStorage(this.myUser)
           await this.setUser(this.myUser)
           this.$router.push("/dashboard")
@@ -114,7 +115,13 @@ export default {
             buttonsStyling: false
           })
         } else {
-          console.log('%c User', 'color: cyan;', error)
+          swal({
+            title: error,
+            text: error,
+            type: "error",
+            confirmButtonClass: "btn btn-success btn-fill",
+            buttonsStyling: false
+          })
         }
         
       }
@@ -126,20 +133,28 @@ export default {
       let users = await firebaseUsers.filter(item => item.email === loggedUser)
       let usersInfo = await firebaseUsersInfo.filter(item => item.email === loggedUser)
 
-
-      let _self = this
+      const _self = this
       userInfoRef.on("value", function(snapshot) {
-        const userFromFireBase = snapshot.val()[firebaseAuth.currentUser.uid]
+        let userFromFireBase = snapshot.val()[firebaseAuth.currentUser.uid]
+        // console.log('%c userFromFireBase', 'color: cyan;', userFromFireBase)
         // Seteo de los datos del usuario
-        _self.myUser.nombre = userFromFireBase.firstName,
-        _self.myUser.username = userFromFireBase.username,
-        _self.myUser.apellido = userFromFireBase.lastName,
-        _self.myUser.email = userFromFireBase.email,
-        _self.myUser.perfil = userFromFireBase.profile
-        _self.myUser.uid = firebaseAuth.currentUser.uid
-        console.log('%c userFromFireBase', 'color: tomato;', userFromFireBase)
+        if (userFromFireBase) {
+          _self.myUser.nombre = userFromFireBase.firstName,
+          // _self.myUser.username = userFromFireBase.username,
+          // _self.myUser.apellido = userFromFireBase.lastName,
+          _self.myUser.email = userFromFireBase.email,
+          _self.myUser.perfil = userFromFireBase.perfil
+          _self.myUser.uid = firebaseAuth.currentUser.uid
+        }
+
       }, function (errorObject) {
-        console.log("The read failed: " + errorObject.code)
+          swal({
+            title: 'Error',
+            text: errorObject.code,
+            type: "error",
+            confirmButtonClass: "btn btn-success btn-fill",
+            buttonsStyling: false
+          })
       })
     }
   }
