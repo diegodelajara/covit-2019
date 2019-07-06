@@ -2,46 +2,59 @@
   <div class="col-md-4 ml-auto mr-auto">
     <form @submit.prevent>
       <card class="card-login card-plain">
-
         <div slot="header">
           <div class="logo-container">
             <img src="@/assets/img/logo.png" alt="">
           </div>
         </div>
 
-        <div>
-          <fg-input class="no-border form-control-lg"
-                    placeholder="Email"
-                    addon-left-icon="now-ui-icons users_circle-08"
-                    type="text"
-                    v-model="user.email"
-                    @keyup.enter="login">
-          </fg-input>
+        <div v-if="condominiums == null">
+          <div>
+            <fg-input class="no-border form-control-lg"
+                      placeholder="Email"
+                      addon-left-icon="now-ui-icons users_circle-08"
+                      type="text"
+                      v-model="user.email"
+                      @keyup.enter="login">
+            </fg-input>
 
-          <fg-input class="no-border form-control-lg"
-                    placeholder="Contraseña"
-                    addon-left-icon="now-ui-icons text_caps-small"
-                    type="password"
-                    v-model="user.pass"
-                    @keyup.enter="login">
-          </fg-input>
-        </div>
-
-        <div>
-          <!-- <n-button type="primary" round block @click.native="login">
-            Entrar
-          </n-button> -->
-          
-          <Loader
-            text="Entrar"
-            :isLoading="isLoading"
-            :status="status"
-            @on-submit="login"
-             />
-
-          <div class="pull-right">
-            <!--h6><a href="#pablo" class="link footer-link">Need Help?</a></h6-->
+            <fg-input class="no-border form-control-lg"
+                      placeholder="Contraseña"
+                      addon-left-icon="now-ui-icons text_caps-small"
+                      type="password"
+                      v-model="user.pass"
+                      @keyup.enter="login">
+            </fg-input>
           </div>
+
+          <div>
+            
+            <n-button type="primary" round block @click.native="login">
+              <span v-if="!loading">Entrar</span>
+              <span v-else class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            </n-button>
+            <!-- <Loader
+              text="Entrar"
+              :loading="loading"
+              :status="status"
+              @on-submit="login"
+              /> -->
+
+            <div class="pull-right">
+              <!--h6><a href="#pablo" class="link footer-link">Need Help?</a></h6-->
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <div class="condominiums-list"></div>
+          <!-- <pre>
+            {{ condominiums }}
+          </pre> -->
+          <ul class="list-group">
+            <li v-for="(condominium, key) in condominiums" :key="key" class="list-group-item">
+              <p v-for="(place, i) in condominium.condominiums" :key="i">{{ place.name }}</p>
+            </li>
+          </ul>
         </div>
       </card>
     </form>
@@ -51,7 +64,7 @@
 import swal from "sweetalert2"
 import { setUserToLocalStorage } from "src/utils/auth"
 import { getErrorMessage } from 'src/utils/functions'
-import { mapGetters, mapMutations } from "vuex"
+import { mapGetters, mapMutations, mapActions } from "vuex"
 import { firebaseAuth } from "src/firebase/firebaseAuth"
 import { usuariosRef, userInfoRef} from "src/firebase/firebase"
 
@@ -67,10 +80,19 @@ export default {
   },
   data() {
     return {
-      user: {
-        email: "",
-        pass: ""
-      },
+      condominiums: null,
+      loading: false,
+      list: [
+        { 
+          email: 'diego@gmail.com',
+          condominiums: [
+            { id: 1, name: 'Condominio 1' },
+            { id: 2, name: 'Condominio 2' },
+            { id: 3, name: 'Condominio 3' },
+            { id: 4, name: 'Condominio 4' }
+          ] 
+        }
+      ],
       myUser: {
         nombre: null,
         username: null,
@@ -79,8 +101,11 @@ export default {
         perfil: null,
         uid: null
       },
-      isLoading: false,
-      status: ''
+      status: '',
+      user: {
+        email: "",
+        pass: ""
+      }
     }
   },
   computed: {
@@ -89,20 +114,24 @@ export default {
     ])
   },
   methods: {
+    ...mapActions([
+      'getCondominiums'
+    ]),
     ...mapMutations([
       "setUser"
     ]),
     async login() {
-      this.isLoading = true
+      this.loading = true
       try {
+        // Valido con firebase, mi user y pass
         const auth = await firebaseAuth.signInWithEmailAndPassword(this.user.email, this.user.pass)
         if (auth) {
-          this.isLoading = false
           await this.getUserFromFirebase(this.user.email)
-          
           await setUserToLocalStorage(this.myUser)
           await this.setUser(this.myUser)
-          this.$router.push("/dashboard")
+          this.condominiums = await this.getCondominiums([this.user.email, this.list])
+          // this.$router.push("/dashboard")
+          this.loading = false
         }
       } catch (error) {
         if (error.code) {
@@ -123,7 +152,7 @@ export default {
             buttonsStyling: false
           })
         }
-        
+        this.loading = false
       }
     },
     async getUserFromFirebase(loggedUser) {
@@ -136,12 +165,8 @@ export default {
       const _self = this
       userInfoRef.on("value", function(snapshot) {
         let userFromFireBase = snapshot.val()[firebaseAuth.currentUser.uid]
-        // console.log('%c userFromFireBase', 'color: cyan;', userFromFireBase)
-        // Seteo de los datos del usuario
         if (userFromFireBase) {
           _self.myUser.nombre = userFromFireBase.firstName,
-          // _self.myUser.username = userFromFireBase.username,
-          // _self.myUser.apellido = userFromFireBase.lastName,
           _self.myUser.email = userFromFireBase.email,
           _self.myUser.perfil = userFromFireBase.perfil
           _self.myUser.uid = firebaseAuth.currentUser.uid

@@ -123,8 +123,8 @@ export default {
           }
         )
         swal({
-          title: 'ok',
-          text: 'wena marico',
+          title: 'Excelente!',
+          text: 'Información actualizada',
           type: "success",
           confirmButtonClass: "btn btn-success btn-fill",
           buttonsStyling: false
