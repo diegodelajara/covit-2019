@@ -42,7 +42,7 @@
     },
     computed: {
       imageStyles(){
-        let img = require('@/assets/img/backlit-beach-community-1000444.jpg');
+        let img = require('@/assets/img/city.jpg');
         return {
           backgroundImage: `url(${img})`
         }

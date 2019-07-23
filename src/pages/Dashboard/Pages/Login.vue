@@ -12,7 +12,6 @@
           <div>
             <fg-input class="no-border form-control-lg"
                       placeholder="Email"
-                      addon-left-icon="now-ui-icons users_circle-08"
                       type="text"
                       v-model="user.email"
                       @keyup.enter="login">
@@ -20,30 +19,23 @@
 
             <fg-input class="no-border form-control-lg"
                       placeholder="Contraseña"
-                      addon-left-icon="now-ui-icons text_caps-small"
                       type="password"
                       v-model="user.pass"
                       @keyup.enter="login">
             </fg-input>
           </div>
-
-          <div>
-            
-            <n-button type="primary" round block @click.native="login">
-              <span v-if="!loading">Entrar</span>
-              <span v-else class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            </n-button>
-            <!-- <Loader
-              text="Entrar"
-              :loading="loading"
-              :status="status"
-              @on-submit="login"
-              /> -->
-
-            <div class="pull-right">
-              <!--h6><a href="#pablo" class="link footer-link">Need Help?</a></h6-->
-            </div>
-          </div>
+          <br>
+          <br>
+          <n-button type="primary" round block @click.native="login">
+            <span v-if="!loading">Entrar</span>
+            <span v-else class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          </n-button>
+          <!-- <Loader
+            text="Entrar"
+            :loading="loading"
+            :status="status"
+            @on-submit="login"
+            /> -->
         </div>
         <div v-else>
           <div class="condominiums-list"></div>
@@ -51,8 +43,13 @@
             {{ condominiums }}
           </pre> -->
           <ul class="list-group">
-            <li v-for="(condominium, key) in condominiums" :key="key" class="list-group-item">
-              <p v-for="(place, i) in condominium.condominiums" :key="i">{{ place.name }}</p>
+            <li
+              class="list-group-item pointer"
+              v-for="(condominium, key) in condominiums"
+              @click="goDashboard()"
+              :key="key"
+            >
+              {{ condominium.name }}
             </li>
           </ul>
         </div>
@@ -83,14 +80,14 @@ export default {
       condominiums: null,
       loading: false,
       list: [
-        { 
+        {
           email: 'diego@gmail.com',
           condominiums: [
             { id: 1, name: 'Condominio 1' },
             { id: 2, name: 'Condominio 2' },
             { id: 3, name: 'Condominio 3' },
             { id: 4, name: 'Condominio 4' }
-          ] 
+          ]
         }
       ],
       myUser: {
@@ -120,19 +117,23 @@ export default {
     ...mapMutations([
       "setUser"
     ]),
+    async goDashboard() {
+      await this.login()
+      this.$router.push("/dashboard")
+    },
     async login() {
       this.loading = true
       try {
         // Valido con firebase, mi user y pass
         const auth = await firebaseAuth.signInWithEmailAndPassword(this.user.email, this.user.pass)
-        if (auth) {
-          await this.getUserFromFirebase(this.user.email)
-          await setUserToLocalStorage(this.myUser)
-          await this.setUser(this.myUser)
-          this.condominiums = await this.getCondominiums([this.user.email, this.list])
-          // this.$router.push("/dashboard")
-          this.loading = false
-        }
+        // Obtengo los condominios asociados al usuario
+        this.condominiums = await this.getCondominiums([this.user.email, this.list])
+        // Obtengo el usuario de firebase
+        await this.getUserFromFirebase(this.user.email)
+        // Lo guardo en localStorage
+        await setUserToLocalStorage(this.myUser)
+        await this.setUser(this.myUser)
+        this.loading = false
       } catch (error) {
         if (error.code) {
           const errorMsg = await getErrorMessage(error.code)
@@ -158,7 +159,7 @@ export default {
     async getUserFromFirebase(loggedUser) {
       const firebaseUsers = await this.usuariosRef
       const firebaseUsersInfo = await this.userInfoRef
-    
+
       let users = await firebaseUsers.filter(item => item.email === loggedUser)
       let usersInfo = await firebaseUsersInfo.filter(item => item.email === loggedUser)
 
@@ -174,7 +175,7 @@ export default {
 
       }, function (errorObject) {
           swal({
-            title: 'Error',
+            title: 'Errorsito',
             text: errorObject.code,
             type: "error",
             confirmButtonClass: "btn btn-success btn-fill",
@@ -185,7 +186,18 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
+.pointer {
+  cursor: pointer;
+  background-color: #0000000d;
+  color: #fff;
+}
+.logo-container {
+    width: 70%;
+}
+.card.card-login.card-plain {
+  background-color: #00000012;
+}
 .navbar-nav .nav-item p {
   line-height: inherit;
   margin-left: 5px;
