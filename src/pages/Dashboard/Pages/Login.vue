@@ -137,6 +137,7 @@ export default {
         const valid = await this.$validator.validate().then(valid => valid)
 
         if (valid) {
+          this.user.email = this.user.email.toLowerCase()
           // Valido con firebase, mi user y pass
           const auth = await firebaseAuth.signInWithEmailAndPassword(this.user.email, this.user.pass)
           // Obtengo los condominios asociados al usuario
