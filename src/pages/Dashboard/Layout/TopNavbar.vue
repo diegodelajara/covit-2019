@@ -24,7 +24,7 @@
       </form> -->
 
       <ul class="navbar-nav">
-        
+
         <drop-down tag="li"
                    position="right"
                    class="nav-item"
@@ -85,7 +85,7 @@ import { MY_PROFILE, ADD_USER } from 'src/utils/urls'
       ]),
       addUser() {
         console.log('addUser')
-        
+
       },
       capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1)
@@ -106,15 +106,17 @@ import { MY_PROFILE, ADD_USER } from 'src/utils/urls'
         this.$sidebar.displaySidebar(false)
       },
       async logout() {
+        // Remover de localStorage
         await unsetUser()
-        await firebase.auth().signOut().then(() => this.$router.push('/login'))
+        // Hacer logout de firebase
+        await firebase.auth().signOut().then(() => this.$router.push('/'))
       },
       profile() {
         this.$router.push(MY_PROFILE)
       },
       addUser() {
         this.$router.push(ADD_USER)
-      } 
+      }
     }
   }
 

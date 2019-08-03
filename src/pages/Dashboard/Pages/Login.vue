@@ -10,32 +10,36 @@
 
         <div v-if="condominiums == null">
           <div>
-            <fg-input class="no-border form-control-lg"
-                      placeholder="Email"
-                      type="text"
-                      v-model="user.email"
-                      @keyup.enter="login">
+            <fg-input
+              class="no-border form-control-lg"
+              data-vv-name="email"
+              placeholder="Email"
+              type="text"
+              v-model="user.email"
+              v-validate="`required|email`"
+              :class="{ 'is-invalid': errors.has('email') }"
+              :error="getError('email')"
+              @keyup.enter="login">
             </fg-input>
 
-            <fg-input class="no-border form-control-lg"
-                      placeholder="Contraseña"
-                      type="password"
-                      v-model="user.pass"
-                      @keyup.enter="login">
+            <fg-input
+              class="no-border form-control-lg"
+              data-vv-name="password"
+              placeholder="Contraseña"
+              type="password"
+              v-validate="`required`"
+              v-model="user.pass"
+              :class="{ 'is-invalid': errors.has('password') }"
+              :error="getError('password')"
+              @keyup.enter="login">
             </fg-input>
           </div>
           <br>
           <br>
-          <n-button type="primary" round block @click.native="login">
+          <n-button type="primary" round block @click.native="login" :disabled="loading">
             <span v-if="!loading">Entrar</span>
             <span v-else class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
           </n-button>
-          <!-- <Loader
-            text="Entrar"
-            :loading="loading"
-            :status="status"
-            @on-submit="login"
-            /> -->
         </div>
         <div v-else>
           <div class="condominiums-list"></div>
@@ -99,6 +103,7 @@ export default {
         uid: null
       },
       status: '',
+      submitted: false,
       user: {
         email: "",
         pass: ""
@@ -117,23 +122,35 @@ export default {
     ...mapMutations([
       "setUser"
     ]),
+    getError (fieldName) {
+      return this.errors.first(fieldName)
+    },
     async goDashboard() {
       await this.login()
       this.$router.push("/dashboard")
     },
     async login() {
       this.loading = true
+      this.submitted = true
       try {
-        // Valido con firebase, mi user y pass
-        const auth = await firebaseAuth.signInWithEmailAndPassword(this.user.email, this.user.pass)
-        // Obtengo los condominios asociados al usuario
-        this.condominiums = await this.getCondominiums([this.user.email, this.list])
-        // Obtengo el usuario de firebase
-        await this.getUserFromFirebase(this.user.email)
-        // Lo guardo en localStorage
-        await setUserToLocalStorage(this.myUser)
-        await this.setUser(this.myUser)
-        this.loading = false
+        // Validar formulario de login
+        const valid = await this.$validator.validate().then(valid => valid)
+
+        if (valid) {
+          // Valido con firebase, mi user y pass
+          const auth = await firebaseAuth.signInWithEmailAndPassword(this.user.email, this.user.pass)
+          // Obtengo los condominios asociados al usuario
+          this.condominiums = await this.getCondominiums([this.user.email, this.list])
+          // Obtengo el usuario de firebase
+          await this.getUserFromFirebase(this.user.email)
+          // Lo guardo en localStorage
+          await setUserToLocalStorage(this.myUser)
+          await this.setUser(this.myUser)
+          this.loading = false
+        } else {
+          this.loading = false
+          this.submitted = false
+        }
       } catch (error) {
         if (error.code) {
           const errorMsg = await getErrorMessage(error.code)
@@ -152,6 +169,8 @@ export default {
             confirmButtonClass: "btn btn-success btn-fill",
             buttonsStyling: false
           })
+          this.loading = false
+          return
         }
         this.loading = false
       }
@@ -183,10 +202,30 @@ export default {
           })
       })
     }
+  },
+  mounted() {
+    this.$validator.localize('es', {
+      messages: {
+        required: (field) => 'Requerido',
+        email: (field) => 'No es válido'
+      },
+      attributes: {
+        email: 'Email',
+        password: 'Contraseña'
+      }
+    })
   }
 }
 </script>
 <style scoped>
+.has-danger:after {
+    content: "";
+    color: transparent;
+}
+.has-success:after {
+    content: "";
+    color: transparent;
+}
 .pointer {
   cursor: pointer;
   background-color: #0000000d;
