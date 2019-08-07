@@ -9,7 +9,7 @@
         </div>
 
         <div v-if="condominiums == null">
-          <div>
+          <div class="emial">
             <fg-input
               class="no-border form-control-lg"
               data-vv-name="email"
@@ -21,12 +21,14 @@
               :error="getError('email')"
               @keyup.enter="login">
             </fg-input>
-
+          </div>
+          <div class="pass" :class="{visible: passwordType === 'text' }">
+            <i class="now-ui-icons ui-1_lock-circle-open" @click="showPass()"></i>
             <fg-input
               class="no-border form-control-lg"
               data-vv-name="password"
               placeholder="Contraseña"
-              type="password"
+              :type="passwordType"
               v-validate="`required`"
               v-model="user.pass"
               :class="{ 'is-invalid': errors.has('password') }"
@@ -49,7 +51,7 @@
           <ul class="list-group">
             <li
               class="list-group-item pointer"
-              v-for="(condominium, key) in condominiums"
+              v-for="(condominium, key) in condominiums.condominums"
               @click="goDashboard()"
               :key="key"
             >
@@ -102,6 +104,7 @@ export default {
         perfil: null,
         uid: null
       },
+      passwordType: 'password',
       status: '',
       submitted: false,
       user: {
@@ -125,6 +128,9 @@ export default {
     getError (fieldName) {
       return this.errors.first(fieldName)
     },
+    showPass() {
+      this.passwordType = this.passwordType === 'password' ? 'text' : 'password'
+    },
     async goDashboard() {
       await this.login()
       this.$router.push("/dashboard")
@@ -137,13 +143,14 @@ export default {
         const valid = await this.$validator.validate().then(valid => valid)
 
         if (valid) {
+
           this.user.email = this.user.email.toLowerCase()
           // Valido con firebase, mi user y pass
-          const auth = await firebaseAuth.signInWithEmailAndPassword(this.user.email, this.user.pass)
+          // const auth = await firebaseAuth.signInWithEmailAndPassword(this.user.email, this.user.pass)
           // Obtengo los condominios asociados al usuario
-          this.condominiums = await this.getCondominiums([this.user.email, this.list])
+          this.condominiums = await this.getCondominiums([this.user.email, this.user.pass])
           // Obtengo el usuario de firebase
-          await this.getUserFromFirebase(this.user.email)
+          // await this.getUserFromFirebase(this.user.email)
           // Lo guardo en localStorage
           await setUserToLocalStorage(this.myUser)
           await this.setUser(this.myUser)
@@ -218,7 +225,25 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
+.email, .pass {
+  position: relative;
+}
+.pass {
+  &.visible {
+    i {
+      color: #fff;
+    }
+  }
+  i {
+    position: absolute;
+    cursor: pointer;
+    right: 15px;
+    top: 8px;
+    z-index: 9;
+    font-size: 16px;
+  }
+}
 .has-danger:after {
     content: "";
     color: transparent;

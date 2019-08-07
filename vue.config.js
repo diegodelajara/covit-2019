@@ -3,8 +3,8 @@ module.exports = {
   lintOnSave: false,
   devServer: {
     proxy: {
-      "/api/*": {
-        target: "http://localhost:8081/covit"
+      "/api/v1/*": {
+        target: "https://general-api-covit.herokuapp.com"
       }
     }
   },
