@@ -9,9 +9,10 @@ export default {
         username: email,
         password: pass
       })
-
+      console.log('%c data', 'color:cyan;', data)
       return data.result
     } catch (error) {
+      console.log('%c error', 'color:tomato;', error)
       return error.response.data
     }
   }
