@@ -3420,7 +3420,7 @@ NOTE: use percentage font sizes or else old IE chokes
   .fc button::-moz-focus-inner {
     border: 0; }
   .fc button, .fc button.btn-primary {
-    background-color: #f96332;
+    background-color: #00b0f2;
     color: #FFFFFF; }
     .fc button:hover, .fc button:focus, .fc button:active, .fc button.active, .fc button:active:focus, .fc button:active:hover, .fc button.active:focus, .fc button.active:hover,
     .show > .fc button.dropdown-toggle,
@@ -3429,7 +3429,7 @@ NOTE: use percentage font sizes or else old IE chokes
     .show > .fc button.btn-primary.dropdown-toggle,
     .show > .fc button.btn-primary.dropdown-toggle:focus,
     .show > .fc button.btn-primary.dropdown-toggle:hover {
-      background-color: #fa7a50;
+      background-color: #00b0f2;
       color: #FFFFFF;
       -webkit-box-shadow: none;
               box-shadow: none; }
@@ -3456,15 +3456,15 @@ NOTE: use percentage font sizes or else old IE chokes
       border-color: #f96332; }
       .fc button.btn-simple:hover, .fc button.btn-simple:focus, .fc button.btn-simple:active, .fc button.btn-primary.btn-simple:hover, .fc button.btn-primary.btn-simple:focus, .fc button.btn-primary.btn-simple:active {
         background-color: transparent;
-        color: #fa7a50;
-        border-color: #fa7a50;
+        color: #00b0f2;
+        border-color: #00b0f2;
         -webkit-box-shadow: none;
                 box-shadow: none; }
     .fc button.btn-link, .fc button.btn-primary.btn-link {
       color: #f96332; }
       .fc button.btn-link:hover, .fc button.btn-link:focus, .fc button.btn-link:active, .fc button.btn-primary.btn-link:hover, .fc button.btn-primary.btn-link:focus, .fc button.btn-primary.btn-link:active {
         background-color: transparent;
-        color: #fa7a50;
+        color: #00b0f2;
         text-decoration: none;
         -webkit-box-shadow: none;
                 box-shadow: none; }
@@ -4749,7 +4749,7 @@ be a descendant of the grid when it is being dragged.
   .show > .btn-primary.dropdown-toggle,
   .show > .btn-primary.dropdown-toggle:focus,
   .show > .btn-primary.dropdown-toggle:hover {
-    background-color: #fa7a50;
+    background-color: #00b0f2;
     color: #FFFFFF;
     -webkit-box-shadow: none;
             box-shadow: none; }
@@ -4770,15 +4770,15 @@ be a descendant of the grid when it is being dragged.
     border-color: #f96332; }
     .btn-primary.btn-simple:hover, .btn-primary.btn-simple:focus, .btn-primary.btn-simple:active {
       background-color: transparent;
-      color: #fa7a50;
-      border-color: #fa7a50;
+      color: #00b0f2;
+      border-color: #00b0f2;
       -webkit-box-shadow: none;
               box-shadow: none; }
   .btn-primary.btn-link {
     color: #f96332; }
     .btn-primary.btn-link:hover, .btn-primary.btn-link:focus, .btn-primary.btn-link:active {
       background-color: transparent;
-      color: #fa7a50;
+      color: #00b0f2;
       text-decoration: none;
       -webkit-box-shadow: none;
               box-shadow: none; }
@@ -4995,11 +4995,11 @@ be a descendant of the grid when it is being dragged.
   .show > .btn-neutral.dropdown-toggle:focus,
   .show > .btn-neutral.dropdown-toggle:hover {
     background-color: #FFFFFF;
-    color: #fa7a50;
+    color: #00b0f2;
     -webkit-box-shadow: none;
             box-shadow: none; }
   .btn-neutral:hover, .btn-neutral:focus {
-    color: #fa7a50; }
+    color: #00b0f2; }
     .btn-neutral:hover:not(.nav-link), .btn-neutral:focus:not(.nav-link) {
       -webkit-box-shadow: none;
               box-shadow: none; }

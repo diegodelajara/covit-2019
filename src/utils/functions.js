@@ -1,5 +1,5 @@
 import { MAX_SIZE_UPLOAD, TYPES } from 'src/constants/config'
-import { FIREBASE_ERRORS } from "src/constants/errors"
+import { BACK_ERRORS } from "src/constants/errors"
 
 import {
   IMAGE_SIZE_TITLE_FAILURE,
@@ -22,7 +22,7 @@ export const validateUploadImage = file => {
     text: '',
     value: true
   }
-  
+
   if (!TYPES.includes(file.type)) {
     msg.title = IMAGE_TYPE_TITLE_FAILURE
     msg.text = IMAGE_TYPE_TEXT_FAILURE
@@ -36,7 +36,7 @@ export const validateUploadImage = file => {
   return msg
 }
 
-export const getErrorMessage = code => {
+export const getErrorMessage = status => {
   // console.log('%c code', 'color: tomato;', code)
-  return FIREBASE_ERRORS.find(item => item.code == code)
+  return BACK_ERRORS.find(item => item.status == status)
 }

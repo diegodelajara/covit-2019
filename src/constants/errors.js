@@ -1,11 +1,6 @@
-export const FIREBASE_ERRORS = [
+export const BACK_ERRORS = [
   {
-    code: 'auth/user-not-found',
-    title: 'Uups!',
-    msg: 'El usuario no existe o la contraseña es incorrecta'
-  },
-  {
-    code: 'auth/wrong-password',
+    status: 400,
     title: 'Uups!',
     msg: 'El usuario no existe o la contraseña es incorrecta'
   }

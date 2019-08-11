@@ -51,7 +51,7 @@
           <ul class="list-group">
             <li
               class="list-group-item pointer"
-              v-for="(condominium, key) in condominiums.condominums"
+              v-for="(condominium, key) in condominiums.condominiums"
               @click="goDashboard()"
               :key="key"
             >
@@ -138,49 +138,35 @@ export default {
     async login() {
       this.loading = true
       this.submitted = true
-      try {
-        // Validar formulario de login
-        const valid = await this.$validator.validate().then(valid => valid)
 
+      // Validar formulario de login
+      const valid = await this.$validator.validate().then(valid => valid)
+      this.user.email = await this.user.email.toLowerCase()
+      // Obtengo los condominios asociados al usuario
+      this.condominiums = await this.getCondominiums([this.user.email, this.user.pass])
+      if (!this.condominiums.error) {
         if (valid) {
 
-          this.user.email = this.user.email.toLowerCase()
-          // Valido con firebase, mi user y pass
-          // const auth = await firebaseAuth.signInWithEmailAndPassword(this.user.email, this.user.pass)
-          // Obtengo los condominios asociados al usuario
-          this.condominiums = await this.getCondominiums([this.user.email, this.user.pass])
-          // Obtengo el usuario de firebase
-          // await this.getUserFromFirebase(this.user.email)
           // Lo guardo en localStorage
           await setUserToLocalStorage(this.myUser)
           await this.setUser(this.myUser)
           this.loading = false
-        } else {
-          this.loading = false
-          this.submitted = false
-        }
-      } catch (error) {
-        if (error.code) {
-          const errorMsg = await getErrorMessage(error.code)
-          swal({
-            title: errorMsg.title,
-            text: errorMsg.msg,
-            type: "error",
-            confirmButtonClass: "btn btn-success btn-fill",
-            buttonsStyling: false
-          })
-        } else {
-          swal({
-            title: error,
-            text: error,
-            type: "error",
-            confirmButtonClass: "btn btn-success btn-fill",
-            buttonsStyling: false
-          })
-          this.loading = false
-          return
         }
         this.loading = false
+        this.submitted = false
+      } else {
+        const status = await this.condominiums.status
+        // console.log('%c this.condominiums', 'color:cyan;', this.condominiums.status)
+        this.loading = false
+        this.condominiums = null
+        const errorMsg = await getErrorMessage(status)
+        swal({
+          title: errorMsg.title,
+          text: errorMsg.msg,
+          type: "error",
+          confirmButtonClass: "btn btn-success btn-fill",
+          buttonsStyling: false
+        })
       }
     },
     async getUserFromFirebase(loggedUser) {
