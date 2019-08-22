@@ -1,9 +1,8 @@
 {
   "name": "Covit PWA",
-  "short_name": "Covit",
   "start_url": "index.html",
   "display": "standalone",
-  "theme_color": "#f96333",
+  "theme_color": "#999999",
   "background_color": "#cccccc",
   "icons": [
     {

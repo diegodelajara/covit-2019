@@ -1,18 +1,17 @@
 <template>
   <div class="user">
-    <div v-for="(userImage, i) in userImagesRef" :key="i">
+    <div>
       <img
+        alt="avatar"
         class="photo"
-        v-if="userImage.email === email"
-        :src="userImage.image"
-        alt="avatar"/>
+        :src="defaultImg" />
     </div>
     <div class="info">
       <a data-toggle="collapse" :aria-expanded="!isClosed" @click.stop="toggleMenu" href="#">
-           <span>
-             {{loggedUser.name}}
-             <!-- <b class="caret"></b> -->
-          </span>
+        <span v-if="user != null">
+          {{ user.condominio.name }}
+          <small><p>{{!user.nombre ? 'Diego de la jara' : user.nombre }}</p></small>
+        </span>
       </a>
       <div class="clearfix"></div>
       <div>
@@ -32,19 +31,14 @@
   </div>
 </template>
 <script>
-import { CollapseTransition } from "vue2-transitions";
-import { mapState } from "vuex";
-import { MY_PROFILE } from "src/utils/urls";
+import { CollapseTransition } from "vue2-transitions"
+import { mapState } from "vuex"
+import { MY_PROFILE } from "src/utils/urls"
+import { DEFAULT_IMG } from "src/constants/config"
+import { getUserFromLocalStorage } from "src/utils/auth"
 
-import firebase from "firebase/app";
-import { getUserFromLocalStorage } from "src/utils/auth";
-import { firebaseStorage } from "src/firebase/firebaseStorage";
-import { userImagesRef, db } from "src/firebase/firebase";
 
 export default {
-  firebase: {
-    userImagesRef
-  },
   components: {
     CollapseTransition
   },
@@ -56,13 +50,15 @@ export default {
   },
   data() {
     return {
+      defaultImg: null,
       myProfileUrl: null,
       isClosed: true,
-      email : null
+      user : null
     };
   },
   mounted() {
-    this.email = getUserFromLocalStorage().email
+    this.defaultImg = DEFAULT_IMG
+    this.user = getUserFromLocalStorage()
     this.myProfileUrl = MY_PROFILE
   },
   methods: {
@@ -80,5 +76,9 @@ export default {
 <style>
 .collapsed {
   transition: opacity 1s;
+}
+.sidebar .user {
+  margin: 0;
+  padding: 0;
 }
 </style>

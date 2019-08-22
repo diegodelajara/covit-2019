@@ -15,7 +15,7 @@
               data-vv-name="email"
               placeholder="Email"
               type="text"
-              v-model="user.email"
+              v-model.trim="user.email"
               v-validate="`required|email`"
               :class="{ 'is-invalid': errors.has('email') }"
               :error="getError('email')"
@@ -30,7 +30,7 @@
               placeholder="Contraseña"
               :type="passwordType"
               v-validate="`required`"
-              v-model="user.pass"
+              v-model.trim="user.pass"
               :class="{ 'is-invalid': errors.has('password') }"
               :error="getError('password')"
               @keyup.enter="login">
@@ -52,7 +52,7 @@
             <li
               class="list-group-item pointer"
               v-for="(condominium, key) in condominiums.condominiums"
-              @click="goDashboard()"
+              @click="selectCondominium(condominium)"
               :key="key"
             >
               {{ condominium.name }}
@@ -61,6 +61,7 @@
         </div>
       </card>
     </form>
+    <notifications></notifications>
   </div>
 </template>
 <script>
@@ -68,41 +69,26 @@ import swal from "sweetalert2"
 import { setUserToLocalStorage } from "src/utils/auth"
 import { getErrorMessage } from 'src/utils/functions'
 import { mapGetters, mapMutations, mapActions } from "vuex"
-import { firebaseAuth } from "src/firebase/firebaseAuth"
-import { usuariosRef, userInfoRef} from "src/firebase/firebase"
 
 import Loader from 'src/components/Utils/Loader'
 
 export default {
-  firebase: {
-    usuariosRef,
-    userInfoRef
-  },
   components: {
     Loader
   },
   data() {
     return {
       condominiums: null,
+      numCondominiums: null,
       loading: false,
-      list: [
-        {
-          email: 'diego@gmail.com',
-          condominiums: [
-            { id: 1, name: 'Condominio 1' },
-            { id: 2, name: 'Condominio 2' },
-            { id: 3, name: 'Condominio 3' },
-            { id: 4, name: 'Condominio 4' }
-          ]
-        }
-      ],
       myUser: {
         nombre: null,
         username: null,
         apellido: null,
         email: null,
-        perfil: null,
-        uid: null
+        perfil: 'admin',
+        uid: null,
+        condominio: null
       },
       passwordType: 'password',
       status: '',
@@ -131,8 +117,13 @@ export default {
     showPass() {
       this.passwordType = this.passwordType === 'password' ? 'text' : 'password'
     },
+    selectCondominium(building) {
+      this.myUser.condominio = building
+      setUserToLocalStorage(this.myUser)
+      this.setUser(this.myUser)
+      this.goDashboard()
+    },
     async goDashboard() {
-      await this.login()
       this.$router.push("/dashboard")
     },
     async login() {
@@ -143,14 +134,35 @@ export default {
       const valid = await this.$validator.validate().then(valid => valid)
       this.user.email = await this.user.email.toLowerCase()
       // Obtengo los condominios asociados al usuario
-      this.condominiums = await this.getCondominiums([this.user.email, this.user.pass])
+      const user = {
+        email: this.user.email,
+        password: this.user.pass
+      }
+      this.condominiums = await this.getCondominiums(user)
+
       if (!this.condominiums.error) {
         if (valid) {
-
+          this.numCondominiums = await this.condominiums.condominiums.length
           // Lo guardo en localStorage
           await setUserToLocalStorage(this.myUser)
           await this.setUser(this.myUser)
           this.loading = false
+          // Si la cantidad de condominios que responde el API es igual a 1
+          if (this.numCondominiums === 1) {
+            // Se guarda el condominio
+            this.myUser.condominio = this.condominiums.condominiums[0]
+            await setUserToLocalStorage(this.myUser)
+            await this.setUser(this.myUser)
+            this.goDashboard()
+          } else if (this.numCondominiums === 0) {
+            this.condominiums = null
+
+            // Notificacion
+            this.$notify({
+              message: 'El usuario no tiene condominios asociados',
+              type: 'danger'
+            })
+          }
         }
         this.loading = false
         this.submitted = false

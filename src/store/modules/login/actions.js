@@ -2,17 +2,23 @@ import axios from 'axios'
 import { GET_USERS } from 'src/constants/apis'
 
 export default {
-  async getCondominiums(context, [email, pass]) {
+  async getCondominiums(context, user) {
     try {
-      const url = GET_USERS
+      // console.log('aca')
+      const url = 'https://general-api-covit.herokuapp.com' + GET_USERS
+      // const url = GET_USERS
       const { data } = await axios.post(url, {
-        username: email,
-        password: pass
+        // withCredentials: true,
+        // headers: {
+        //   'Access-Control-Allow-Origin': '*',
+        //   'Content-Type': 'application/json',
+        // },
+        username: user.email,
+        password: user.password
       })
-      console.log('%c data', 'color:cyan;', data)
       return data.result
     } catch (error) {
-      console.log('%c error', 'color:tomato;', error)
+
       return error.response.data
     }
   }
