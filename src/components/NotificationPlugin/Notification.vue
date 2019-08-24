@@ -157,5 +157,9 @@
     &.right {
       right: 20px;
     }
+
+    @media screen and (max-width: 600px) {
+      width: 87% !important;
+    }
   }
 </style>
