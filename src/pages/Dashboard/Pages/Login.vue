@@ -181,33 +181,6 @@ export default {
         })
       }
     },
-    async getUserFromFirebase(loggedUser) {
-      const firebaseUsers = await this.usuariosRef
-      const firebaseUsersInfo = await this.userInfoRef
-
-      let users = await firebaseUsers.filter(item => item.email === loggedUser)
-      let usersInfo = await firebaseUsersInfo.filter(item => item.email === loggedUser)
-
-      const _self = this
-      userInfoRef.on("value", function(snapshot) {
-        let userFromFireBase = snapshot.val()[firebaseAuth.currentUser.uid]
-        if (userFromFireBase) {
-          _self.myUser.nombre = userFromFireBase.firstName,
-          _self.myUser.email = userFromFireBase.email,
-          _self.myUser.perfil = userFromFireBase.perfil
-          _self.myUser.uid = firebaseAuth.currentUser.uid
-        }
-
-      }, function (errorObject) {
-          swal({
-            title: 'Errorsito',
-            text: errorObject.code,
-            type: "error",
-            confirmButtonClass: "btn btn-success btn-fill",
-            buttonsStyling: false
-          })
-      })
-    }
   },
   mounted() {
     this.$validator.localize('es', {
