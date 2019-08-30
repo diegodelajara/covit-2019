@@ -1,5 +1,8 @@
 <template>
   <div class="row">
+    <!-- <pre>
+      {{getEntries}}
+    </pre> -->
       <div class="header text-center">
           <!--h3 class="title">Ingresos</h3-->
       </div>
@@ -14,23 +17,6 @@
                       Nuevo Ingreso
                       </n-button>
                   </div>
-                  <!-- <div class="col-lg-4"> -->
-                      <!--b-button type="button" @click="largeModal = true">Nuevo</b-button-->
-                      <!-- <el-select
-                      class="select-primary mb-3"
-                      style="width: 70px"
-                      v-model="pagination.perPage"
-                      placeholder="Per page">
-                        <el-option
-                            class="select-default"
-                            v-for="item in pagination.perPageOptions"
-                            :key="item"
-                            :label="item"
-                            :value="item">
-                        </el-option>
-                      </el-select> -->
-
-                  <!-- </div> -->
                   <div class="col-lg-4 offset-lg-4">
 
                       <fg-input>
@@ -39,7 +25,7 @@
                           class="mb-3"
                           clearable
                           prefix-icon="el-icon-search"
-                          style="width: 200px"
+                          style="width: 100%"
                           placeholder="Buscar"
                           v-model="searchQuery"
                           aria-controls="datatables">
@@ -49,7 +35,7 @@
                 </div>
               <el-table stripe
                           style="width: 100%;"
-                          :data="queriedData">
+                          :data="getEntries">
                   <el-table-column v-for="(column, i) in tableColumns"
                                   :key="i"
                                   :min-width="column.minWidth"
@@ -65,27 +51,27 @@
                               class="like"
                               type="info"
                               size="sm" round icon>
-                      <i class="fa fa-edit"></i>
+                      <i class="fa fa-pencil"></i>
                       </n-button>
                       <n-button @click.native="handleDelete(props.row)"
                               class="remove"
                               type="danger"
                               size="sm" round icon>
-                      <i class="fa fa-times"></i>
+                      <i class="fa fa-trash"></i>
                       </n-button>
                   </div>
                   </el-table-column>
               </el-table>
               </div>
               <div slot="footer" class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
-              <div class="">
+              <!-- <div class="">
                   <p class="card-category">Showing {{from + 1}} to {{to}} of {{total}} entries</p>
               </div>
               <n-pagination class="pagination-no-border"
                               v-model="pagination.currentPage"
                               :per-page="pagination.perPage"
                               :total="total">
-              </n-pagination>
+              </n-pagination> -->
               </div>
           </card>
       </div>
@@ -108,7 +94,7 @@
 
 <script>
 import axios from "axios"
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import { Table, TableColumn, Select, Option } from "element-ui"
 import { Pagination as NPagination } from "src/components"
 import Fuse from "fuse.js"
@@ -120,8 +106,9 @@ import { ENTRIES } from 'src/constants/apis'
 
 export default {
   name: "Ingresos",
-  data() {
+  data () {
     return {
+      entriesFromApi: [],
       formData: {
         nombre: null,
         monto: null
@@ -140,94 +127,90 @@ export default {
       propsToSearch: ["nombre"],
       tableColumns: [
         {
-          prop: "department",
+          prop: "residence",
           label: "Residencia",
-          minWidth: 150
-        },
-        {
-          prop: "entryType",
-          label: "Tipo",
-          minWidth: 200
-        },
-        {
-          prop: "wayToPay",
-          label: "Forma de pago",
-          minWidth: 250
-        },
-        {
-          prop: "paymentDate",
-          label: "Fecha",
-          minWidth: 200
-        },
-        {
-          prop: "amount",
-          label: "Monto",
-          minWidth: 200
-        },
-        {
-          prop: "title",
-          label: "Nombre",
-          minWidth: 200
-        },
-        {
-          prop: "description",
-          label: "Descripcion",
-          minWidth: 200
-        },
-        {
-          prop: "paymentNumber",
-          label: "N de pago",
-          minWidth: 200
-        },
-        {
-          prop: "receiptNumber",
-          label: "receiptNumber",
-          minWidth: 200
-        },
-        {
-          prop: "payerName",
-          label: "payerName",
-          minWidth: 200
-        },
-        {
-          prop: "title",
-          label: "Nombre",
-          minWidth: 200
-        },
-        {
-          prop: "concept",
-          label: "concept",
           minWidth: 200
         },
         {
           prop: "gloss",
           label: "gloss",
           minWidth: 200
-        },{
-          prop: "comments",
-          label: "comments",
-          minWidth: 200
-        },{
-          prop: "respRegister",
-          label: "respRegister",
-          minWidth: 200
-        },{
-          prop: "registrationDate",
-          label: "registrationDate",
-          minWidth: 200
-        },{
-          prop: "status",
-          label: "status",
-          minWidth: 200
-        },{
-          prop: "refDocument",
-          label: "refDocument",
+        },
+        {
+          prop: "pay_way",
+          label: "Forma de pago",
+          minWidth: 250
+        },
+        {
+          prop: "date",
+          label: "Fecha",
           minWidth: 200
         },
+        {
+          prop: "price",
+          label: "Monto",
+          minWidth: 200
+        },
+        // {
+        //   prop: "payer_name",
+        //   label: "Nombre",
+        //   minWidth: 200
+        // },
+        // {
+        //   prop: "description",
+        //   label: "Descripcion",
+        //   minWidth: 200
+        // },
+        // {
+        //   prop: "number_pay",
+        //   label: "N de pago",
+        //   minWidth: 200
+        // },
+        // {
+        //   prop: "receip_number",
+        //   label: "receiptNumber",
+        //   minWidth: 200
+        // },
+        // {
+        //   prop: "payer_name",
+        //   label: "payerName",
+        //   minWidth: 200
+        // },
+        // {
+        //   prop: "title",
+        //   label: "Nombre",
+        //   minWidth: 200
+        // },
+        // {
+        //   prop: "concept",
+        //   label: "concept",
+        //   minWidth: 200
+        // },
+        // {
+        //   prop: "comments",
+        //   label: "comments",
+        //   minWidth: 200
+        // },{
+        //   prop: "respRegister",
+        //   label: "respRegister",
+        //   minWidth: 200
+        // },{
+        //   prop: "registrationDate",
+        //   label: "registrationDate",
+        //   minWidth: 200
+        // },{
+        //   prop: "status",
+        //   label: "status",
+        //   minWidth: 200
+        // },
+        // {
+        //   prop: "refDocument",
+        //   label: "refDocument",
+        //   minWidth: 200
+        // }
       ],
       searchedData: [],
-      fuseSearch: null,
-      entriesFromApi: []
+      fuseSearch: null
     }
   },
   components: {
@@ -241,34 +224,20 @@ export default {
     EditForm
   },
   computed: {
-    queriedData () {
-      let result = this.entriesFromApi
-      if(this.searchedData.length > 0){
-        result = this.searchedData
-      }
-      return result.slice(this.from, this.to)
-    },
-    to () {
-      let highBound = this.from + this.pagination.perPage
-      if (this.total < highBound) {
-        highBound = this.total
-      }
-      return highBound
-    },
-    from () {
-      return this.pagination.perPage * (this.pagination.currentPage - 1)
-    },
-    total () {
-      return this.searchedData.length > 0 ? this.searchedData.length : this.entriesFromApi.length;
-    }
+    ...mapGetters([
+      'getEntries'
+    ])
   },
   methods: {
+    ...mapActions([
+      'getEntriesFromAPI'
+    ]),
     ...mapMutations([
       'setEntry'
     ]),
     // Agregar un nuevo ingreso
     async addEntry(newEntry) {
-      
+
       const response = await axios.post(ENTRIES, newEntry)
       .then(response => {
         // Cierro el modal
@@ -281,7 +250,7 @@ export default {
 
     },
     // Editar un nuevo ingreso
-    async editEntry(newEntry) {      
+    async editEntry(newEntry) {
       const response = await axios.put(ENTRIES, newEntry)
       .then(response => {
         // Cierro el modal
@@ -296,7 +265,7 @@ export default {
 
       this.setEntry(row)
     },
-    async handleDelete(row) {      
+    async handleDelete(row) {
       swal({
         title: "¿Estás seguro?",
         text: `No podrás revertir esto luego!`,
@@ -320,72 +289,24 @@ export default {
       })
     },
     async deleteRow(row) {
-      row.status = 'ELIMINADO'      
+      row.status = 'ELIMINADO'
       try {
         let response = await axios.put(ENTRIES, row)
         await this.getEntries()
       } catch (error) {
         console.log(error)
       }
-      
 
-    },
-    async getEntries() {
-      await axios.get("/api/entries").then(response => (this.entriesFromApi = response.data))
-      let entriesFromApi = await this.entriesFromApi.filter(row => row.status === 'ACTIVO')
-      this.entriesFromApi = await entriesFromApi
-      this.queriedData
+
     }
   },
-  async mounted() {
-    await this.getEntries()
-    // this.queriedData = this.entriesFromApi
-    // Fuse search initialization.
-    this.fuseSearch = new Fuse(this.entriesFromApi, {
-      keys: [
-        "title",
-        "entryType",
-        "paymentDate",
-        "registrationDate",
-        "wayToPay",
-        "amount",
-        // "description",
-        // "receiptNumber",
-        // "payerName",
-        // "concept",
-        // "gloss",
-        // "comments",
-        // "respRegister",
-        // "paymentNumber",
-        // "status",
-        // "refDocument",
-      ],
-      threshold: 0.3
-    })
-  },
-  watch: {
-    /**
-     * Searches through the table data by a given query.
-     * NOTE: If you have a lot of data, it's recommended to do the search on the Server Side and only display the results here.
-     * @param value of the query
-     */
-    searchQuery(value){
-      let result = this.entriesFromApi
-
-      if (value !== '') {
-        result = this.fuseSearch.search(this.searchQuery)
-      }
-      this.searchedData = result
-    }
+  created() {
+    this.getEntriesFromAPI()
   }
 }
 </script>
 
 <style lang="scss">
-.el-table__row
-  .cell {
-  text-transform: lowercase;
-}
 </style>
 
 

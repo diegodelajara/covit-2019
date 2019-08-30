@@ -1,3 +1,4 @@
 export default {
-	selectedEntry: {}
+  selectedEntry: {},
+  entries: []
 }

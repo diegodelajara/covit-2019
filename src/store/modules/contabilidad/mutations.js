@@ -1,5 +1,8 @@
 export default {
-    setEntry(state, newEntry) {
-        state.selectedEntry = newEntry
-    }
+  setEntries (state, list) {
+    state.entries = list
+  },
+  setEntry(state, newEntry) {
+      state.selectedEntry = newEntry
+  }
 }
