@@ -4,6 +4,9 @@ export { default as BasePerimeter } from './BasePerimeter'
 // Dashboard
 export { default as dashboardPerimeter } from './dashboardPerimeter'
 
+// Errors
+export { default as notfoundPerimeter } from './errors/notfoundPerimeter'
+
 // Mi Perfil
 export { default as miperfilPerimeter } from './miperfilPerimeter'
 
