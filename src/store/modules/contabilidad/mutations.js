@@ -3,6 +3,6 @@ export default {
     state.entries = list
   },
   setEntry(state, newEntry) {
-      state.selectedEntry = newEntry
+    state.entries.push(newEntry)
   }
 }

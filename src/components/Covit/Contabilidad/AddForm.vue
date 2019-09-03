@@ -26,7 +26,7 @@
           </el-option>
         </el-select>
       </div>
-      
+
       <div class="row">
         <div class="col-md-6">
           <fg-input label="Monto"
@@ -44,7 +44,7 @@
           </el-select>
         </div>
       </div>
-    
+
       <fg-input>
         <label for="">Fecha</label>
         <el-date-picker v-model="formData.date" type="datetime" placeholder="Seleccione una fecha">
@@ -65,8 +65,6 @@
 </template>
 
 <script>
-import axios from "axios";
-import { mapState, mapMutations, mapGetters } from "vuex"
 import { payMethodsConst, entryOfTypesConst } from "src/utils/helpers"
 import { Select, Option, DatePicker } from "element-ui"
 import { varToEmpty } from "src/utils/functions"
@@ -100,12 +98,9 @@ export default {
     };
   },
   methods: {
-    ...mapMutations([
-      "setEntry"
-    ]),
     async validate() {
       const newEntry = NEW_ENTRY(this.formData)
-      
+
       await this.$emit('on-finish-add-entry', newEntry)
     }
   }

@@ -237,13 +237,17 @@ export default {
     ]),
     // Agregar un nuevo ingreso
     async addEntry(newEntry) {
+      // await this.$store.commit('setEntry', newEntry)
 
-      const response = await axios.post(ENTRIES, newEntry)
+      // // Cierro el modal
+      // this.modals.addEntry = false
+
+      const response = await axios.post('https://my.api.mockaroo.com/ingresos.json?key=66cff0f0&__method=POST', newEntry)
       .then(response => {
         // Cierro el modal
         this.modals.addEntry = false
         // LLamo a todos los ingresos
-        this.getEntries()
+        this.getEntriesFromAPI()
       })
       .catch(error => console.log(error))
 
