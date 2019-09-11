@@ -1,18 +1,15 @@
 import axios from 'axios'
-import { GET_USERS } from 'src/constants/apis'
+import {
+  GET_TOKEN_API,
+  GET_USERS_API,
+  LOGIN_API
+} from 'src/constants/apis'
 
 export default {
   async getCondominiums(context, user) {
     try {
-      // console.log('aca')
-      const url = 'https://general-api-covit.herokuapp.com' + GET_USERS
-      // const url = GET_USERS
+      const url = GET_USERS_API
       const { data } = await axios.post(url, {
-        // withCredentials: true,
-        // headers: {
-        //   'Access-Control-Allow-Origin': '*',
-        //   'Content-Type': 'application/json',
-        // },
         username: user.email,
         password: user.password
       })
@@ -20,6 +17,46 @@ export default {
     } catch (error) {
 
       return error.response.data
+    }
+  },
+  async getToken(context, params) {
+    const url = params.condominium + GET_TOKEN_API,
+      username = params.access.email,
+      pass = params.access.pass
+
+    try {
+      const { data } = await axios.post(url, {
+        username: username,
+        password: pass
+      })
+      return data.status === 200 || data.status === 201
+        ? data.token
+        : false
+
+    } catch (error) {
+
+    }
+  },
+  async getUserInfo(context, params) {
+    const url = params.condominium + LOGIN_API,
+      username = params.access.email,
+      pass = params.access.pass,
+      token = params.authorization
+
+    try {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+      const {data} = await axios.post(url, {
+        username: username,
+        password: pass
+      })
+      console.log('%c result', 'color:yellow;', data)
+      return data.status === 200 || data.status === 201
+        ? data
+        : false
+
+    } catch (error) {
+      console.log('%c error', 'color:yellow;', error)
+
     }
   }
 }

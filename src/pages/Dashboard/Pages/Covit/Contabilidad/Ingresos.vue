@@ -102,7 +102,6 @@ import swal from "sweetalert2"
 import Modal from "src/components/Modal"
 import AddForm from "src/components/Covit/Contabilidad/AddForm"
 import EditForm from "src/components/Covit/Contabilidad/EditForm"
-import { ENTRIES } from 'src/constants/apis'
 
 export default {
   name: "Ingresos",
@@ -255,14 +254,14 @@ export default {
     },
     // Editar un nuevo ingreso
     async editEntry(newEntry) {
-      const response = await axios.put(ENTRIES, newEntry)
-      .then(response => {
-        // Cierro el modal
-        this.modals.editEntry = false
-        // LLamo a todos los ingresos
-        this.getEntries()
-      })
-      .catch(error => alert(error))
+      // const response = await axios.put(ENTRIES, newEntry)
+      // .then(response => {
+      //   // Cierro el modal
+      //   this.modals.editEntry = false
+      //   // LLamo a todos los ingresos
+      //   this.getEntries()
+      // })
+      // .catch(error => alert(error))
     },
     handleEdit(row) {
       this.modals.editEntry = true
@@ -293,18 +292,18 @@ export default {
       })
     },
     async deleteRow(row) {
-      row.status = 'ELIMINADO'
-      try {
-        let response = await axios.put(ENTRIES, row)
-        await this.getEntries()
-      } catch (error) {
-        console.log(error)
-      }
+      // row.status = 'ELIMINADO'
+      // try {
+      //   let response = await axios.put(ENTRIES, row)
+      //   await this.getEntries()
+      // } catch (error) {
+      //   console.log(error)
+      // }
 
 
     }
   },
-  created() {
+  mounted() {
     this.getEntriesFromAPI()
   }
 }

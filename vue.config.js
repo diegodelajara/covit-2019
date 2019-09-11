@@ -14,11 +14,11 @@ module.exports = {
   //   }
   // }
   pwa: {
-    // name: "Covit asadasda",
-    themeColor: "#00b0f2",
-    msTileColor: "#de8528",
-    appleMobileWebAppCapable: "yes",
-    appleMobileWebAppStatusBarStyle: "black",
+    name: "Covit asadasda", // meta apple-mobile-web-app-title
+    themeColor: "#e38e69", // meta theme-color
+    msTileColor: "#de8528", // meta msapplication-TileColor
+    appleMobileWebAppCapable: "yes", // meta apple-mobile-web-app-capable
+    appleMobileWebAppStatusBarStyle: "black", // meta apple-mobile-web-app-status-bar-style
 
     // configure the workbox plugin
     workboxPluginMode: "InjectManifest",
@@ -27,6 +27,6 @@ module.exports = {
       swSrc: "./sw.js"
       // ...other Workbox options...
     },
-    manifestPath: './public/manifest.json'
+    manifestPath: 'manifest.json?id=' + Math.random() +'"'
   }
 };

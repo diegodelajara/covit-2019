@@ -8,7 +8,7 @@
           </div>
         </div>
 
-        <div v-if="condominiums == null">
+        <div v-if="showLogin">
           <div class="emial">
             <fg-input
               class="no-border form-control-lg"
@@ -45,9 +45,6 @@
         </div>
         <div v-else>
           <div class="condominiums-list"></div>
-          <!-- <pre>
-            {{ condominiums }}
-          </pre> -->
           <ul class="list-group">
             <li
               class="list-group-item pointer"
@@ -91,12 +88,14 @@ export default {
         condominio: null
       },
       passwordType: 'password',
+      showLogin: true,
       status: '',
       submitted: false,
       user: {
         email: "",
         pass: ""
-      }
+      },
+      token: null
     }
   },
   computed: {
@@ -106,11 +105,30 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getCondominiums'
+      'getCondominiums',
+      'getToken',
+      'getUserInfo'
     ]),
     ...mapMutations([
       "setUser"
     ]),
+    async onGetUserInfo() {
+      const params = {
+        authorization: this.token,
+        condominium: this.myUser.condominio.endpoint,
+        access: this.user
+      }
+      const userInfo = await this.getUserInfo(params)
+      console.log(userInfo)
+    },
+
+    async onGetToken() {
+      const params = {
+        condominium: this.myUser.condominio.endpoint,
+        access: this.user
+      }
+       this.token = await this.getToken(params)
+    },
     getError (fieldName) {
       return this.errors.first(fieldName)
     },
@@ -146,16 +164,20 @@ export default {
           // Lo guardo en localStorage
           await setUserToLocalStorage(this.myUser)
           await this.setUser(this.myUser)
-          this.loading = false
           // Si la cantidad de condominios que responde el API es igual a 1
           if (this.numCondominiums === 1) {
             // Se guarda el condominio
             this.myUser.condominio = this.condominiums.condominiums[0]
             await setUserToLocalStorage(this.myUser)
             await this.setUser(this.myUser)
-            this.goDashboard()
+            await this.onGetToken()
+            await this.onGetUserInfo()
+            await this.goDashboard()
+            this.loading = false
+            this.submitted = true
           } else if (this.numCondominiums === 0) {
-            this.condominiums = null
+            this.loading = false
+            this.submitted = false
 
             // Notificacion
             this.$notify({
@@ -163,9 +185,8 @@ export default {
               type: 'danger'
             })
           }
+          this.showLogin = false
         }
-        this.loading = false
-        this.submitted = false
       } else {
         const status = await this.condominiums.status
         // console.log('%c this.condominiums', 'color:cyan;', this.condominiums.status)
