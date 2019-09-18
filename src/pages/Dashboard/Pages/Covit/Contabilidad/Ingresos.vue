@@ -97,7 +97,6 @@ import axios from "axios"
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import { Table, TableColumn, Select, Option } from "element-ui"
 import { Pagination as NPagination } from "src/components"
-import Fuse from "fuse.js"
 import swal from "sweetalert2"
 import Modal from "src/components/Modal"
 import AddForm from "src/components/Covit/Contabilidad/AddForm"
@@ -208,8 +207,7 @@ export default {
         //   minWidth: 200
         // }
       ],
-      searchedData: [],
-      fuseSearch: null
+      searchedData: []
     }
   },
   components: {

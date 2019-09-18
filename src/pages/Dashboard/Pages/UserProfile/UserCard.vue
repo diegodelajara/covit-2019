@@ -2,7 +2,7 @@
   <card class="card-user">
     <div slot="image" class="image">
       <img
-        src="@/assets/img/bg5.jpg"
+        src=""
         alt="Avatar Background">
     </div>
     <div>
@@ -16,11 +16,11 @@
                     class="avatar border-gray difuss"
                     alt="Avatar"
                     :src="readerImage"/>
-                    
+
                     <Spinner />
 
                 </div>
-                
+
 
                 <img
                   v-else-if="userImage.email == email"
@@ -144,7 +144,7 @@ export default {
         this.file.type = arrayImage[arrayImage.length - 1]
 
 
-        // Validar imagen        
+        // Validar imagen
         const valid = validateUploadImage(this.file)
         if (!valid.value) {
           swal({
@@ -161,7 +161,7 @@ export default {
         this.uploadTask = firebaseStorage.ref("profileImages/" + file.name).put(file)
       }
     },
-    openImage (files) {      
+    openImage (files) {
       const reader = new FileReader()
       let _self = this
       reader.onload = function(){
@@ -198,7 +198,7 @@ export default {
               db.ref('userImages/' + this.elementId).update({
                 image: this.userImage.image
               })
-            } else 
+            } else
               userImagesRef.push(this.userImage)
           })
         }

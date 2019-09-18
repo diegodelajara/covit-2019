@@ -18,7 +18,7 @@
     data(){
       return {
         chartData: [50, 150, 100, 190, 130, 90, 150, 160, 120, 140, 190, 95],
-        chartLabels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
+        chartLabels: ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC']
       }
     }
   }

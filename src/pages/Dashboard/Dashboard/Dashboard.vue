@@ -5,7 +5,7 @@
         <div class="card card-stats card-raised">
           <div class="card-body">
             <div class="row">
-              <div class="col-md-3">
+              <div class="col-md-3 col-6">
                 <div class="statistics">
                   <div class="info">
                     <p v-show="$isAllowed('viewParagraph')">
@@ -21,7 +21,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-3 col-6">
                 <div class="statistics">
                   <div class="info">
                     <div class="icon icon-success">
@@ -35,7 +35,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-3 col-6">
                 <div class="statistics">
                   <div class="info">
                     <div class="icon icon-info">
@@ -48,7 +48,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-3 col-6">
                 <div class="statistics">
                   <div class="info">
                     <div class="icon icon-danger">
@@ -97,24 +97,6 @@
                        :height="200">
             </line-chart>
           </div>
-          <div class="table-responsive">
-            <n-table :data="tableData">
-              <template slot-scope="{row}">
-                <td>
-                  <div class="flag">
-                    <img :src="row.flag">
-                  </div>
-                </td>
-                <td>{{row.country}}</td>
-                <td class="text-right">
-                  {{row.value}}
-                </td>
-                <td class="text-right">
-                  {{row.percentage}}
-                </td>
-              </template>
-            </n-table>
-          </div>
           <div slot="footer" class="stats">
             <i class="now-ui-icons arrows-1_refresh-69"></i> Just Updated
           </div>
@@ -148,13 +130,6 @@
                        :height="200">
             </line-chart>
           </div>
-          <div class="card-progress">
-            <n-progress label="Delivery Rate" :value="90" show-value></n-progress>
-            <n-progress type="success" label="Open Rate" :value="60" show-value></n-progress>
-            <n-progress type="info" label="Click Rate" :value="12" show-value></n-progress>
-            <n-progress type="warning" label="Hard Bounce" :value="5" show-value></n-progress>
-            <n-progress type="danger" label="Spam Report" :value="0.11" show-value></n-progress>
-          </div>
           <div slot="footer" class="stats">
             <i class="now-ui-icons arrows-1_refresh-69"></i> Just Updated
           </div>
@@ -178,7 +153,6 @@
             </line-chart>
           </div>
 
-          <async-world-map class="map" :data="mapData"></async-world-map>
 
           <div slot="footer" class="stats">
             <i class="now-ui-icons arrows-1_refresh-69"></i> Just Updated
@@ -190,62 +164,7 @@
     <div class="row">
       <div class="col-md-12">
         <card>
-          <h4 slot="header" class="card-title">Best Selling Products</h4>
-          <div class="table-responsive">
-            <n-table class="table-shopping" :data="productsTable">
-              <template slot="columns">
-                <th class="text-center"></th>
-                <th>Product</th>
-                <th>Color</th>
-                <th>Size</th>
-                <th class="text-right">
-                  Price
-                </th>
-                <th class="text-right">
-                  Qty
-                </th>
-                <th class="text-right">
-                  Amount
-                </th>
-              </template>
-              <template slot-scope="{row}">
-                <td>
-                  <div class="img-container">
-                    <img :src="row.image" alt="...">
-                  </div>
-                </td>
-                <td class="td-name">
-                  <a href="#jacket">{{row.title}}</a>
-                  <br>
-                  <small>{{row.subTitle}}</small>
-                </td>
-                <td>{{row.color}}</td>
-                <td>{{row.size}}</td>
-                <td class="td-number">
-                  <small>€</small>
-                  {{row.price}}
-                </td>
-                <td class="td-number">
-                  {{row.quantity}}
-                </td>
-                <td class="td-number">
-                  <small>€</small>
-                  {{row.amount}}
-                </td>
-              </template>
-              <template slot="summary-row">
-                <td colspan="5">
-                </td>
-                <td class="td-total">
-                  Total
-                </td>
-                <td class="td-price">
-                  <small>€</small>
-                  2,346
-                </td>
-              </template>
-            </n-table>
-          </div>
+
         </card>
       </div>
     </div>
@@ -256,24 +175,18 @@
   import {
     StatsCard,
     Card,
-    Table as NTable,
     Checkbox,
     AnimatedNumber,
-    Progress as NProgress,
-    LineChart,
-    AsyncWorldMap
+    LineChart
   } from 'src/components'
 
   export default {
     components: {
       Checkbox,
       Card,
-      NTable,
       StatsCard,
       AnimatedNumber,
-      LineChart,
-      NProgress,
-      AsyncWorldMap
+      LineChart
     },
     data() {
       return {
@@ -294,89 +207,6 @@
             data: [80, 78, 86, 96, 83, 85, 76, 75, 88, 90],
             color: '#2CA8FF'
           }
-        },
-        tableData: [
-          {
-            flag: require('@/assets/img/US.png'),
-            country: 'USA',
-            value: '2.920',
-            percentage: '53.23%'
-          },
-          {
-            flag: require('@/assets/img/DE.png'),
-            country: 'Germany',
-            value: '1.300',
-            percentage: '20.43%'
-          },
-          {
-            flag: require('@/assets/img/AU.png'),
-            country: 'Australia',
-            value: '760',
-            percentage: '10.35%'
-          },
-          {
-            flag: require('@/assets/img/GB.png'),
-            country: 'United Kingdom',
-            value: '690',
-            percentage: '7.87%'
-          },
-          {
-            flag: require('@/assets/img/RO.png'),
-            country: 'United Kingdom',
-            value: '600',
-            percentage: '5.94%'
-          },
-          {
-            flag: require('@/assets/img/BR.png'),
-            country: 'Brasil',
-            value: '550',
-            percentage: '4.34%'
-          }
-        ],
-        productsTable: [
-          {
-            image: require('@/assets/img/saint-laurent.jpg'),
-            title: 'Suede Biker Jacket',
-            subTitle: 'by Saint Laurent',
-            color: 'Black',
-            size: 'M',
-            price: 3390,
-            quantity: 1,
-            amount: 3390
-          },
-          {
-            image: require('@/assets/img/balmain.jpg'),
-            title: 'Jersey T-Shirt ',
-            subTitle: 'by Balmain',
-            color: 'Black',
-            size: 'M',
-            price: 499,
-            quantity: 2,
-            amount: 998
-          },
-          {
-            image: require('@/assets/img/prada.jpg'),
-            title: 'Slim-Fit Swim Short ',
-            subTitle: 'by Prada',
-            color: 'Red',
-            size: 'M',
-            price: 200,
-            quantity: 1,
-            amount: 200
-          }
-        ],
-        mapData: {
-          'AU': 760,
-          'BR': 550,
-          'CA': 120,
-          'DE': 1300,
-          'FR': 540,
-          'GB': 690,
-          'GE': 200,
-          'IN': 200,
-          'RO': 600,
-          'RU': 300,
-          'US': 2920
         }
       }
     }

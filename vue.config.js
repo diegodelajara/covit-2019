@@ -15,7 +15,7 @@ module.exports = {
   // }
   pwa: {
     name: "Covit asadasda", // meta apple-mobile-web-app-title
-    themeColor: "#e38e69", // meta theme-color
+    themeColor: "#333333", // meta theme-color
     msTileColor: "#de8528", // meta msapplication-TileColor
     appleMobileWebAppCapable: "yes", // meta apple-mobile-web-app-capable
     appleMobileWebAppStatusBarStyle: "black", // meta apple-mobile-web-app-status-bar-style
@@ -24,7 +24,7 @@ module.exports = {
     workboxPluginMode: "InjectManifest",
     workboxOptions: {
       // swSrc is required in InjectManifest mode.
-      swSrc: "./sw.js"
+      swSrc: "./public/sw.js"
       // ...other Workbox options...
     },
     manifestPath: 'manifest.json?id=' + Math.random() +'"'

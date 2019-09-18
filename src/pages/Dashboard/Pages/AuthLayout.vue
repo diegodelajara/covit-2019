@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="wrapper wrapper-full-page">
-      <div class="full-page section-image" :class="pageClass" filter-color="black" data-image="/img/bg13.jpg">
+      <div class="full-page section-image" :class="pageClass" filter-color="black" data-image="">
         <div class="content">
           <div class="container">
             <zoom-center-transition :duration="pageTransitionDuration" mode="out-in">
@@ -10,7 +10,7 @@
           </div>
         </div>
 
-        <div class="full-page-background" :style="imageStyles"></div>
+        <!-- <div class="full-page-background" :style="imageStyles"></div> -->
       </div>
     </div>
   </div>
@@ -38,14 +38,6 @@
         pageTransitionDuration: 200,
         year: new Date().getFullYear(),
         pageClass: 'login-page'
-      }
-    },
-    computed: {
-      imageStyles(){
-        let img = require('@/assets/img/city.jpg');
-        return {
-          backgroundImage: `url(${img})`
-        }
       }
     },
     methods: {

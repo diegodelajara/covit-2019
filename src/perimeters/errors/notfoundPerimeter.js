@@ -1,7 +1,7 @@
 import BasePerimeter from '../BasePerimeter'
 
 export default new BasePerimeter({
-  purpose: 'notfound',
+  purpose: 'notfoundPerimeter',
   govern: {
     'can route': function canRoute() {
       return this.isAdmin() || this.isUser()

@@ -91,6 +91,9 @@
 
 </script>
 <style>
+  .logo {
+    cursor: pointer;
+  }
   @media (min-width: 992px) {
     .navbar-search-form-mobile,
     .nav-mobile-menu{

@@ -35,7 +35,6 @@
                                 prefix-icon="el-icon-search"
                                 style="width: 200px"
                                 placeholder="Search records"
-                                v-model="searchQuery"
                                 aria-controls="datatables">
                     </el-input>
                     </fg-input>
@@ -96,7 +95,6 @@
   import {Table, TableColumn, Select, Option} from 'element-ui'
   import {Pagination as NPagination} from 'src/components'
   import users from './ryv'
-  import Fuse from 'fuse.js'
   import swal from 'sweetalert2'
 
   export default {
@@ -166,8 +164,7 @@
           }
         ],
         tableData: users,
-        searchedData: [],
-        fuseSearch: null
+        searchedData: []
       }
     },
     methods: {
@@ -214,24 +211,6 @@
         if (indexToDelete >= 0) {
           this.tableData.splice(indexToDelete, 1)
         }
-      }
-    },
-    mounted () {
-      // Fuse search initialization.
-      this.fuseSearch = new Fuse(this.tableData, {keys: ['name', 'email'], threshold: 0.3})
-    },
-    watch: {
-      /**
-       * Searches through the table data by a given query.
-       * NOTE: If you have a lot of data, it's recommended to do the search on the Server Side and only display the results here.
-       * @param value of the query
-       */
-      searchQuery(value){
-        let result = this.tableData;
-        if (value !== '') {
-          result = this.fuseSearch.search(this.searchQuery)
-        }
-        this.searchedData = result;
       }
     }
   }

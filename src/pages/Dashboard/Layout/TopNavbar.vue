@@ -45,7 +45,7 @@
 import { mapMutations } from 'vuex'
 import firebase from 'firebase/app'
 import 'firebase/auth'
-import {RouteBreadCrumb, Navbar, NavbarToggleButton} from 'src/components';
+import {Navbar, NavbarToggleButton} from 'src/components';
 import {CollapseTransition} from 'vue2-transitions'
 import { unsetUser } from 'src/utils/auth'
 import agregarusuarioPerimeter from "src/perimeters/agregarusuarioPerimeter"
@@ -56,7 +56,6 @@ import { MY_PROFILE, ADD_USER } from 'src/utils/urls'
       agregarusuarioPerimeter
     ],
     components: {
-      RouteBreadCrumb,
       Navbar,
       NavbarToggleButton,
       CollapseTransition

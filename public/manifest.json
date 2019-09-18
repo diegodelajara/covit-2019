@@ -1,49 +1,48 @@
 {
-  "name": "Alligator.io",
-  "short_name": "Alligator",
-  "theme_color": "#e38e69",
+  "name": "Covit Desarolla tu comunidad",
+  "short_name": "Covit",
+  "theme_color": "#333333",
   "background_color": "#f8ea48",
   "display": "standalone",
-  "Scope": "/",
-  "start_url": "/",
+  "start_url": "/login",
   "icons": [
     {
-      "src": "img/pwa/android/android-launchericon-72-72.png",
+      "src": "img/pwa/android-launchericon-72-72.png",
       "sizes": "72x72",
       "type": "image/png"
     },
     {
-      "src": "img/pwa/android/android-launchericon-96-96.png",
+      "src": "img/pwa/android-launchericon-96-96.png",
       "sizes": "96x96",
       "type": "image/png"
     },
     {
-      "src": "img/pwa/chrome/chrome-installprocess-128-128.png",
+      "src": "img/pwa/chrome-installprocess-128-128.png",
       "sizes": "128x128",
       "type": "image/png"
     },
     {
-      "src": "img/pwa/android/android-launchericon-144-144.png",
+      "src": "img/pwa/android-launchericon-144-144.png",
       "sizes": "144x144",
       "type": "image/png"
     },
     {
-      "src": "img/pwa/ios/ios-appicon-152-152.png",
+      "src": "img/pwa/ios-appicon-152-152.png",
       "sizes": "152x152",
       "type": "image/png"
     },
     {
-      "src": "img/pwa/android/android-launchericon-192-192.png",
+      "src": "img/pwa/android-launchericon-192-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "img/pwa/windows/windowsphone-mediumtile-360-360.png",
+      "src": "img/pwa/windowsphone-mediumtile-360-360.png",
       "sizes": "384x384",
       "type": "image/png"
     },
     {
-      "src": "img/pwa/android/android-launchericon-512-512.png",
+      "src": "img/pwa/android-launchericon-512-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }

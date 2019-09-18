@@ -10,8 +10,6 @@ import RouteGoverness from './governesses/RouteGoverness'
 import * as perimeters from './perimeters'
 import child from './child'
 
-// Firebase
-import VueFire from 'vuefire'
 
 import App from './App.vue'
 import routes from './routes/routes'
@@ -21,7 +19,6 @@ import { getUserFromLocalStorage } from 'src/utils/auth'
 
 Vue.config.productionTip = false
 
-Vue.use(VueFire)
 
 // plugin setup
 Vue.use(VueRouter)
