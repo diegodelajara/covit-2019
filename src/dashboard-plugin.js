@@ -12,6 +12,8 @@ import GlobalDirectives from './globalDirectives'
 import SideBar from './components/SidebarPlugin'
 // Tabs plugin. Used on Panels page.
 
+import VueMask from 'v-mask'
+
 // element ui language configuration
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
@@ -32,5 +34,6 @@ export default {
     Vue.use(SideBar);
     Vue.use(Notifications);
     Vue.use(VeeValidate, { fieldsBagName: 'veeFields' });
+    Vue.use(VueMask)
   }
 }

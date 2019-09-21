@@ -1,7 +1,7 @@
 <template>
   <div class="col-md-4 ml-auto mr-auto">
     <form @submit.prevent>
-      <card class="card-login card-plain">
+      <card class="card-login">
         <div slot="header">
           <div class="logo-container">
             <img src="@/assets/img/logo.png" alt="">
@@ -11,7 +11,7 @@
         <div v-if="showLogin">
           <div class="emial">
             <fg-input
-              class="no-border form-control-lg"
+              class="form-control-lg"
               data-vv-name="email"
               placeholder="Email"
               type="text"
@@ -25,15 +25,17 @@
           <div class="pass" :class="{visible: passwordType === 'text' }">
             <i class="now-ui-icons ui-1_lock-circle-open" @click="showPass()"></i>
             <fg-input
-              class="no-border form-control-lg"
+              class="form-control-lg"
               data-vv-name="password"
               placeholder="Contraseña"
-              :type="passwordType"
               v-validate="`required`"
+              v-mask="'NNNNNNNN'"
               v-model.trim="user.pass"
-              :class="{ 'is-invalid': errors.has('password') }"
               :error="getError('password')"
-              @keyup.enter="login">
+              :class="{ 'is-invalid': errors.has('password') }"
+              :type="passwordType"
+              @keyup.enter="login"
+            >
             </fg-input>
           </div>
           <br>
@@ -224,7 +226,7 @@ export default {
 .pass {
   &.visible {
     i {
-      color: #fff;
+      color: #333;
     }
   }
   i {
@@ -247,13 +249,13 @@ export default {
 .pointer {
   cursor: pointer;
   background-color: #0000000d;
-  color: #fff;
+  color: #333;
 }
 .logo-container {
     width: 70%;
 }
 .card.card-login.card-plain {
-  background-color: #00000012;
+  background-color: #fff;
 }
 .navbar-nav .nav-item p {
   line-height: inherit;
