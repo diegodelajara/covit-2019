@@ -85,14 +85,13 @@ export default {
         username: null,
         apellido: null,
         email: null,
-        perfil: 'admin',
+        perfil: null,
         uid: null,
         condominio: null
       },
       passwordType: 'password',
       showLogin: true,
       status: '',
-      submitted: false,
       user: {
         email: "",
         pass: ""
@@ -115,13 +114,24 @@ export default {
       "setUser"
     ]),
     async onGetUserInfo() {
-      const params = {
-        authorization: this.token,
-        condominium: this.myUser.condominio.endpoint,
-        access: this.user
+      try {
+        const params = {
+          authorization: this.token,
+          condominium: this.myUser.condominio.endpoint,
+          access: this.user
+        }
+
+        const userInfo = await this.getUserInfo(params)
+        this.myUser.perfil = userInfo
+          ? userInfo.result.role
+          : ''
+      } catch (error) {
+
+        this.$notify({
+          message: `Hubo un problema al obtener el perfil del usuario ${error}`,
+          type: 'danger'
+        })
       }
-      const userInfo = await this.getUserInfo(params)
-      console.log(userInfo)
     },
 
     async onGetToken() {
@@ -129,7 +139,8 @@ export default {
         condominium: this.myUser.condominio.endpoint,
         access: this.user
       }
-       this.token = await this.getToken(params)
+
+      this.token = await this.getToken(params)
     },
     getError (fieldName) {
       return this.errors.first(fieldName)
@@ -148,7 +159,6 @@ export default {
     },
     async login() {
       this.loading = true
-      this.submitted = true
 
       // Validar formulario de login
       const valid = await this.$validator.validate().then(valid => valid)
@@ -164,22 +174,24 @@ export default {
         if (valid) {
           this.numCondominiums = await this.condominiums.condominiums.length
           // Lo guardo en localStorage
-          await setUserToLocalStorage(this.myUser)
+          // await setUserToLocalStorage(this.myUser)
+          // Mutation
           await this.setUser(this.myUser)
           // Si la cantidad de condominios que responde el API es igual a 1
           if (this.numCondominiums === 1) {
             // Se guarda el condominio
             this.myUser.condominio = this.condominiums.condominiums[0]
-            await setUserToLocalStorage(this.myUser)
-            await this.setUser(this.myUser)
-            await this.onGetToken()
+
+            await this.setUser(this.myUser) // Mutation
+            await this.onGetToken() // Action
             await this.onGetUserInfo()
+            await this.setUser(this.myUser) // Mutation
+            await setUserToLocalStorage(this.myUser) // localStorage
             await this.goDashboard()
+            this.showLogin = false
             this.loading = false
-            this.submitted = true
           } else if (this.numCondominiums === 0) {
             this.loading = false
-            this.submitted = false
 
             // Notificacion
             this.$notify({
@@ -191,7 +203,6 @@ export default {
         }
       } else {
         const status = await this.condominiums.status
-        // console.log('%c this.condominiums', 'color:cyan;', this.condominiums.status)
         this.loading = false
         this.condominiums = null
         const errorMsg = await getErrorMessage(status)

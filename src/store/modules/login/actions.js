@@ -49,7 +49,6 @@ export default {
         username: username,
         password: pass
       })
-      console.log('%c result', 'color:yellow;', data)
       return data.status === 200 || data.status === 201
         ? data
         : false

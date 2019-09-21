@@ -10,6 +10,6 @@ export default class BasePerimeter extends Perimeter {
     return this.child && this.child.role === 'user'
   }
   isSuperAdmin() {
-    return this.child && this.child.email === 'diego@gmail.com'
+    return this.child && this.child.role === 'superadmin'
   }
 }
