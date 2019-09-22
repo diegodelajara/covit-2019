@@ -1,14 +1,13 @@
 import BasePerimeter from './BasePerimeter'
 
 export default new BasePerimeter({
-  purpose: 'dashboardPerimeter',
+  purpose: 'agregarcondominioPerimeter',
   govern: {
     'can route': function canRoute() {
-      return this.isAdmin() || this.isUser() || this.isSuperAdmin()
+      return this.isSuperAdmin()
     },
-    // 'can route': () => (this.isSuperAdmin()),
     'can viewParagraph': function canViewParagraph() {
-      return this.isAdmin()
+      return this.isSuperAdmin()
     },
   },
 })

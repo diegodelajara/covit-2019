@@ -31,6 +31,7 @@
                    icon="now-ui-icons users_single-02">
 
           <span class="dropdown-item" @click="profile">Mi perfil</span>
+          <span class="dropdown-item" @click="addCondominium" v-show="$agregarcondominioPerimeter.isAllowed('viewParagraph')">Agregar condominio</span>
           <span class="dropdown-item" @click="addUser" v-show="$user.isAllowed('viewParagraph')">Agregar usuario</span>
           <span class="dropdown-item" @click="logout">Salir</span>
           <span>
@@ -49,10 +50,16 @@ import {Navbar, NavbarToggleButton} from 'src/components';
 import {CollapseTransition} from 'vue2-transitions'
 import { unsetUser } from 'src/utils/auth'
 import agregarusuarioPerimeter from "src/perimeters/agregarusuarioPerimeter"
-import { MY_PROFILE, ADD_USER } from 'src/utils/urls'
+import agregarcondominioPerimeter from "src/perimeters/agregarcondominioPerimeter"
+import {
+  ADD_CONDOMINIUM,
+  ADD_USER,
+  MY_PROFILE
+} from 'src/utils/urls'
 
   export default {
     perimeters: [
+      agregarcondominioPerimeter,
       agregarusuarioPerimeter
     ],
     components: {
@@ -82,10 +89,6 @@ import { MY_PROFILE, ADD_USER } from 'src/utils/urls'
       ...mapMutations([
         'setUser'
       ]),
-      addUser() {
-        console.log('addUser')
-
-      },
       capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1)
       },
@@ -115,6 +118,9 @@ import { MY_PROFILE, ADD_USER } from 'src/utils/urls'
       },
       addUser() {
         this.$router.push(ADD_USER)
+      },
+      addCondominium() {
+        this.$router.push(ADD_CONDOMINIUM)
       }
     }
   }

@@ -1,3 +1,4 @@
+import AddCondominium from 'src/pages/Dashboard/Pages/Covit/agregarCondominio'
 import AddUser from 'src/pages/Dashboard/Pages/Register'
 import AuthLayout from 'src/pages/Dashboard/Pages/AuthLayout.vue'
 import ContabilidadCondonaciones from 'src/pages/Dashboard/Pages/Covit/Contabilidad/Condonaciones'
@@ -12,7 +13,7 @@ import EspaciosComunes from 'src/pages/Dashboard/Pages/Covit/Espacios-Comunes/'
 import GastosComunes from 'src/pages/Dashboard/Pages/Covit/Gastos-Comunes'
 import Login from 'src/pages/Dashboard/Pages/Login.vue'
 import Mensajes from 'src/pages/Dashboard/Pages/Covit/Mensajes'
-import NotFound from 'src/pages/NotFound.vue'
+import NotFound from 'src/pages/NotFound'
 import NyrNomina from 'src/pages/Dashboard/Pages/Covit/Nomina-y-Remuneraciones/Nomina'
 import NyrRemuneraciones from 'src/pages/Dashboard/Pages/Covit/Nomina-y-Remuneraciones/Remuneraciones'
 import NyrHorasTrabajadas from 'src/pages/Dashboard/Pages/Covit/Nomina-y-Remuneraciones/Horas-trabajadas'
@@ -188,6 +189,11 @@ const routes = [
         path: 'espacios-comunes',
         name: 'espacioscomunes',
         components: { default: EspaciosComunes, header: DefaultHeader }
+      },
+      {
+        path: 'agregar-condominio',
+        name: 'agregarcondominio',
+        components: { default: AddCondominium, header: DefaultHeader }
       }
     ]
   },
