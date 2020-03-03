@@ -1,6 +1,6 @@
 export default {
 	firebase: {
-		apiKey: "AIzaSyDy9hJRWVBPVQOvC-WT32F86DLTQtwtGJ8",
+		apiKey: "",
 		authDomain: "covit-webapp.firebaseapp.com",
 		databaseURL: "https://covit-webapp.firebaseio.com",
 		projectId: "covit-webapp",
